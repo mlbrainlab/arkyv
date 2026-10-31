@@ -112,10 +112,55 @@ pub fn save(license: &License) {
     s.save();
 }
 
-/// Forgets the key (Preferences → Remove license).
+// A key activated through the signer also keeps the Lemon Squeezy key and
+// this computer's activation, to free it again on Remove license.
+const STORE_KEY: &str = "pro.store_key";
+const INSTANCE: &str = "pro.instance";
+// Activations Remove license couldn't free (offline): "key\tinstance" lines,
+// tried again when Preferences opens.
+const PENDING: &str = "pro.deactivate";
+
+/// Forgets the key (Preferences → Remove license), and frees this computer's
+/// activation so it doesn't count toward the key's limit. Blocks on the
+/// network for a store key; call it off the UI thread.
 pub fn remove() {
     let mut s = Settings::load();
+    let store_key = s.get::<String>(STORE_KEY).unwrap_or_default();
+    let instance = s.get::<String>(INSTANCE).unwrap_or_default();
     s.set(SETTING, "");
+    s.set(STORE_KEY, "");
+    s.set(INSTANCE, "");
+    s.save();
+    if !store_key.is_empty() && !instance.is_empty() {
+        let freed = signer_url().is_some_and(|url| deactivate(url, &store_key, &instance));
+        if !freed {
+            let mut s = Settings::load();
+            let mut pending = s.get::<String>(PENDING).unwrap_or_default();
+            pending.push_str(&format!("{store_key}\t{instance}\n"));
+            s.set(PENDING, pending);
+            s.save();
+        }
+    }
+}
+
+/// Frees activations an earlier Remove license couldn't. Blocks; call it off
+/// the UI thread.
+pub fn retry_deactivations() {
+    let Some(url) = signer_url() else { return };
+    let pending = Settings::load().get::<String>(PENDING).unwrap_or_default();
+    if pending.is_empty() {
+        return;
+    }
+    let left: String = pending
+        .lines()
+        .filter(|line| match line.split_once('\t') {
+            Some((key, instance)) => !deactivate(url, key, instance),
+            None => false,
+        })
+        .map(|line| format!("{line}\n"))
+        .collect();
+    let mut s = Settings::load();
+    s.set(PENDING, left);
     s.save();
 }
 
@@ -124,10 +169,16 @@ pub fn remove() {
 pub enum ActivateError {
     /// Lemon Squeezy doesn't know the key, or it was refunded or disabled.
     Rejected,
+    /// The key is already active on as many computers as it allows (5).
+    Limit,
     /// The signer couldn't be reached.
     Network(String),
     /// This build has no signer address.
     Unavailable,
+}
+
+fn signer_url() -> Option<&'static str> {
+    ACTIVATE_URL.filter(|u| !u.is_empty())
 }
 
 /// Enters a key: a signed key is checked here; anything else is taken as a
@@ -143,28 +194,67 @@ pub fn activate(entered: &str) -> Result<License, ActivateError> {
     if entered.is_empty() {
         return Err(ActivateError::Rejected);
     }
-    let url = ACTIVATE_URL
-        .filter(|u| !u.is_empty())
-        .ok_or(ActivateError::Unavailable)?;
-    let signed = exchange(url, entered)?;
-    let license = verify(&signed).ok_or(ActivateError::Rejected)?;
-    save(&license);
+    let url = signer_url().ok_or(ActivateError::Unavailable)?;
+    activate_store_key(url, entered, &PUBLIC_KEY)
+}
+
+/// `activate` for a store key, against a given signer and public key (tests).
+#[doc(hidden)]
+pub fn activate_store_key(
+    url: &str,
+    store_key: &str,
+    public: &[u8; 32],
+) -> Result<License, ActivateError> {
+    // The same key entered again on this computer reuses its activation.
+    let s = Settings::load();
+    let instance = (s.get::<String>(STORE_KEY).as_deref() == Some(store_key))
+        .then(|| s.get::<String>(INSTANCE))
+        .flatten()
+        .filter(|i| !i.is_empty());
+    let (signed, instance) = exchange(url, store_key, instance.as_deref())?;
+    let license = verify_with(&signed, public).ok_or(ActivateError::Rejected)?;
+    let mut s = Settings::load();
+    s.set(SETTING, &license.key);
+    s.set(STORE_KEY, store_key);
+    s.set(INSTANCE, instance);
+    s.save();
     Ok(license)
 }
 
-/// POST {"license_key": …} → 200 {"key": "CRATE-PRO-…"}; 4xx: not a key we sold.
-fn exchange(url: &str, store_key: &str) -> Result<String, ActivateError> {
-    let body = serde_json::json!({ "license_key": store_key });
-    let agent = ureq::Agent::config_builder()
+fn agent() -> ureq::Agent {
+    ureq::Agent::config_builder()
         .timeout_global(Some(std::time::Duration::from_secs(20)))
         .http_status_as_error(false)
         .build()
-        .new_agent();
-    let mut response = agent
+        .new_agent()
+}
+
+/// What Lemon Squeezy shows for an activation: no name, host or user, only
+/// the system.
+fn instance_name() -> String {
+    format!("Crate on {}", std::env::consts::OS)
+}
+
+/// POST {license_key, instance_id?, instance_name} → 200 {key, instance_id};
+/// 409: the key's computers are used up; other 4xx: not a key we sold.
+fn exchange(
+    url: &str,
+    store_key: &str,
+    instance: Option<&str>,
+) -> Result<(String, String), ActivateError> {
+    let body = serde_json::json!({
+        "license_key": store_key,
+        "instance_id": instance,
+        "instance_name": instance_name(),
+    });
+    let mut response = agent()
         .post(url)
         .send_json(&body)
         .map_err(|e| ActivateError::Network(e.to_string()))?;
     let status = response.status().as_u16();
+    if status == 409 {
+        return Err(ActivateError::Limit);
+    }
     if (400..500).contains(&status) {
         return Err(ActivateError::Rejected);
     }
@@ -175,10 +265,26 @@ fn exchange(url: &str, store_key: &str) -> Result<String, ActivateError> {
         .body_mut()
         .read_json()
         .map_err(|e| ActivateError::Network(e.to_string()))?;
-    reply["key"]
-        .as_str()
-        .map(str::to_owned)
-        .ok_or_else(|| ActivateError::Network("no key in the reply".into()))
+    let field = |name: &str| match &reply[name] {
+        serde_json::Value::String(v) => Some(v.clone()),
+        serde_json::Value::Number(v) => Some(v.to_string()),
+        _ => None,
+    };
+    match (field("key"), field("instance_id")) {
+        (Some(key), Some(instance)) => Ok((key, instance)),
+        _ => Err(ActivateError::Network("no key in the reply".into())),
+    }
+}
+
+/// POST {license_key, instance_id} to `<signer>/deactivate`. True once the
+/// activation is gone (also when the signer says it never existed).
+#[doc(hidden)]
+pub fn deactivate(url: &str, store_key: &str, instance: &str) -> bool {
+    let body = serde_json::json!({ "license_key": store_key, "instance_id": instance });
+    agent()
+        .post(&format!("{}/deactivate", url.trim_end_matches('/')))
+        .send_json(&body)
+        .is_ok_and(|r| r.status().as_u16() < 500)
 }
 
 #[cfg(test)]

@@ -5,9 +5,12 @@ signed with Crate's private key. Crate calls it once, when the buyer enters
 their key (`app/src/license.rs`); after that the app checks the key offline.
 The Worker stores nothing.
 
-- `worker.mjs`: the Worker. It asks Lemon Squeezy's License API whether the key
-  is valid and belongs to Crate Pro (store and product id), then signs
-  `1|ls:<order>|<date>`.
+- `worker.mjs`: the Worker. It activates the key with Lemon Squeezy's License
+  API for this computer, checks that it belongs to Crate Pro (store and
+  product id) and that the key is on at most `MAX_ACTIVATIONS` computers (5),
+  then signs `1|ls:<order>|<date>`. A computer that enters its key again
+  sends its activation id and doesn't use another. `POST /deactivate` frees
+  one: Crate calls it on Remove license.
 - `key.mjs`: the key format, shared with `sign.mjs`.
 - `sign.mjs`: signs a key by hand, for GitHub sponsors and support cases:
   `node signer/sign.mjs gh:<sponsor>`.
@@ -20,7 +23,9 @@ the keys signed before stop working.
 ## Deploy
 
 1. In Lemon Squeezy, create the product "Crate Pro" ($9, one-time) with
-   license keys turned on. Note the store id and the product id.
+   license keys turned on and an activation limit of 5. Note the store id
+   and the product id. (The Worker checks the limit too, so a product without
+   one still stops at 5.)
 2. Put them in `wrangler.toml` (`LS_STORE_ID`, `LS_PRODUCT_ID`).
 3. From this folder:
    ```bash
@@ -37,5 +42,10 @@ the keys signed before stop working.
 curl -s -X POST https://<worker>/ -H 'content-type: application/json' -d '{"license_key":"<a test key>"}'
 ```
 
-A key Lemon Squeezy knows for Crate Pro returns `{"key":"CRATE-PRO-…"}`;
-anything else returns 404.
+A key Lemon Squeezy knows for Crate Pro returns
+`{"key":"CRATE-PRO-…","instance_id":"…"}` and uses one of its 5 activations
+(free it again with `POST /deactivate` and `{"license_key":…,"instance_id":…}`).
+A key on 5 computers returns 409; anything else 404.
+
+Signed keys made with `sign.mjs` don't go through Lemon Squeezy and have no
+limit.

@@ -28,6 +28,8 @@ pub fn start(ui: &PrefsWindow) {
     g.set_price(PRICE.into());
     g.set_can_buy(buy_url().is_some());
     show_status(ui, license::current().as_ref());
+    // Activations a Remove license made offline couldn't free yet.
+    std::thread::spawn(license::retry_deactivations);
 
     // Bumped by Cancel, so a late answer doesn't reopen anything.
     let attempt = Arc::new(AtomicU32::new(0));
@@ -60,10 +62,11 @@ pub fn start(ui: &PrefsWindow) {
     });
     let weak = ui.as_weak();
     g.on_remove(move || {
-        license::remove();
+        // Pro is off at once; freeing the activation goes over the network.
         if let Some(ui) = weak.upgrade() {
             show_status(&ui, None);
         }
+        std::thread::spawn(license::remove);
     });
     let weak = ui.as_weak();
     g.on_activate(move |key| {
@@ -118,6 +121,9 @@ fn error_text(e: &ActivateError, key: &str) -> String {
         ActivateError::Rejected => {
             tr("Lemon Squeezy doesn’t know this key. Check that you copied all of it.")
         }
+        ActivateError::Limit => tr(
+            "This key is already active on 5 computers. Remove the license in Crate on one of them, then try again.",
+        ),
         ActivateError::Network(_) => {
             tr("Couldn’t reach the license server. Check your connection and try again.")
         }

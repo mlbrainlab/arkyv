@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Crate VERSION\n"
-"POT-Creation-Date: 2026-10-31 14:43+0000\n"
+"POT-Creation-Date: 2026-10-31 15:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1482,7 +1482,7 @@ msgid "I have a license key"
 msgstr ""
 
 #: ui/pro.slint:124
-msgid "One payment, every computer you use. Checkout by Lemon Squeezy."
+msgid "One payment, for up to 5 of your computers. Checkout by Lemon Squeezy."
 msgstr ""
 
 #: ui/pro.slint:137
@@ -1983,27 +1983,31 @@ msgstr ""
 msgid "Showing the first {shown} of {size}"
 msgstr ""
 
-#: src/pro.rs:104
+#: src/pro.rs:107
 msgid "Since {date} · thank you for supporting Crate"
 msgstr ""
 
-#: src/pro.rs:109
+#: src/pro.rs:112
 msgid "Thank you for supporting Crate"
 msgstr ""
 
-#: src/pro.rs:116
+#: src/pro.rs:119
 msgid "This key isn’t valid. Check that you copied all of it."
 msgstr ""
 
-#: src/pro.rs:119
+#: src/pro.rs:122
 msgid "Lemon Squeezy doesn’t know this key. Check that you copied all of it."
 msgstr ""
 
-#: src/pro.rs:122
+#: src/pro.rs:124
+msgid "This key is already active on 5 computers. Remove the license in Crate on one of them, then try again."
+msgstr ""
+
+#: src/pro.rs:128
 msgid "Couldn’t reach the license server. Check your connection and try again."
 msgstr ""
 
-#: src/pro.rs:124
+#: src/pro.rs:130
 msgid "This copy of Crate can’t activate store keys. Paste a key that starts with CRATE-PRO."
 msgstr ""
 

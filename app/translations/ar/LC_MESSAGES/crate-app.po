@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Crate\n"
-"POT-Creation-Date: 2026-10-31 14:43+0000\n"
+"POT-Creation-Date: 2026-10-31 15:08+0000\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1466,8 +1466,8 @@ msgid "I have a license key"
 msgstr "لدي مفتاح ترخيص"
 
 #: ui/pro.slint:124
-msgid "One payment, every computer you use. Checkout by Lemon Squeezy."
-msgstr "دفعة واحدة لكل أجهزتك. يتم الدفع عبر Lemon Squeezy."
+msgid "One payment, for up to 5 of your computers. Checkout by Lemon Squeezy."
+msgstr "دفعة واحدة لما يصل إلى 5 من أجهزتك. يتم الدفع عبر Lemon Squeezy."
 
 #: ui/pro.slint:137
 msgid "Enter your license key"
@@ -2033,27 +2033,31 @@ msgstr "⁨{lines}⁩ · ⁨{size}⁩"
 msgid "Showing the first {shown} of {size}"
 msgstr "يُعرض أول ⁨{shown}⁩ من ⁨{size}⁩"
 
-#: src/pro.rs:104
+#: src/pro.rs:107
 msgid "Since {date} · thank you for supporting Crate"
 msgstr "منذ {date} · شكرًا لدعمك Crate"
 
-#: src/pro.rs:109
+#: src/pro.rs:112
 msgid "Thank you for supporting Crate"
 msgstr "شكرًا لدعمك Crate"
 
-#: src/pro.rs:116
+#: src/pro.rs:119
 msgid "This key isn’t valid. Check that you copied all of it."
 msgstr "هذا المفتاح غير صالح. تأكد من أنك نسخته كاملًا."
 
-#: src/pro.rs:119
+#: src/pro.rs:122
 msgid "Lemon Squeezy doesn’t know this key. Check that you copied all of it."
 msgstr "لا يعرف Lemon Squeezy هذا المفتاح. تأكد من أنك نسخته كاملًا."
 
-#: src/pro.rs:122
+#: src/pro.rs:124
+msgid "This key is already active on 5 computers. Remove the license in Crate on one of them, then try again."
+msgstr "هذا المفتاح مفعّل بالفعل على 5 أجهزة. أزِل الترخيص من Crate على أحدها، ثم حاول مجددًا."
+
+#: src/pro.rs:128
 msgid "Couldn’t reach the license server. Check your connection and try again."
 msgstr "تعذّر الوصول إلى خادم التراخيص. تحقق من اتصالك وحاول مجددًا."
 
-#: src/pro.rs:124
+#: src/pro.rs:130
 msgid "This copy of Crate can’t activate store keys. Paste a key that starts with CRATE-PRO."
 msgstr "لا تستطيع هذه النسخة من Crate تفعيل مفاتيح المتجر. الصق مفتاحًا يبدأ بـ CRATE-PRO."
 
@@ -2874,6 +2878,9 @@ msgstr "تعذّر حفظ النسخة"
 #: src/view/watch.rs:322
 msgid "If you close now, changes to {names} are lost. Temp copies are deleted when Crate quits."
 msgstr "إذا أغلقت الآن فستضيع التغييرات على ⁨{names}⁩. تُحذف النسخ المؤقتة عند إنهاء Crate."
+
+#~ msgid "One payment, every computer you use. Checkout by Lemon Squeezy."
+#~ msgstr "دفعة واحدة لكل أجهزتك. يتم الدفع عبر Lemon Squeezy."
 
 #~ msgid "Get started asks macOS to make Crate the default app; macOS asks you to confirm each type."
 #~ msgstr "يطلب «لنبدأ» من macOS جعل Crate التطبيق الافتراضي؛ ويطلب منك macOS تأكيد كل نوع."

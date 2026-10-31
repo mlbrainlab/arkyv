@@ -6,3 +6,5 @@ compatibility_date = "2026-10-01"
 [vars]
 LS_STORE_ID = ""
 LS_PRODUCT_ID = ""
+# Computers per key; Remove license in Crate frees one.
+MAX_ACTIVATIONS = "5"

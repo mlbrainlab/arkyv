@@ -71,6 +71,13 @@
 - Asked for after 0.2.24 ("not frosted at all": the window was still the 0.2.23 build, but a control is better than a fixed value anyway). `Tokens.frost` (0–1) replaces the `frosted` flag: window tint 40% → 100%, panes 55% → 100% (dark: 45% / 65% → 100%). Saved as `pref.glass_frost` (0–100); `platform::GLASS_FROST` is the default, 60 on Linux, 0 elsewhere.
 - `FrostSlider` in prefs-window.slint: drag sets `Tokens.frost` live in Preferences and saves on release; arrows step 5%; mirrored for Arabic; accessible as a slider. The row shows only while the theme is Glass. The window that opened Preferences follows on release; other archive windows (their own processes) on their next open.
 
+### Five computers per key (2026-10-31, 0.2.26)
+- Your decision: a key activates at most 5 computers. The signer now uses Lemon Squeezy's `activate` (one activation per computer) instead of `validate`, refuses with 409 past `MAX_ACTIVATIONS` (5, checked in the Worker too, so a product without a limit in Lemon Squeezy still stops at 5), and has `POST /deactivate`. A computer that sends its saved `instance_id` is validated and signed again without a new activation.
+- The app keeps `pro.store_key` and `pro.instance` beside the signed key. Remove license clears them and frees the activation on a worker thread; if that fails (offline) it goes into `pro.deactivate` and is retried when Preferences opens. The activation's name is "Crate on <os>": no host or user name.
+- Signed keys made with `sign.mjs` (sponsors) skip Lemon Squeezy and have no limit. Reinstalling or wiping the settings without Remove license leaves an activation behind; you can free it in the Lemon Squeezy dashboard.
+- Tests: `app/tests/license_flow.rs` against a stand-in signer on localhost; the Worker by hand against a stand-in Lemon Squeezy (5 activations, the 6th refused, the same computer again, deactivate, a key that isn't ours).
+- **To do (you):** set the product's activation limit to 5 in Lemon Squeezy, and redeploy the Worker.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked
