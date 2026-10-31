@@ -125,12 +125,17 @@ export component Button inherits Rectangle {
     callback clicked;
     min-height: 36px;
     border-radius: Tokens.glass ? self.height / 2 : 9px; // glass: pills
-    border-width: primary || quiet || danger ? 0 : 1px;
-    border-color: Tokens.line;
+    // Glass: every button is a pill of glass with a white rim.
+    border-width: Tokens.glass ? 1px : primary || quiet || danger ? 0 : 1px;
+    border-color: Tokens.glass ? Tokens.glass-rim : Tokens.line;
+    drop-shadow-blur: Tokens.glass ? 6px : 0;
+    drop-shadow-offset-y: Tokens.glass ? 2px : 0;
+    drop-shadow-color: primary ? Tokens.accent.with-alpha(0.3) : black.with-alpha(0.1);
     property <color> fill: danger ? Tokens.danger : Tokens.accent;
     // Dark mode's danger red is light: dark text on it reads better than white.
     property <color> on-fill: danger && Tokens.dark ? Tokens.bg : white;
     background: primary || danger ? (area.has-hover ? fill.mix(black, 0.88) : fill)
+        : Tokens.glass ? (area.has-hover ? Tokens.glass-fill-hover : Tokens.glass-fill)
         : quiet ? (area.has-hover ? Tokens.surface-2 : transparent)
         : area.has-hover ? Tokens.surface-2 : Tokens.bg;
     opacity: enabled ? 1 : 0.5;
@@ -175,7 +180,13 @@ export component ToolButton inherits Rectangle {
     callback clicked;
     height: 32px;
     border-radius: Tokens.glass ? self.height / 2 : 7px; // glass: pills
-    background: area.has-hover && enabled ? Tokens.line.mix(Tokens.bg, 0.6) : transparent;
+    background: Tokens.glass ? (area.has-hover && enabled ? Tokens.glass-fill-hover : Tokens.glass-fill)
+        : area.has-hover && enabled ? Tokens.line.mix(Tokens.bg, 0.6) : transparent;
+    border-width: Tokens.glass ? 1px : 0;
+    border-color: Tokens.glass-rim;
+    drop-shadow-blur: Tokens.glass ? 6px : 0;
+    drop-shadow-offset-y: Tokens.glass ? 2px : 0;
+    drop-shadow-color: black.with-alpha(0.1);
     opacity: enabled ? 1 : 0.45;
     accessible-role: button;
     accessible-label: root.text;
@@ -209,8 +220,15 @@ export component IconButton inherits Rectangle {
     callback clicked;
     width: 36px;
     height: 36px;
-    border-radius: 8px;
-    background: pressed ? Tokens.bg : area.has-hover ? Tokens.line.mix(Tokens.bg, 0.6) : transparent;
+    // Glass: a circle of glass with a white rim.
+    border-radius: Tokens.glass ? min(self.width, self.height) / 2 : 8px;
+    background: Tokens.glass ? (pressed || area.has-hover ? Tokens.glass-fill-hover : Tokens.glass-fill)
+        : pressed ? Tokens.bg : area.has-hover ? Tokens.line.mix(Tokens.bg, 0.6) : transparent;
+    border-width: Tokens.glass ? 1px : 0;
+    border-color: Tokens.glass-rim;
+    drop-shadow-blur: Tokens.glass ? 6px : 0;
+    drop-shadow-offset-y: Tokens.glass ? 2px : 0;
+    drop-shadow-color: black.with-alpha(0.1);
     accessible-role: button;
     accessible-label: root.label;
     accessible-action-default => { root.clicked(); }

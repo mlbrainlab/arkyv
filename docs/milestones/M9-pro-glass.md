@@ -63,6 +63,10 @@
 - Light glass `sheet` is `#EEF1F6` instead of white: white glass controls (segmented track, chips) vanished on a white card.
 - Found on the way: `Card { clip: true }` doesn't round its children's corners, so the first-run footer stuck out at the bottom corners in every theme. The footer rounds its own bottom corners now.
 
+### Frosted on Linux, glass buttons (2026-10-31, 0.2.24)
+- From your 0.2.23 screenshot: see-through works, but with no blur on GNOME the text over other windows was barely readable. `Tokens.frosted` (`platform::GLASS_FROSTED`, Linux only) raises the window tint to 75% and the panes to 85% (DESIGN.md's "Frosted" variant). Real blur on KDE stays in slice 4.
+- Buttons on glass, as you asked: `IconButton`, `WindowButton` and the mini view's close button are circles; `Button` and `ToolButton` are pills; all with `glass-fill` and a white `glass-rim`, and a soft shadow so the rim reads on light panes.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

@@ -8,6 +8,8 @@ use slint::winit_030::winit::platform::wayland::WindowAttributesExtWayland;
 
 /// Linux draws its own header bar (design/DESIGN.md → Window frame).
 pub const CUSTOM_FRAME: bool = true;
+/// No blur behind windows on GNOME: Glass is frosted (stronger tint).
+pub const GLASS_FROSTED: bool = true;
 
 /// Winit backend with Crate's app id, so GNOME matches windows to the
 /// .desktop file and its icon.

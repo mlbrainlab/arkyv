@@ -4,6 +4,8 @@ use super::{Defaults, MimeBackend};
 
 /// macOS keeps the native title bar (M8).
 pub const CUSTOM_FRAME: bool = false;
+/// Glass gets real blur from the OS here (M9), so it stays light.
+pub const GLASS_FROSTED: bool = false;
 
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()

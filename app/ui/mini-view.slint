@@ -213,7 +213,10 @@ export component MiniBody inherits Rectangle {
                         width: 24px;
                         height: 24px;
                         border-radius: 12px;
-                        background: close-area.has-hover ? Tokens.line : Tokens.line.mix(Tokens.chrome, 0.6);
+                        background: Tokens.glass ? (close-area.has-hover ? Tokens.glass-fill-hover : Tokens.glass-fill)
+                            : close-area.has-hover ? Tokens.line : Tokens.line.mix(Tokens.chrome, 0.6);
+                        border-width: Tokens.glass ? 1px : 0;
+                        border-color: Tokens.glass-rim;
                         Icon { size: 12; stroke: Tokens.ink-2; commands: Icons.close; }
                         accessible-role: button;
                         accessible-label: @tr("Close");

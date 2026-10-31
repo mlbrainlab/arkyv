@@ -173,6 +173,7 @@ impl Prefs {
             Theme::Dark => slint::language::ColorScheme::Dark,
         });
         tokens.set_glass(self.theme == Theme::Glass);
+        tokens.set_frosted(crate::platform::GLASS_FROSTED);
     }
 }
 

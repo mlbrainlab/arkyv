@@ -1,6 +1,6 @@
 //! The Glass theme (Pro): the Theme row in Preferences, and archive windows
 //! in glass. Test builds can't make a real key, so the windows get glass the
-//! way `Prefs::apply_archive_theme` gives it to them. Shots are composited
+//! way `Prefs::apply_theme` gives it to them, frosted as on Linux. Shots are composited
 //! over a stand-in wallpaper.
 
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
@@ -27,6 +27,7 @@ fn glass_flow() {
     assert!(prefs.global::<ProUi>().get_show());
     prefs.global::<ProUi>().invoke_cancel();
     prefs.global::<Tokens>().set_glass(true);
+    prefs.global::<Tokens>().set_frosted(true);
     h.shot("154-glass-prefs");
     prefs.global::<Tokens>().set_glass(false);
 
@@ -37,6 +38,7 @@ fn glass_flow() {
         g(&ui).get_status() == "ready" && !g(&ui).get_streaming()
     });
     ui.global::<Tokens>().set_glass(true);
+    ui.global::<Tokens>().set_frosted(true);
     h.shot("151-glass-mini");
     g(&ui).invoke_row_pressed(0, false, false);
     h.shot("152-glass-mini-selected");
@@ -57,6 +59,7 @@ fn glass_flow() {
     // Home in glass.
     let home = h.home(vec![]);
     home.global::<Tokens>().set_glass(true);
+    home.global::<Tokens>().set_frosted(true);
     h.shot("157-glass-home");
     home.global::<crate_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Dark);
