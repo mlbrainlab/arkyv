@@ -20,6 +20,7 @@ export global PrefsUi {
     in property <int> encoding; // index into encodings
     in property <bool> grid-for-media;
     in property <int> theme; // 0 system, 1 light, 2 dark, 3 glass (Pro)
+    in property <int> glass-frost; // 0 clear glass (40% tint) … 100 fully frosted
     in property <bool> default-grid;
     in property <bool> ratio-column;
     in property <int> new-format; // 0 ZIP, 1 TAR.ZST, 2 7Z, 3 TAR.GZ, 4 TAR.XZ
@@ -66,6 +67,85 @@ component Switch inherits Rectangle {
         drop-shadow-color: black.with-alpha(0.2);
         animate x { duration: 120ms; }
     }
+}
+
+// The Glass slider: clear glass to fully frosted. The window shows each
+// step while dragging; the value is saved on release.
+component FrostSlider inherits Rectangle {
+    in property <float> value; // 0 … 1
+    in property <string> label;
+    callback chosen(float);
+    property <float> drag: -1;
+    property <float> shown: drag >= 0 ? drag : value;
+    property <length> knob: 20px;
+    // Arabic: frosted is on the left.
+    property <length> knob-x: (Locale.rtl ? 1 - shown : shown) * (self.width - knob);
+    width: 200px;
+    height: 24px;
+    accessible-role: slider;
+    accessible-label: label;
+    accessible-value: Math.round(shown * 100);
+    accessible-value-minimum: 0;
+    accessible-value-maximum: 100;
+    accessible-value-step: 5;
+    accessible-action-increment => { root.chosen(Math.min(1, value + 0.05)); }
+    accessible-action-decrement => { root.chosen(Math.max(0, value - 0.05)); }
+    function at(x: length) -> float {
+        let v = Math.clamp((x - knob / 2) / (self.width - knob), 0, 1);
+        Locale.rtl ? 1 - v : v
+    }
+    Rectangle {
+        y: (parent.height - self.height) / 2;
+        height: 4px;
+        border-radius: 2px;
+        background: Tokens.line.mix(Tokens.ink-3, 0.55);
+    }
+    Rectangle {
+        x: Locale.rtl ? knob-x + knob / 2 : 0;
+        y: (parent.height - self.height) / 2;
+        width: Locale.rtl ? parent.width - knob-x - knob / 2 : knob-x + knob / 2;
+        height: 4px;
+        border-radius: 2px;
+        background: Tokens.accent;
+    }
+    Rectangle {
+        x: knob-x;
+        y: (parent.height - self.height) / 2;
+        width: knob;
+        height: knob;
+        border-radius: knob / 2;
+        background: white;
+        border-width: 1px;
+        border-color: Tokens.line;
+        drop-shadow-blur: 3px;
+        drop-shadow-offset-y: 1px;
+        drop-shadow-color: black.with-alpha(0.2);
+    }
+    TouchArea {
+        mouse-cursor: pointer;
+        pointer-event(e) => {
+            if e.kind == PointerEventKind.down && e.button == PointerEventButton.left {
+                drag = at(self.mouse-x);
+                Tokens.frost = drag;
+            } else if e.kind == PointerEventKind.up && drag >= 0 {
+                let v = drag;
+                drag = -1;
+                root.chosen(v);
+            }
+        }
+        moved => {
+            if self.pressed {
+                drag = at(self.mouse-x);
+                Tokens.frost = drag;
+            }
+        }
+    }
+    kf-frost := KeyFocus {
+        arrows: true;
+        // KeyFocus already turns Left / Right around for Arabic.
+        step(d) => { root.chosen(Math.clamp(value + d * 0.05, 0, 1)); }
+    }
+    FocusRing { x: -3px; y: -3px; width: parent.width + 6px; height: parent.height + 6px; on: kf-frost.has-focus; radius: 12px; }
 }
 
 // .fmtchip: a file type; tinted when Crate opens it. A click on a plain
@@ -302,6 +382,21 @@ export component PrefsWindow inherits Window {
                                     chosen(i) => {
                                         if i == 3 && !ProUi.active { ProUi.open(0); } else { PrefsUi.choose("theme", i); }
                                     }
+                                }
+                            }
+                            if PrefsUi.theme == 3: Item {
+                                title: @tr("Glass");
+                                note: @tr("From clear glass to fully frosted. More frost makes text easier to read over other windows.");
+                                GridLayout {
+                                    spacing: 10px;
+                                    Text { col: Locale.rtl ? 2 : 0; row: 0; text: @tr("Clear"); color: Tokens.ink-2; font-size: 12px; vertical-alignment: center; }
+                                    FrostSlider {
+                                        col: 1; row: 0;
+                                        label: @tr("Glass");
+                                        value: PrefsUi.glass-frost / 100;
+                                        chosen(v) => { PrefsUi.choose("glass_frost", Math.round(v * 100)); }
+                                    }
+                                    Text { col: Locale.rtl ? 0 : 2; row: 0; text: @tr("Frosted"); color: Tokens.ink-2; font-size: 12px; vertical-alignment: center; }
                                 }
                             }
                             Item {

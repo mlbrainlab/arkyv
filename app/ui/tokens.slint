@@ -6,16 +6,16 @@ export global Tokens {
     // The Glass theme (Pro; prefs.rs): panes of glass over the OS material.
     // It follows the system's light or dark like the System theme.
     in property <bool> glass;
-    // Linux: no blur behind the window (GNOME has none), so glass is frosted:
-    // a stronger tint and near-opaque panes keep text readable over whatever
-    // is behind (DESIGN.md, "Per-platform variants").
-    in property <bool> frosted;
+    // How frosted the glass is (Preferences → Appearance → Glass): 0 is clear
+    // glass, a 40% tint; 1 is fully frosted, solid. Linux starts higher: GNOME
+    // doesn't blur what's behind a window (DESIGN.md, "Per-platform variants").
+    in-out property <float> frost;
     // Follows the system color scheme, or the Theme preference (prefs.rs).
     out property <bool> dark: Palette.color-scheme == ColorScheme.dark;
 
     // Glass: panes.
-    out property <color> bg: glass ? (dark ? (frosted ? #1c2029e6 : #1c2029a6) : (frosted ? #ffffffd9 : #ffffff8c)) : dark ? #0f1115 : #ffffff;
-    out property <color> surface-2: glass ? (dark ? #ffffff14 : (frosted ? #ffffffb3 : #ffffff73)) : dark ? #12151b : #f7f8fa; // sidebar, details
+    out property <color> bg: glass ? (dark ? #1c2029.with-alpha(0.65 + 0.35 * frost) : #ffffff.with-alpha(0.55 + 0.45 * frost)) : dark ? #0f1115 : #ffffff;
+    out property <color> surface-2: glass ? (dark ? #ffffff14 : #ffffff.with-alpha(0.45 + 0.4 * frost)) : dark ? #12151b : #f7f8fa; // sidebar, details
     out property <color> chrome: glass ? transparent : dark ? #14171d : #fbfbfc; // header, footer
     out property <color> line: glass ? (dark ? #ffffff26 : #ffffffb3) : dark ? #232832 : #e6e8ec;
     out property <color> ink: glass && dark ? #f1f4f9 : dark ? #e7eaf0 : #0f172a;
@@ -33,7 +33,7 @@ export global Tokens {
     // Glass: the window itself, under the panes; and dialogs over it, which
     // stay solid so nothing shows through their text. Light glass dialogs
     // are a soft grey-blue, so the white glass controls in them still show.
-    out property <color> window: glass ? (dark ? (frosted ? #0f1115cc : #0f111573) : (frosted ? #ffffffbf : #ffffff66)) : bg;
+    out property <color> window: glass ? (dark ? #0f1115.with-alpha(0.45 + 0.55 * frost) : #ffffff.with-alpha(0.4 + 0.6 * frost)) : bg;
     out property <color> sheet: glass ? (dark ? #161a21 : #eef1f6) : dark ? chrome : bg;
     // A group or card on a page (Preferences): solid normally, a pane on glass.
     out property <color> card: glass ? bg : dark ? chrome : bg;

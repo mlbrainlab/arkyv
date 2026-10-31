@@ -55,7 +55,7 @@ The Glass theme (Pro, archive windows) is light only and overrides these: `--bg`
 
 Dark glass (Glass follows the system's dark mode): `--bg` `rgba(28,32,41,.65)`, `--surface-2` `rgba(255,255,255,.08)`, `--line` `rgba(255,255,255,.15)`, `--ink` `#F1F4F9`, `--ink-2` `#CFD5DF`, `--ink-3` `#B4BCC8`, `--accent` `rgba(74,101,240,.9)`, `--accent-soft` `rgba(74,101,240,.22)` / `#C9D4FF`, `--selection` `rgba(74,101,240,.28)`; the window `rgba(15,17,21,.45)`, `--sheet` `#161A21`. Glass applies to every window: Home, Preferences and archive windows.
 
-Frosted (Linux, no blur): window `rgba(255,255,255,.75)` / `rgba(15,17,21,.8)`, panes `rgba(255,255,255,.85)` / `rgba(28,32,41,.9)`, `--surface-2` `rgba(255,255,255,.7)`. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
+Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; macOS and Windows at 0. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
 
 Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (Inter 4.1, OFL). Never load fonts at runtime. Monospace text uses the system monospace font.
 

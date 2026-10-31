@@ -68,6 +68,8 @@ pub struct Prefs {
     pub encoding: Option<NameCodec>,
     pub grid_for_media: bool,
     pub theme: Theme,
+    /// The Glass slider, 0–100: clear glass (a 40% tint) to fully frosted.
+    pub glass_frost: u8,
     pub default_grid: bool,
     pub ratio_column: bool,
     pub new_format: OutFormat,
@@ -84,6 +86,7 @@ impl Default for Prefs {
             encoding: None,
             grid_for_media: true,
             theme: Theme::System,
+            glass_frost: crate::platform::GLASS_FROST,
             default_grid: false,
             ratio_column: true,
             new_format: OutFormat::TarZst,
@@ -130,6 +133,9 @@ impl Prefs {
                 }
                 _ => Theme::System,
             },
+            glass_frost: s
+                .get::<u8>("pref.glass_frost")
+                .map_or(d.glass_frost, |v| v.min(100)),
             default_grid: flag("pref.default_grid", d.default_grid),
             ratio_column: flag("pref.ratio_column", d.ratio_column),
             new_format: s
@@ -173,7 +179,7 @@ impl Prefs {
             Theme::Dark => slint::language::ColorScheme::Dark,
         });
         tokens.set_glass(self.theme == Theme::Glass);
-        tokens.set_frosted(crate::platform::GLASS_FROSTED);
+        tokens.set_frost(f32::from(self.glass_frost) / 100.0);
     }
 }
 
@@ -281,7 +287,7 @@ pub fn start(ui: &PrefsWindow, on_theme: impl Fn(&Prefs) + 'static) {
         let prefs = Prefs::read(&s);
         drop(s);
         fill(&ui, &prefs, &codecs);
-        if key == "theme" {
+        if key == "theme" || key == "glass_frost" {
             on_theme(&prefs);
         }
         if key == "language" {
@@ -349,6 +355,7 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
     );
     g.set_grid_for_media(p.grid_for_media);
     g.set_theme(p.theme as i32);
+    g.set_glass_frost(i32::from(p.glass_frost));
     g.set_default_grid(p.default_grid);
     g.set_ratio_column(p.ratio_column);
     g.set_new_format(

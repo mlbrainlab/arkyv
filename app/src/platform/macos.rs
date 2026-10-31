@@ -7,8 +7,9 @@ use super::{Defaults, MimeBackend};
 /// macOS keeps the native window frame; Home and the full view put its
 /// traffic lights in their header ([`overlay_titlebar`]).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here (M9), so it stays light.
-pub const GLASS_FROSTED: bool = false;
+/// Glass gets real blur from the OS here (M9): it starts as clear glass.
+/// Percent of the Glass slider in Preferences.
+pub const GLASS_FROST: u8 = 0;
 
 /// Space between the zoom button and the header's first control.
 const AFTER_BUTTONS: f64 = 12.0;

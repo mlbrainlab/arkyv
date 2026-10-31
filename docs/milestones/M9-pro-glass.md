@@ -67,6 +67,10 @@
 - From your 0.2.23 screenshot: see-through works, but with no blur on GNOME the text over other windows was barely readable. `Tokens.frosted` (`platform::GLASS_FROSTED`, Linux only) raises the window tint to 75% and the panes to 85% (DESIGN.md's "Frosted" variant). Real blur on KDE stays in slice 4.
 - Buttons on glass, as you asked: `IconButton`, `WindowButton` and the mini view's close button are circles; `Button` and `ToolButton` are pills; all with `glass-fill` and a white `glass-rim`, and a soft shadow so the rim reads on light panes.
 
+### The Glass slider (2026-10-31, 0.2.25)
+- Asked for after 0.2.24 ("not frosted at all": the window was still the 0.2.23 build, but a control is better than a fixed value anyway). `Tokens.frost` (0–1) replaces the `frosted` flag: window tint 40% → 100%, panes 55% → 100% (dark: 45% / 65% → 100%). Saved as `pref.glass_frost` (0–100); `platform::GLASS_FROST` is the default, 60 on Linux, 0 elsewhere.
+- `FrostSlider` in prefs-window.slint: drag sets `Tokens.frost` live in Preferences and saves on release; arrows step 5%; mirrored for Arabic; accessible as a slider. The row shows only while the theme is Glass. The window that opened Preferences follows on release; other archive windows (their own processes) on their next open.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

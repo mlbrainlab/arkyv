@@ -4,8 +4,9 @@ use super::{Defaults, MimeBackend};
 
 /// The native title bar for now (the custom frame is its own M7 task).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here (M9), so it stays light.
-pub const GLASS_FROSTED: bool = false;
+/// Glass gets real blur from the OS here (M9): it starts as clear glass.
+/// Percent of the Glass slider in Preferences.
+pub const GLASS_FROST: u8 = 0;
 
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()

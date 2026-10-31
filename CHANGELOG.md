@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.25 — 2026-10-31
+- Glass theme: a Glass slider in Preferences → Appearance, from clear glass (a 40% tint) to fully frosted. Every Crate window follows it; Preferences shows each step while you drag. It starts at 60% on Linux, where GNOME doesn't blur, and at clear glass elsewhere.
+
 ## 0.2.24 — 2026-10-31
 - Glass theme on Linux is frosted: GNOME doesn't blur what's behind a window, so the tint and panes are stronger and text stays readable over other windows and the wallpaper. macOS and Windows keep the lighter glass, for the blur they'll get.
 - Glass theme: every button is glass with a white rim: icon buttons are circles, the rest pills.
