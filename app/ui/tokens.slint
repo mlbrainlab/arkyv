@@ -27,9 +27,10 @@ export global Tokens {
     out property <color> danger: dark ? #ff8a80 : #c2261b;
     out property <color> crypto: dark ? #cdb4fa : #6b3fc4;
     // Glass: the window itself, under the panes; and dialogs over it, which
-    // stay solid so nothing shows through their text.
+    // stay solid so nothing shows through their text. Light glass dialogs
+    // are a soft grey-blue, so the white glass controls in them still show.
     out property <color> window: glass ? (dark ? #0f111573 : #ffffff66) : bg;
-    out property <color> sheet: glass ? (dark ? #161a21 : #ffffff) : dark ? chrome : bg;
+    out property <color> sheet: glass ? (dark ? #161a21 : #eef1f6) : dark ? chrome : bg;
     // A group or card on a page (Preferences): solid normally, a pane on glass.
     out property <color> card: glass ? bg : dark ? chrome : bg;
     // The PRO label (Pro.dc.html).

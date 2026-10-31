@@ -76,11 +76,16 @@ export component MainWindow inherits Window {
     min-width: 720px;
     min-height: 560px;
     no-frame: custom-frame;
-    background: Tokens.window;
+    background: Tokens.glass ? transparent : Tokens.bg;
     default-font-family: Locale.font;
     default-font-size: 14px;
     default-font-weight: 500;
     forward-focus: keys;
+
+    // Glass: the window is cleared to transparent and its tint drawn here.
+    // A translucent Window.background is the GL clear color, which isn't
+    // premultiplied, and the compositor then shows it as solid white.
+    if Tokens.glass: Rectangle { background: Tokens.window; }
 
     // A sheet or dialog is on top: the keys below do nothing then.
     property <bool> modal: ShortcutsUi.show || AboutUi.show || OpsUi.show || BatchUi.show || FirstRunUi.show || CreateUi.show;

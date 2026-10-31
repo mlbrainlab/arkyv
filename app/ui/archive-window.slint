@@ -27,11 +27,16 @@ export component ArchiveWindow inherits Window {
     min-width: ArchiveUi.full ? 720px : 420px;
     min-height: 480px;
     no-frame: custom-frame;
-    background: Tokens.window;
+    background: Tokens.glass ? transparent : Tokens.bg;
     default-font-family: Locale.font;
     default-font-size: 14px;
     default-font-weight: 500;
     forward-focus: keys;
+
+    // Glass: the window is cleared to transparent and its tint drawn here.
+    // A translucent Window.background is the GL clear color, which isn't
+    // premultiplied, and the compositor then shows it as solid white.
+    if Tokens.glass: Rectangle { background: Tokens.window; }
 
     property <bool> ready: ArchiveUi.status == "ready";
     property <bool> overlay: ArchiveUi.show-picker || ArchiveUi.show-password || ArchiveUi.show-error || ArchiveUi.show-done || ArchiveUi.ex-show || ArchiveUi.conflict-show || ArchiveUi.nf-show || ArchiveUi.cc-show || ArchiveUi.pv-show || ArchiveUi.name-show || ArchiveUi.delete-show || ArchiveUi.add-show || ArchiveUi.upd-show || ArchiveUi.close-show || ArchiveUi.pr-show || ArchiveUi.cv-show;

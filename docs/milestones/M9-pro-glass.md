@@ -58,6 +58,11 @@
 - Bug: Preferences keeps the `Settings` it opened with, so after entering a key there, choosing Glass read no key and fell back to System. `Prefs::read` now also checks the key on disk.
 - Still open from the same report: "no glass effect" on the real Ubuntu window. Slint creates winit windows with `transparent: true`, and femtovg asks for an alpha GL config, so the desktop should show through the window. Check this with 0.2.22 first; it may have been the bug above.
 
+### See-through on Linux (2026-10-31, 0.2.23)
+- Your 0.2.22 screenshots: Home, Preferences and the mini view came out white, with the glass controls invisible, while the panes and pills were there. Cause: a translucent `Window.background` is femtovg's GL clear color, passed straight to `glClearColor` without premultiplying. Wayland compositors read the buffer as premultiplied, so white at 40% became solid white. Glass windows now set `background: transparent` (cleared to 0,0,0,0) and draw `Tokens.window` in a Rectangle under everything.
+- Light glass `sheet` is `#EEF1F6` instead of white: white glass controls (segmented track, chips) vanished on a white card.
+- Found on the way: `Card { clip: true }` doesn't round its children's corners, so the first-run footer stuck out at the bottom corners in every theme. The footer rounds its own bottom corners now.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

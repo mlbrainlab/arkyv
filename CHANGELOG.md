@@ -2,6 +2,10 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.23 — 2026-10-31
+- Glass theme on Linux: windows are see-through, not white. The glass tint was the window's clear color, which isn't premultiplied, and GNOME showed it as solid white. Glass windows are now cleared to transparent and the tint is drawn inside them.
+- Glass theme: light-glass dialogs are a soft grey-blue, so the glass controls in them show; the first-run card's footer keeps the card's rounded corners.
+
 ## 0.2.22 — 2026-10-31
 - Glass theme: Home and Preferences are glass too, and Glass has a dark version that follows the system's dark mode.
 - Glass theme: choosing Glass right after entering a key in the same Preferences window now works. Before, Preferences didn't see the new key, so it switched to System instead.

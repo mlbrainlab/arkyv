@@ -177,9 +177,11 @@ export component FirstRun inherits Scrim {
                 }
             }
 
-            // Footer
+            // Footer. Its own bottom corners: the card's clip doesn't round them.
             Rectangle {
                 background: Tokens.surface-2;
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
                 Rectangle { y: 0; height: 1px; background: Tokens.line; }
                 GridLayout {
                     padding-left: 28px;
