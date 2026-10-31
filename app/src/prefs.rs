@@ -120,8 +120,14 @@ impl Prefs {
             theme: match s.get::<u8>("pref.theme") {
                 Some(1) => Theme::Light,
                 Some(2) => Theme::Dark,
-                // Without a key (removed, or settings copied over) it's System again.
-                Some(3) if crate::license::from_settings(s).is_some() => Theme::Glass,
+                // Without a key (removed, or settings copied over) it's System
+                // again. Read the key from disk: Preferences keeps the settings
+                // it opened with, and the key may have been entered since.
+                Some(3)
+                    if crate::license::from_settings(s).is_some() || crate::license::is_pro() =>
+                {
+                    Theme::Glass
+                }
                 _ => Theme::System,
             },
             default_grid: flag("pref.default_grid", d.default_grid),
@@ -158,18 +164,14 @@ impl Prefs {
         }
     }
 
-    /// Applies the theme to a window's color scheme.
-    pub fn apply_theme(&self, palette: &crate::Palette<'_>) {
+    /// Applies the theme to a window: its color scheme, and glass. Glass
+    /// follows the system's light or dark, like System.
+    pub fn apply_theme(&self, palette: &crate::Palette<'_>, tokens: &crate::Tokens<'_>) {
         palette.set_color_scheme(match self.theme {
-            Theme::System => slint::language::ColorScheme::Unknown,
-            Theme::Light | Theme::Glass => slint::language::ColorScheme::Light,
+            Theme::System | Theme::Glass => slint::language::ColorScheme::Unknown,
+            Theme::Light => slint::language::ColorScheme::Light,
             Theme::Dark => slint::language::ColorScheme::Dark,
         });
-    }
-
-    /// An archive window: the color scheme, and glass for the Glass theme.
-    pub fn apply_archive_theme(&self, palette: &crate::Palette<'_>, tokens: &crate::Tokens<'_>) {
-        self.apply_theme(palette);
         tokens.set_glass(self.theme == Theme::Glass);
     }
 }
@@ -331,7 +333,10 @@ fn show_defaults(ui: &PrefsWindow) {
 }
 
 fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
-    p.apply_theme(&ui.global::<crate::Palette>());
+    p.apply_theme(
+        &ui.global::<crate::Palette>(),
+        &ui.global::<crate::Tokens>(),
+    );
     let g = ui.global::<PrefsUi>();
     g.set_language(p.language.map_or(0, |l| l as i32 + 1));
     g.set_system_language(language_name(Language::system()).into());

@@ -26,6 +26,9 @@ fn glass_flow() {
     prefs.global::<ProUi>().invoke_open(0);
     assert!(prefs.global::<ProUi>().get_show());
     prefs.global::<ProUi>().invoke_cancel();
+    prefs.global::<Tokens>().set_glass(true);
+    h.shot("154-glass-prefs");
+    prefs.global::<Tokens>().set_glass(false);
 
     // The mini view in glass.
     support::sample_zip(&dir.path().join("project-assets.zip"));
@@ -42,4 +45,20 @@ fn glass_flow() {
     g(&ui).invoke_toggle_full();
     h.until("full", || g(&ui).get_full());
     h.shot("153-glass-full");
+
+    // Dark glass: Glass follows the system's dark mode.
+    ui.global::<crate_app::Palette>()
+        .set_color_scheme(slint::language::ColorScheme::Dark);
+    h.shot("155-glass-full-dark");
+    g(&ui).invoke_toggle_full();
+    h.until("mini", || !g(&ui).get_full());
+    h.shot("156-glass-mini-dark");
+
+    // Home in glass.
+    let home = h.home(vec![]);
+    home.global::<Tokens>().set_glass(true);
+    h.shot("157-glass-home");
+    home.global::<crate_app::Palette>()
+        .set_color_scheme(slint::language::ColorScheme::Dark);
+    h.shot("158-glass-home-dark");
 }

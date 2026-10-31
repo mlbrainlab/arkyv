@@ -53,6 +53,11 @@
 - Full view: the window gets 12 px padding; the sidebar and the content column are panes (22 px radius, glass fill, white border); the header sits on the glass with no line under it. `Button` and `ToolButton` are pills under Glass.
 - Kept from the normal layout rather than GlassBrowse's: the toolbar row and the header with the archive name. GlassBrowse groups the tools into capsules beside the folder name; that's a bigger rework, left for when the rest of Glass works on the real OS windows.
 
+### Glass on every window, and dark glass (2026-10-31, 0.2.22)
+- From your first try on Ubuntu with 0.2.21: Home and Preferences didn't change (by design then: archive windows only), and Glass needs a dark version. Now `Prefs::apply_theme(palette, tokens)` sets glass on every window, and Glass follows the system's light or dark (color scheme Unknown). Dark glass tokens are in DESIGN.md. New token `card` for Preferences groups.
+- Bug: Preferences keeps the `Settings` it opened with, so after entering a key there, choosing Glass read no key and fell back to System. `Prefs::read` now also checks the key on disk.
+- Still open from the same report: "no glass effect" on the real Ubuntu window. Slint creates winit windows with `transparent: true`, and femtovg asks for an alpha GL config, so the desktop should show through the window. Check this with 0.2.22 first; it may have been the bug above.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

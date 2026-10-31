@@ -131,7 +131,7 @@ component Group inherits VerticalLayout {
         border-radius: 14px;
         border-width: 1px;
         border-color: Tokens.line;
-        background: Tokens.dark ? Tokens.chrome : Tokens.bg;
+        background: Tokens.card;
         VerticalLayout {
             @children
         }
@@ -153,7 +153,7 @@ export component PrefsWindow inherits Window {
     min-width: 560px;
     min-height: 480px;
     no-frame: custom-frame;
-    background: Tokens.surface-2;
+    background: Tokens.glass ? Tokens.window : Tokens.surface-2;
     default-font-family: Locale.font;
     default-font-size: 14px;
     default-font-weight: 500;

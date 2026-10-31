@@ -51,7 +51,9 @@ In the app the tokens are properties of the Slint global `Tokens` (`app/ui/token
 | `--crypto` | `#6B3FC4` | `#CDB4FA` |
 | `--pro` (the PRO label) | `#1E2F8F` | `#1E2F8F` |
 
-The Glass theme (Pro, archive windows) is light only and overrides these: `--bg` (panes) `rgba(255,255,255,.55)`, `--surface-2` `rgba(255,255,255,.45)`, `--chrome` transparent, `--line` `rgba(255,255,255,.7)`, `--ink-2` `#1D2939`, `--ink-3` `#334155`, `--accent` `rgba(51,82,224,.9)`, `--accent-soft` `rgba(51,82,224,.16)` / `#1E3399`, `--selection` `rgba(51,82,224,.18)`; the window itself `rgba(255,255,255,.40)`, and dialogs over it (`--sheet`) `rgba(255,255,255,.94)`.
+The Glass theme (Pro, archive windows) is light only and overrides these: `--bg` (panes) `rgba(255,255,255,.55)`, `--surface-2` `rgba(255,255,255,.45)`, `--chrome` transparent, `--line` `rgba(255,255,255,.7)`, `--ink-2` `#1D2939`, `--ink-3` `#334155`, `--accent` `rgba(51,82,224,.9)`, `--accent-soft` `rgba(51,82,224,.16)` / `#1E3399`, `--selection` `rgba(51,82,224,.18)`; the window itself `rgba(255,255,255,.40)`, and dialogs over it (`--sheet`) solid white.
+
+Dark glass (Glass follows the system's dark mode): `--bg` `rgba(28,32,41,.65)`, `--surface-2` `rgba(255,255,255,.08)`, `--line` `rgba(255,255,255,.15)`, `--ink` `#F1F4F9`, `--ink-2` `#CFD5DF`, `--ink-3` `#B4BCC8`, `--accent` `rgba(74,101,240,.9)`, `--accent-soft` `rgba(74,101,240,.22)` / `#C9D4FF`, `--selection` `rgba(74,101,240,.28)`; the window `rgba(15,17,21,.45)`, `--sheet` `#161A21`. Glass applies to every window: Home, Preferences and archive windows.
 
 Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (Inter 4.1, OFL). Never load fonts at runtime. Monospace text uses the system monospace font.
 

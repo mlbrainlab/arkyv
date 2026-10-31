@@ -249,7 +249,10 @@ impl Home {
         let settings = Settings::load();
         let prefs = Prefs::read(&settings);
         crate::i18n::set(prefs.ui_language());
-        prefs.apply_theme(&ui.global::<crate::Palette>());
+        prefs.apply_theme(
+            &ui.global::<crate::Palette>(),
+            &ui.global::<crate::Tokens>(),
+        );
         let mut presets = Preset::builtin();
         presets.extend(saved_presets(&settings));
         let home = Rc::new(Home {
@@ -312,7 +315,10 @@ impl Home {
         let weak = self.ui.clone();
         crate::prefs::show(move |p| {
             if let Some(ui) = weak.upgrade() {
-                p.apply_theme(&ui.global::<crate::Palette>());
+                p.apply_theme(
+                    &ui.global::<crate::Palette>(),
+                    &ui.global::<crate::Tokens>(),
+                );
             }
         });
     }

@@ -222,7 +222,7 @@ impl View {
         g.set_files(view.files_model.clone().into());
         g.set_preview_enabled(true);
         g.set_ratio_column(prefs.ratio_column);
-        prefs.apply_archive_theme(
+        prefs.apply_theme(
             &ui.global::<crate::Palette>(),
             &ui.global::<crate::Tokens>(),
         );
@@ -239,7 +239,7 @@ impl View {
         let weak = self.ui.clone();
         crate::prefs::show(move |p| {
             if let Some(ui) = weak.upgrade() {
-                p.apply_archive_theme(
+                p.apply_theme(
                     &ui.global::<crate::Palette>(),
                     &ui.global::<crate::Tokens>(),
                 );
