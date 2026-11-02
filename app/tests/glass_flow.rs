@@ -1,7 +1,8 @@
 //! The Glass theme (Pro): the Theme row in Preferences, and archive windows
 //! in glass. Test builds can't make a real key, so the windows get glass the
-//! way `Prefs::apply_theme` gives it to them, frosted as on Linux. Shots are composited
-//! over a stand-in wallpaper.
+//! way `Prefs::apply_theme` gives it to them, frosted as on Linux, in
+//! Crate's own frame (Linux). Shots are composited over a stand-in
+//! wallpaper.
 
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
 mod support;
@@ -13,12 +14,21 @@ use crate_app::prefs::{Prefs, Theme};
 use crate_app::{PrefsUi, ProUi, Tokens};
 use slint::ComponentHandle;
 
+/// Crate's own frame and header, as on Linux.
+macro_rules! linux_frame {
+    ($ui:expr) => {{
+        $ui.set_custom_frame(true);
+        crate_app::connect_frame($ui, true);
+    }};
+}
+
 #[test]
 fn glass_flow() {
     let h = Harness::new();
     let dir = tempfile::tempdir().unwrap();
 
     let prefs = h.prefs();
+    linux_frame!(&prefs);
     // The Glass slider, saved and applied (only shown with Glass on, so
     // drive the setting directly).
     prefs
@@ -48,9 +58,16 @@ fn glass_flow() {
     // The mini view in glass.
     support::sample_zip(&dir.path().join("project-assets.zip"));
     let ui = h.open(&dir.path().join("project-assets.zip"));
+    linux_frame!(&ui);
     h.until("listing", || {
         g(&ui).get_status() == "ready" && !g(&ui).get_streaming()
     });
+    h.shot("159-frame-mini");
+    g(&ui).invoke_toggle_full();
+    h.until("full", || g(&ui).get_full());
+    h.shot("160-frame-full");
+    g(&ui).invoke_toggle_full();
+    h.until("mini", || !g(&ui).get_full());
     ui.global::<Tokens>().set_glass(true);
     ui.global::<Tokens>().set_frost(0.6);
     h.shot("151-glass-mini");
@@ -72,6 +89,8 @@ fn glass_flow() {
 
     // Home in glass.
     let home = h.home(vec![]);
+    linux_frame!(&home);
+    h.shot("161-frame-home");
     home.global::<Tokens>().set_glass(true);
     home.global::<Tokens>().set_frost(0.6);
     h.shot("157-glass-home");

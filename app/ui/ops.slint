@@ -3,6 +3,7 @@
 // (`app/src/ops_panel.rs`, reading `app/src/ops.rs`'s registry).
 import { ScrollView } from "std-widgets.slint";
 import { Tokens } from "tokens.slint";
+import { Frame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Button, ClipText, IconButton, Icons, Link } from "parts.slint";
@@ -224,12 +225,15 @@ export component OpsPage inherits Rectangle {
     in property <length> titlebar-inset;
     in property <length> titlebar-height;
     background: Tokens.surface-2;
+    border-radius: Frame.radius;
     TouchArea { } // nothing below it takes clicks
     VerticalLayout {
         // Header
         Rectangle {
             height: root.titlebar-height > 0 ? root.titlebar-height : 56px;
             background: Tokens.chrome;
+            border-top-left-radius: Frame.radius;
+            border-top-right-radius: Frame.radius;
             Rectangle { y: parent.height - 1px; height: 1px; background: Tokens.line; }
             GridLayout {
                 padding-left: 12px + root.titlebar-inset;

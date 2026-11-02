@@ -3,6 +3,7 @@
 // Folders open in place, with a back row above the list.
 import { ListView } from "std-widgets.slint";
 import { Tokens } from "tokens.slint";
+import { Frame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { WindowDragArea } from "header.slint";
@@ -188,6 +189,7 @@ export component MiniBody inherits Rectangle {
         : !ready || ArchiveUi.dest-name == "" ? @tr("Extract all")
         : @tr("Extract all to “{}/”", ArchiveUi.dest-name);
     background: Tokens.glass ? transparent : Tokens.bg;
+    border-radius: Frame.radius;
 
     VerticalLayout {
         // Glass: panes float inside the window with a 12 px gap.
@@ -197,6 +199,9 @@ export component MiniBody inherits Rectangle {
         Rectangle {
             height: Tokens.glass ? 34px : 46px;
             background: Tokens.chrome;
+            // Crate's own frame rounds the window's corners (frame.slint).
+            border-top-left-radius: Frame.radius;
+            border-top-right-radius: Frame.radius;
             WindowDragArea {
                 drag-enabled: root.custom-frame;
                 start-drag => { ArchiveUi.start-drag(); }
@@ -347,6 +352,8 @@ export component MiniBody inherits Rectangle {
         // Footer
         Rectangle {
             background: Tokens.chrome;
+            border-bottom-left-radius: Frame.radius;
+            border-bottom-right-radius: Frame.radius;
             if !Tokens.glass: Rectangle { y: 0; height: 1px; background: Tokens.line; }
             VerticalLayout {
                 padding: Tokens.glass ? 4px : 18px;

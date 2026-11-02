@@ -1,6 +1,7 @@
 // Small building blocks shared by the mini view, the full view and dialogs,
 // drawn after the mockups' classes (.btn, .btn-p, .ib, .chip…).
 import { Tokens } from "tokens.slint";
+import { Frame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 
@@ -288,6 +289,8 @@ export component Checkbox inherits Rectangle {
 // Dims the window behind a dialog and swallows clicks.
 export component Scrim inherits Rectangle {
     background: black.with-alpha(Tokens.dark ? 0.5 : 0.36);
+    // Crate's own frame rounds the window's corners (frame.slint).
+    border-radius: Frame.radius;
     TouchArea { }
 }
 

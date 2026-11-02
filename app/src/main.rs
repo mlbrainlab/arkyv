@@ -8,7 +8,9 @@ use std::time::{Duration, Instant};
 use slint::ComponentHandle;
 use slint::winit_030::WinitWindowAccessor;
 
-use crate_app::{ArchiveWindow, Locale, MainWindow, begin_window_drag, instance, platform, view};
+use crate_app::{
+    ArchiveWindow, Locale, MainWindow, begin_window_drag, connect_frame, instance, platform, view,
+};
 
 const USAGE: &str = "\
 Usage: crate-app [archive]
@@ -81,6 +83,7 @@ macro_rules! connect_frame {
     ($ui:expr) => {{
         let ui = &$ui;
         ui.set_custom_frame(platform::CUSTOM_FRAME);
+        connect_frame(ui, platform::CUSTOM_FRAME);
         ui.set_native_menu(platform::NATIVE_MENU);
         ui.global::<Locale>()
             .set_system_fonts(platform::SYSTEM_FONTS);
@@ -143,6 +146,7 @@ fn run_archive(
     platform::on_open_files(open_each);
     let ui = ArchiveWindow::new()?;
     ui.set_custom_frame(platform::CUSTOM_FRAME);
+    connect_frame(&ui, platform::CUSTOM_FRAME);
     ui.set_native_menu(platform::NATIVE_MENU);
     ui.global::<Locale>()
         .set_system_fonts(platform::SYSTEM_FONTS);
@@ -209,6 +213,7 @@ fn run_launched() -> Result<(), slint::PlatformError> {
             }
             let ui = ArchiveWindow::new()?;
             ui.set_custom_frame(platform::CUSTOM_FRAME);
+            connect_frame(&ui, platform::CUSTOM_FRAME);
             ui.set_native_menu(platform::NATIVE_MENU);
             ui.global::<Locale>()
                 .set_system_fonts(platform::SYSTEM_FONTS);

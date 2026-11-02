@@ -4,6 +4,7 @@
 // M5 tasks.
 import { ScrollView } from "std-widgets.slint";
 import { Tokens } from "tokens.slint";
+import { Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Header } from "header.slint";
@@ -233,18 +234,23 @@ export component PrefsWindow inherits Window {
     min-width: 560px;
     min-height: 480px;
     no-frame: custom-frame;
-    background: Tokens.glass ? transparent : Tokens.surface-2;
+    background: Tokens.glass || Frame.custom ? transparent : Tokens.surface-2;
     default-font-family: Locale.font;
     default-font-size: 14px;
     default-font-weight: 500;
     forward-focus: keys;
 
-    // Glass: the window is cleared to transparent and its tint drawn here.
-    // A translucent Window.background is the GL clear color, which isn't
-    // premultiplied, and the compositor then shows it as solid white.
-    if Tokens.glass: Rectangle { background: Tokens.window; }
+    // Glass, or Crate's own frame: the window is cleared to transparent and
+    // its body drawn here. A translucent Window.background is the GL clear
+    // color, which isn't premultiplied, and the compositor then shows it as
+    // solid white.
+    if Tokens.glass || Frame.custom: WindowFrame { fill: Tokens.glass ? Tokens.window : Tokens.surface-2; }
 
     keys := FocusScope {
+        x: Frame.inset;
+        y: Frame.inset;
+        width: root.width - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset;
         key-pressed(event) => {
             if ProUi.show {
                 if event.text == Key.Escape && !ProUi.busy { ProUi.cancel(); return accept; }

@@ -86,6 +86,16 @@
 - `platform::glass_frost()` replaces `GLASS_FROST`: the slider starts at 0 (clear glass) on macOS, Windows and KDE Wayland, and at 60% on GNOME, X11 and anything else.
 - Checked here: builds and the tests pass on Ubuntu (GNOME: no change). **Not seen yet:** Windows, macOS and KDE; CI only builds them.
 
+### Crate's own frame on Linux (2026-11-03, 0.2.28)
+- Slice 3, first half. Where Crate draws its header (`CUSTOM_FRAME`, Linux), in every theme: `app/ui/frame.slint`. The window keeps a 12 px clear margin around its body; the body has rounded corners (12 px, Ubuntu's; 16 px on glass, DESIGN.md's table) and a 1 px rim (`line`, `glass-rim` on glass).
+- The shadow is 10 fading 1 px rings outside the body, not a `drop-shadow`: Slint draws that as one blurred shape under the body, and a see-through glass body would show it.
+- Resizing: the margin is the grip, sides and 20 px corners, with the matching pointer; a press hands the resize to the window manager (`begin_window_resize`, like the header's move). Before this a Linux window couldn't be resized from its edges at all.
+- Maximized or full screen (winit's state, checked whenever the size changes: `Frame.resized`), the margin, corners and shadow go away and the body fills the window.
+- Rounded with the body: the headers, the footers, the full view's sidebar (its outer bottom corner, mirrored in Arabic), Home's body, the operations page and every dialog's dimmed backdrop (`Scrim`). Slint can't clip children to rounded corners (femtovg only through an offscreen layer, the test renderer not at all), so each edge piece rounds its own corners from `Frame.radius`.
+- Limits: GNOME's half-screen tiling counts the clear margin as part of the window, so a tiled window keeps a 12 px gap (winit can't tell the compositor the body's geometry). X11 without a compositor shows the margin black.
+- Tests: `glass_flow.rs` draws its windows in the frame; new shots 159 (mini), 160 (full), 161 (Home), plain theme.
+- Next: Windows. Glass gets the same frame there with 46 × 32 caption buttons and Snap Layouts on maximize (`SetWindowSubclass`, `HTMAXBUTTON`); Windows 11 draws the 8 px corners and the shadow itself. macOS keeps its own frame: the traffic lights, corners and shadow are the system's, and Glass already runs under its transparent title bar.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

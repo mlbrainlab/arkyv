@@ -3,6 +3,7 @@
 // Streams in huge tar listings (HugeArchive.dc.html).
 import { ListView } from "std-widgets.slint";
 import { Tokens } from "tokens.slint";
+import { Frame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { WindowButton, WindowDragArea } from "header.slint";
@@ -195,6 +196,9 @@ component Sidebar inherits Rectangle {
     // Glass: a pane floating in the window (GlassBrowse.dc.html).
     background: Tokens.glass ? Tokens.bg : Tokens.surface-2;
     border-radius: Tokens.glass ? 22px : 0;
+    // Crate's own frame rounds the window's bottom corner beside it.
+    border-bottom-left-radius: Tokens.glass ? 22px : Locale.rtl ? 0 : Frame.radius;
+    border-bottom-right-radius: Tokens.glass ? 22px : Locale.rtl ? Frame.radius : 0;
     border-width: Tokens.glass ? 1px : 0;
     border-color: Tokens.line;
     clip: Tokens.glass;
@@ -317,6 +321,7 @@ export component FullBody inherits Rectangle {
     // in a narrower window its buttons show their icons only.
     property <bool> compact-tools: root.width < (ArchiveUi.sidebar && root.width > 820px ? 1180px : 940px);
     background: Tokens.glass ? transparent : Tokens.bg;
+    border-radius: Frame.radius;
 
     VerticalLayout {
         // Glass: the sidebar and the content float in the window, 12 px apart.
@@ -327,6 +332,9 @@ export component FullBody inherits Rectangle {
         Rectangle {
             height: root.titlebar-height > 0 ? root.titlebar-height : 56px;
             background: Tokens.chrome;
+            // Crate's own frame rounds the window's corners (frame.slint).
+            border-top-left-radius: Frame.radius;
+            border-top-right-radius: Frame.radius;
             WindowDragArea {
                 drag-enabled: root.custom-frame || root.titlebar-inset > 0;
                 start-drag => { ArchiveUi.start-drag(); }
@@ -625,6 +633,8 @@ export component FullBody inherits Rectangle {
                 Rectangle {
                     height: 36px;
                     background: Tokens.chrome;
+                    border-bottom-left-radius: Frame.radius;
+                    border-bottom-right-radius: Frame.radius;
                     Rectangle { y: 0; height: 1px; background: Tokens.line; }
                     GridLayout {
                         padding-left: 20px;

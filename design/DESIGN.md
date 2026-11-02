@@ -64,7 +64,7 @@ Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (In
 - **Decision (Oct 24): Slint** (Rust UI toolkit, `.slint` markup). The M0 startup spike showed the mini view in 282 ms cold with Slint against 576 ms with Tauri 2 + WebKitGTK; the budget is 500 ms (`docs/perf.md`). Cost: the HTML/CSS mockups no longer move over directly, so each screen is rebuilt in `.slint` with the mockup as the reference. Tauri was the earlier pick; GTK4/libadwaita looks wrong on Windows and macOS; Electron ships installers of roughly 100 MB or more.
 - [Likely] Archive engine: pure-Rust crates (`zip`, `tar`, `zstd`, `xz2`, `bzip2`, a 7z crate such as `sevenz-rust2`). These avoid bundling native libarchive on Windows and macOS. Use the `unrar` crate for RAR, extract only.
 - [Hypothesis] Check AES-256 *write* support in the current `zip` crate and 7z encryption support before committing to those features.
-- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three.
+- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three. On Linux Crate draws the whole frame (0.2.28): 12 px rounded corners (16 px on glass), a 1 px `line` rim and a soft shadow in a 12 px clear margin, which is also the resize grip; none of it while maximized.
 - Packaging:
   - Linux: AppImage + Flatpak (Flathub) + .deb/.rpm
   - Windows: MSI or NSIS installer + winget

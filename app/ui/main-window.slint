@@ -1,6 +1,7 @@
 // Home (Main.dc.html, the parts M4 needs): start a new archive or open one.
 // The New archive dialog (create-dialog.slint) opens on top of it.
 import { Tokens } from "tokens.slint";
+import { Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Header } from "header.slint";
@@ -76,16 +77,17 @@ export component MainWindow inherits Window {
     min-width: 720px;
     min-height: 560px;
     no-frame: custom-frame;
-    background: Tokens.glass ? transparent : Tokens.bg;
+    background: Tokens.glass || Frame.custom ? transparent : Tokens.bg;
     default-font-family: Locale.font;
     default-font-size: 14px;
     default-font-weight: 500;
     forward-focus: keys;
 
-    // Glass: the window is cleared to transparent and its tint drawn here.
-    // A translucent Window.background is the GL clear color, which isn't
-    // premultiplied, and the compositor then shows it as solid white.
-    if Tokens.glass: Rectangle { background: Tokens.window; }
+    // Glass, or Crate's own frame: the window is cleared to transparent and
+    // its body drawn here. A translucent Window.background is the GL clear
+    // color, which isn't premultiplied, and the compositor then shows it as
+    // solid white.
+    if Tokens.glass || Frame.custom: WindowFrame { fill: Tokens.glass ? Tokens.window : Tokens.bg; }
 
     // A sheet or dialog is on top: the keys below do nothing then.
     property <bool> modal: ShortcutsUi.show || AboutUi.show || OpsUi.show || BatchUi.show || FirstRunUi.show || CreateUi.show;
@@ -119,6 +121,10 @@ export component MainWindow inherits Window {
     }
 
     keys := FocusScope {
+        x: Frame.inset;
+        y: Frame.inset;
+        width: root.width - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset;
         key-pressed(event) => {
             if ShortcutsUi.show {
                 if event.text == Key.Escape || event.text == Key.F1 || ((event.text == "?" || event.text == "/") && event.modifiers.control) { ShortcutsUi.show = false; return accept; }
@@ -174,6 +180,8 @@ export component MainWindow inherits Window {
             Rectangle {
                 vertical-stretch: 1;
                 background: Tokens.glass ? transparent : Tokens.surface-2;
+                border-bottom-left-radius: Frame.radius;
+                border-bottom-right-radius: Frame.radius;
                 VerticalLayout {
                     alignment: center;
                     padding: 40px;

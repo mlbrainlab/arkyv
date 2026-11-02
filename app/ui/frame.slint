@@ -1,0 +1,78 @@
+// Crate's own window frame, where Crate draws its header (`custom-frame`,
+// Linux): the window keeps a clear margin around its body, where a shadow
+// falls and the pointer resizes the window; the body has rounded corners
+// and a 1 px rim. Maximized or full screen, the body fills the window.
+// Sizes per platform: design/DESIGN.md → Glass theme → Per-platform variants.
+import { Tokens } from "tokens.slint";
+
+export global Frame {
+    // Set from Rust per window (`connect_frame` in lib.rs).
+    in property <bool> custom;
+    in property <bool> maximized;
+    out property <bool> drawn: custom && !maximized;
+    // The clear margin, for the shadow and the resize grip.
+    out property <length> inset: drawn ? 12px : 0;
+    // Corner radius of the body: Ubuntu's 12 px, 16 px on glass.
+    out property <length> radius: drawn ? (Tokens.glass ? 16px : 12px) : 0;
+    // The window's size changed: Rust checks whether it's maximized.
+    callback resized;
+    // Resizing from an edge: 0 north, then clockwise to 7 north-west.
+    callback start-resize(int);
+}
+
+// One resize grip in the margin.
+component Grip inherits TouchArea {
+    in property <int> edge;
+    pointer-event(event) => {
+        if event.button == PointerEventButton.left && event.kind == PointerEventKind.down {
+            Frame.start-resize(self.edge);
+        }
+    }
+}
+
+// The body under a window's content: its fill, the shadow and the rim. The
+// window puts its content `Frame.inset` in from each side.
+export component WindowFrame inherits Rectangle {
+    in property <color> fill;
+
+    changed width => { Frame.resized(); }
+    changed height => { Frame.resized(); }
+
+    // The shadow: rings fading out from the body, not one blurred shape,
+    // so it doesn't darken a see-through body from below.
+    if Frame.drawn: Rectangle {
+        for i in 10: Rectangle {
+            x: Frame.inset - (i + 1) * 1px;
+            y: Frame.inset - (i + 1) * 1px + 2px;
+            width: root.width - 2 * Frame.inset + (i + 1) * 2px;
+            height: root.height - 2 * Frame.inset + (i + 1) * 2px;
+            border-radius: Frame.radius + (i + 1) * 1px;
+            border-width: 1px;
+            border-color: black.with-alpha(0.13 * (1 - i / 10) * (1 - i / 10));
+        }
+    }
+    Rectangle {
+        x: Frame.inset;
+        y: Frame.inset;
+        width: root.width - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset;
+        border-radius: Frame.radius;
+        background: root.fill;
+        border-width: Frame.drawn ? 1px : 0;
+        border-color: Tokens.glass ? Tokens.glass-rim : Tokens.line;
+    }
+
+    // The grips: the sides, and 20 px squares at the corners.
+    if Frame.drawn: Rectangle {
+        property <length> m: Frame.inset;
+        property <length> c: 20px;
+        Grip { edge: 0; x: c; y: 0; width: root.width - 2 * c; height: m; mouse-cursor: MouseCursor.n-resize; }
+        Grip { edge: 4; x: c; y: root.height - m; width: root.width - 2 * c; height: m; mouse-cursor: MouseCursor.s-resize; }
+        Grip { edge: 6; x: 0; y: c; width: m; height: root.height - 2 * c; mouse-cursor: MouseCursor.w-resize; }
+        Grip { edge: 2; x: root.width - m; y: c; width: m; height: root.height - 2 * c; mouse-cursor: MouseCursor.e-resize; }
+        Grip { edge: 7; x: 0; y: 0; width: c; height: c; mouse-cursor: MouseCursor.nw-resize; }
+        Grip { edge: 1; x: root.width - c; y: 0; width: c; height: c; mouse-cursor: MouseCursor.ne-resize; }
+        Grip { edge: 5; x: 0; y: root.height - c; width: c; height: c; mouse-cursor: MouseCursor.sw-resize; }
+        Grip { edge: 3; x: root.width - c; y: root.height - c; width: c; height: c; mouse-cursor: MouseCursor.se-resize; }
+    }
+}
