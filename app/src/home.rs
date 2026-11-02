@@ -253,6 +253,7 @@ impl Home {
             &ui.global::<crate::Palette>(),
             &ui.global::<crate::Tokens>(),
         );
+        prefs.apply_blur(ui);
         let mut presets = Preset::builtin();
         presets.extend(saved_presets(&settings));
         let home = Rc::new(Home {
@@ -319,6 +320,7 @@ impl Home {
                     &ui.global::<crate::Palette>(),
                     &ui.global::<crate::Tokens>(),
                 );
+                p.apply_blur(&ui);
             }
         });
     }

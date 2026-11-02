@@ -8,9 +8,24 @@ use slint::winit_030::winit::platform::wayland::WindowAttributesExtWayland;
 
 /// Linux draws its own header bar (design/DESIGN.md → Window frame).
 pub const CUSTOM_FRAME: bool = true;
-/// No blur behind windows on GNOME: Glass starts well frosted, so text
-/// stays readable. Percent of the Glass slider in Preferences.
-pub const GLASS_FROST: u8 = 60;
+/// Where Glass starts on the slider in Preferences, in percent. KWin
+/// blurs behind windows on Wayland ([`blur`]), so Glass starts clear
+/// there; GNOME and X11 don't, so it starts well frosted and text stays
+/// readable.
+pub fn glass_frost() -> u8 {
+    let kde = std::env::var("XDG_CURRENT_DESKTOP").is_ok_and(|d| d.contains("KDE"));
+    if kde && std::env::var_os("WAYLAND_DISPLAY").is_some() {
+        0
+    } else {
+        60
+    }
+}
+
+/// KWin's blur protocol on Wayland, through winit; nothing on GNOME (no
+/// such protocol) or X11 (winit doesn't set KDE's blur property there).
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
+    w.set_blur(on);
+}
 
 /// Winit backend with Crate's app id, so GNOME matches windows to the
 /// .desktop file and its icon.

@@ -86,7 +86,7 @@ impl Default for Prefs {
             encoding: None,
             grid_for_media: true,
             theme: Theme::System,
-            glass_frost: crate::platform::GLASS_FROST,
+            glass_frost: crate::platform::glass_frost(),
             default_grid: false,
             ratio_column: true,
             new_format: OutFormat::TarZst,
@@ -171,7 +171,8 @@ impl Prefs {
     }
 
     /// Applies the theme to a window: its color scheme, and glass. Glass
-    /// follows the system's light or dark, like System.
+    /// follows the system's light or dark, like System. The blur behind the
+    /// window is [`Prefs::apply_blur`].
     pub fn apply_theme(&self, palette: &crate::Palette<'_>, tokens: &crate::Tokens<'_>) {
         palette.set_color_scheme(match self.theme {
             Theme::System | Theme::Glass => slint::language::ColorScheme::Unknown,
@@ -180,6 +181,11 @@ impl Prefs {
         });
         tokens.set_glass(self.theme == Theme::Glass);
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
+    }
+
+    /// The system's blur behind a window, on with Glass.
+    pub fn apply_blur<C: slint::ComponentHandle + 'static>(&self, ui: &C) {
+        crate::platform::set_blur(ui, self.theme == Theme::Glass);
     }
 }
 
@@ -344,6 +350,7 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
         &ui.global::<crate::Palette>(),
         &ui.global::<crate::Tokens>(),
     );
+    p.apply_blur(ui);
     let g = ui.global::<PrefsUi>();
     g.set_language(p.language.map_or(0, |l| l as i32 + 1));
     g.set_system_language(language_name(Language::system()).into());

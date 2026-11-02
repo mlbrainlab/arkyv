@@ -7,9 +7,16 @@ use super::{Defaults, MimeBackend};
 /// macOS keeps the native window frame; Home and the full view put its
 /// traffic lights in their header ([`overlay_titlebar`]).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here (M9): it starts as clear glass.
-/// Percent of the Glass slider in Preferences.
-pub const GLASS_FROST: u8 = 0;
+/// Glass gets real blur from the OS here ([`blur`]): it starts as clear
+/// glass on the slider in Preferences.
+pub fn glass_frost() -> u8 {
+    0
+}
+
+/// The system's blur behind the window, through winit.
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
+    w.set_blur(on);
+}
 
 /// Space between the zoom button and the header's first control.
 const AFTER_BUTTONS: f64 = 12.0;

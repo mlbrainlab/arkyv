@@ -78,6 +78,14 @@
 - Tests: `app/tests/license_flow.rs` against a stand-in signer on localhost; the Worker by hand against a stand-in Lemon Squeezy (5 activations, the 6th refused, the same computer again, deactivate, a key that isn't ours).
 - **To do (you):** set the product's activation limit to 5 in Lemon Squeezy, and redeploy the Worker.
 
+### Blur behind Glass windows (2026-11-02, 0.2.27)
+- Slice 4. `platform::set_blur` (called by `Prefs::apply_blur` wherever a window's theme is applied) waits for the winit window, then each platform's `blur`:
+  - Windows: Acrylic through `window-vibrancy` (`apply_acrylic` / `clear_acrylic`). On Windows 11 22H2+ that is the system backdrop; on Windows 10 1809+ the older accent blur, which can lag while dragging the window. Older systems: see-through only.
+  - macOS: winit's `set_blur`, the window-server blur behind the window (radius 80). Not `NSVisualEffectView` vibrancy: that view would have to sit under Slint's drawing, which is winit's own content view, so it would cover it.
+  - Linux: winit's `set_blur`, KWin's `org_kde_kwin_blur` on Wayland. GNOME has no blur protocol, and winit doesn't set KDE's blur property on X11, so those stay unblurred.
+- `platform::glass_frost()` replaces `GLASS_FROST`: the slider starts at 0 (clear glass) on macOS, Windows and KDE Wayland, and at 60% on GNOME, X11 and anything else.
+- Checked here: builds and the tests pass on Ubuntu (GNOME: no change). **Not seen yet:** Windows, macOS and KDE; CI only builds them.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

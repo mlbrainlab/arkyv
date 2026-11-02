@@ -4,9 +4,16 @@ use super::{Defaults, MimeBackend};
 
 /// macOS keeps the native title bar (M8).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here (M9): it starts as clear glass.
-/// Percent of the Glass slider in Preferences.
-pub const GLASS_FROST: u8 = 0;
+/// Blur behind windows isn't known here: Glass starts well frosted, as on
+/// GNOME.
+pub fn glass_frost() -> u8 {
+    60
+}
+
+/// Blur where winit has it.
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
+    w.set_blur(on);
+}
 
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()

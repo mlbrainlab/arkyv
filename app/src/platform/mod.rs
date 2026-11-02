@@ -46,6 +46,23 @@ pub const NATIVE_MENU: bool = cfg!(target_os = "macos");
 /// elsewhere the bundled Inter and Crate Arabic.
 pub const SYSTEM_FONTS: bool = cfg!(target_os = "macos");
 
+/// Blurs what's behind a Glass window (`on`), or stops: the system's
+/// material where there is one ([`blur`]: Acrylic on Windows, the window
+/// blur on macOS, KWin's blur on Wayland). GNOME and X11 have none, so
+/// there Glass leans on the frost slider instead ([`glass_frost`]).
+pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool) {
+    use slint::winit_030::WinitWindowAccessor;
+
+    // The winit window may not exist yet (a window shown before the event
+    // loop runs).
+    let ui = ui.clone_strong();
+    let _ = slint::spawn_local(async move {
+        if let Ok(w) = ui.window().winit_window().await {
+            blur(&w, on);
+        }
+    });
+}
+
 /// macOS: puts the traffic lights inside Crate's own header (`on`), or gives
 /// the window its plain title bar back, and calls `inset` with the width the
 /// header leaves free for them at the left and the height it takes on to

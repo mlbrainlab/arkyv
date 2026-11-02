@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.27 — 2026-11-02
+- Glass theme: real blur behind the window where the system has it: Acrylic on Windows, the window blur on macOS, and KDE Plasma's blur on Wayland. There Glass starts as clear glass; on GNOME it stays at 60% frosted, since GNOME doesn't blur.
+
 ## 0.2.26 — 2026-10-31
 - Pro: a Lemon Squeezy key works on up to 5 computers. Entering it again on the same computer doesn't use another, and Remove license frees that computer's place (or the next time Preferences opens, if the computer was offline). Keys signed by hand, for sponsors, have no limit.
 

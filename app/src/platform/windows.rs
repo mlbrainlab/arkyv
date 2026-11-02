@@ -4,9 +4,21 @@ use super::{Defaults, MimeBackend};
 
 /// The native title bar for now (the custom frame is its own M7 task).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here (M9): it starts as clear glass.
-/// Percent of the Glass slider in Preferences.
-pub const GLASS_FROST: u8 = 0;
+/// Glass gets real blur from the OS here ([`blur`]): it starts as clear
+/// glass on the slider in Preferences.
+pub fn glass_frost() -> u8 {
+    0
+}
+
+/// Acrylic behind the window (Windows 10 1809 and later; winit has no blur
+/// here). Fails quietly on older systems: Glass is then see-through only.
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
+    let _ = if on {
+        window_vibrancy::apply_acrylic(w, None)
+    } else {
+        window_vibrancy::clear_acrylic(w)
+    };
+}
 
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()

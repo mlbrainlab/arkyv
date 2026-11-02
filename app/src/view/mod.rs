@@ -226,6 +226,7 @@ impl View {
             &ui.global::<crate::Palette>(),
             &ui.global::<crate::Tokens>(),
         );
+        prefs.apply_blur(ui);
         connect(ui);
         crate::shortcuts::connect(ui, crate::shortcuts::Window::Archive);
         if prefs.open_with == OpenWith::Full {
@@ -243,6 +244,7 @@ impl View {
                     &ui.global::<crate::Palette>(),
                     &ui.global::<crate::Tokens>(),
                 );
+                p.apply_blur(&ui);
             }
         });
     }
