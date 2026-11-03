@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+use std::collections::HashMap;
 use std::time::Duration;
 
 use super::{Defaults, MimeBackend};
@@ -10,14 +12,52 @@ pub fn glass_frost() -> u8 {
     0
 }
 
-/// Acrylic behind the window (Windows 10 1809 and later; winit has no blur
-/// here). Fails quietly on older systems: Glass is then see-through only.
-pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
-    let _ = if on {
-        window_vibrancy::apply_acrylic(w, None)
+thread_local! {
+    /// The material each window has now (`true`: Mica), so that moving the
+    /// Glass slider doesn't restart it. Hooked windows only: `caption` drops
+    /// the entry when the window goes.
+    static MATERIAL: RefCell<HashMap<isize, bool>> = RefCell::new(HashMap::new());
+}
+
+/// Acrylic or Mica behind the window (winit has no blur here). Windows
+/// paints either one only under the window's frame, so the frame is extended
+/// over the whole window, and Crate's see-through pixels show it. Mica needs
+/// Windows 11: Windows 10 gets Acrylic (1809 and later; older systems are
+/// see-through only).
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: bool) {
+    let Some(hwnd) = hwnd(w) else { return };
+    let key = hwnd.0 as isize;
+    if on && MATERIAL.with(|m| m.borrow().get(&key) == Some(&mica)) {
+        return;
+    }
+    let _ = window_vibrancy::clear_mica(w);
+    let _ = window_vibrancy::clear_acrylic(w);
+    extend_frame(hwnd, on);
+    if on {
+        if !mica || window_vibrancy::apply_mica(w, None).is_err() {
+            let _ = window_vibrancy::apply_acrylic(w, None);
+        }
+        MATERIAL.with(|m| m.borrow_mut().insert(key, mica));
     } else {
-        window_vibrancy::clear_acrylic(w)
+        MATERIAL.with(|m| m.borrow_mut().remove(&key));
+    }
+}
+
+/// The frame over the whole window, or back to its edges.
+fn extend_frame(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
+    use ::windows::Win32::Graphics::Dwm::DwmExtendFrameIntoClientArea;
+    use ::windows::Win32::UI::Controls::MARGINS;
+    let m = if on { -1 } else { 0 };
+    let margins = MARGINS {
+        cxLeftWidth: m,
+        cxRightWidth: m,
+        cyTopHeight: m,
+        cyBottomHeight: m,
     };
+    // SAFETY: a live window handle and a filled-in struct.
+    unsafe {
+        let _ = DwmExtendFrameIntoClientArea(hwnd, &margins);
+    }
 }
 
 pub fn select_backend() -> Result<(), slint::PlatformError> {
@@ -110,10 +150,12 @@ mod caption {
         TME_LEAVE, TME_NONCLIENT, TRACKMOUSEEVENT, TrackMouseEvent,
     };
     use ::windows::Win32::UI::WindowsAndMessaging::{
-        CallWindowProcW, GWLP_WNDPROC, GetWindowRect, HTBOTTOM, HTBOTTOMLEFT, HTBOTTOMRIGHT,
-        HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP, HTTOPLEFT, HTTOPRIGHT, IsZoomed, SetWindowLongPtrW,
-        WM_MOUSEMOVE, WM_NCDESTROY, WM_NCHITTEST, WM_NCLBUTTONDBLCLK, WM_NCLBUTTONDOWN,
-        WM_NCLBUTTONUP, WM_NCMOUSELEAVE, WM_NCMOUSEMOVE, WNDPROC,
+        CallWindowProcW, GWL_STYLE, GWLP_WNDPROC, GetWindowLongPtrW, GetWindowRect, HTBOTTOM,
+        HTBOTTOMLEFT, HTBOTTOMRIGHT, HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP, HTTOPLEFT, HTTOPRIGHT,
+        IsZoomed, STYLESTRUCT, SWP_FRAMECHANGED, SWP_NOACTIVATE, SWP_NOMOVE, SWP_NOSIZE,
+        SWP_NOZORDER, SetWindowLongPtrW, SetWindowPos, WM_MOUSEMOVE, WM_NCDESTROY, WM_NCHITTEST,
+        WM_NCLBUTTONDBLCLK, WM_NCLBUTTONDOWN, WM_NCLBUTTONUP, WM_NCMOUSELEAVE, WM_NCMOUSEMOVE,
+        WM_STYLECHANGING, WNDPROC, WS_SYSMENU,
     };
 
     /// The resize grip inside the window's edges, and the caption buttons
@@ -147,6 +189,7 @@ mod caption {
     ) {
         if let Some(state) = state(hwnd) {
             state.on.set(on);
+            set_system_menu(hwnd, !on);
             return;
         }
         if !on {
@@ -167,6 +210,29 @@ mod caption {
             hover: Rc::new(hover),
         });
         HOOKED.with(|h| h.borrow_mut().insert(hwnd.0 as isize, state));
+        set_system_menu(hwnd, false);
+    }
+
+    /// With the frame over the whole window, Windows would draw its own
+    /// caption buttons under Crate's see-through strip; it draws them only
+    /// for a window with a system menu.
+    fn set_system_menu(hwnd: HWND, keep: bool) {
+        let menu = WS_SYSMENU.0 as isize;
+        // SAFETY: a live window handle.
+        unsafe {
+            let style = GetWindowLongPtrW(hwnd, GWL_STYLE);
+            let style = if keep { style | menu } else { style & !menu };
+            SetWindowLongPtrW(hwnd, GWL_STYLE, style);
+            let _ = SetWindowPos(
+                hwnd,
+                None,
+                0,
+                0,
+                0,
+                0,
+                SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED,
+            );
+        }
     }
 
     /// Maximize or restore, after the window procedure returns.
@@ -253,9 +319,16 @@ mod caption {
         };
         if msg == WM_NCDESTROY {
             HOOKED.with(|h| h.borrow_mut().remove(&(hwnd.0 as isize)));
+            super::MATERIAL.with(|m| m.borrow_mut().remove(&(hwnd.0 as isize)));
         } else if state.on.get() {
             let on_max = wparam.0 == HTMAXBUTTON as usize;
             match msg {
+                // winit puts the system menu back whenever it sets the style.
+                WM_STYLECHANGING if wparam.0 as i32 == GWL_STYLE.0 => {
+                    // SAFETY: for this message, lparam is the new style.
+                    let change = unsafe { &mut *(lparam.0 as *mut STYLESTRUCT) };
+                    change.styleNew &= !WS_SYSMENU.0;
+                }
                 WM_NCHITTEST => {
                     if let Some(code) = hit(hwnd, lparam) {
                         return LRESULT(code as isize);

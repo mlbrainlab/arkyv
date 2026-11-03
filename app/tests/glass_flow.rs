@@ -52,6 +52,29 @@ fn glass_flow() {
     prefs.global::<Tokens>().set_frost(0.6);
     prefs.global::<PrefsUi>().set_theme(3); // shows the Glass slider
     h.shot("154-glass-prefs");
+    // Windows: the Material row, and no second "Preferences" under the
+    // system's title.
+    prefs
+        .global::<PrefsUi>()
+        .invoke_choose("glass_material".into(), 1);
+    assert!(Prefs::load().glass_mica);
+    assert_eq!(prefs.global::<PrefsUi>().get_glass_material(), 1);
+    prefs
+        .global::<PrefsUi>()
+        .invoke_choose("glass_material".into(), 0);
+    assert!(!Prefs::load().glass_mica);
+    // (Choosing refills the window from the saved settings: no key, no Glass.)
+    prefs.global::<Tokens>().set_glass(true);
+    prefs.global::<Tokens>().set_frost(0.6);
+    prefs.global::<PrefsUi>().set_theme(3);
+    prefs.global::<PrefsUi>().set_glass_materials(true);
+    prefs.set_custom_frame(false);
+    prefs.global::<crate_app::Frame>().set_custom(false);
+    prefs.global::<crate_app::Frame>().set_caption(true);
+    h.shot("164-glass-prefs-windows");
+    prefs.global::<crate_app::Frame>().set_caption(false);
+    prefs.global::<PrefsUi>().set_glass_materials(false);
+    linux_frame!(&prefs);
     prefs.global::<PrefsUi>().set_theme(0);
     prefs.global::<Tokens>().set_glass(false);
 

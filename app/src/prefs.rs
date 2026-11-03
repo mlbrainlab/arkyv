@@ -70,6 +70,8 @@ pub struct Prefs {
     pub theme: Theme,
     /// The Glass slider, 0–100: clear glass (a 40% tint) to fully frosted.
     pub glass_frost: u8,
+    /// Windows: Mica behind Glass windows, not Acrylic.
+    pub glass_mica: bool,
     pub default_grid: bool,
     pub ratio_column: bool,
     pub new_format: OutFormat,
@@ -87,6 +89,7 @@ impl Default for Prefs {
             grid_for_media: true,
             theme: Theme::System,
             glass_frost: crate::platform::glass_frost(),
+            glass_mica: false,
             default_grid: false,
             ratio_column: true,
             new_format: OutFormat::TarZst,
@@ -136,6 +139,7 @@ impl Prefs {
             glass_frost: s
                 .get::<u8>("pref.glass_frost")
                 .map_or(d.glass_frost, |v| v.min(100)),
+            glass_mica: s.get::<u8>("pref.glass_material") == Some(1),
             default_grid: flag("pref.default_grid", d.default_grid),
             ratio_column: flag("pref.ratio_column", d.ratio_column),
             new_format: s
@@ -181,6 +185,7 @@ impl Prefs {
         });
         tokens.set_glass(self.theme == Theme::Glass);
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
+        tokens.set_mica(self.glass_mica && crate::platform::GLASS_MATERIALS);
     }
 
     /// What Glass asks of the window itself: the system's blur behind it,
@@ -191,7 +196,7 @@ impl Prefs {
         for<'a> crate::Frame<'a>: slint::Global<'a, C>,
     {
         let glass = self.theme == Theme::Glass;
-        crate::platform::set_blur(ui, glass);
+        crate::platform::set_blur(ui, glass, self.glass_mica);
         let caption = glass && crate::platform::GLASS_CAPTION;
         let frame = ui.global::<crate::Frame>();
         if frame.get_caption() != caption {
@@ -311,7 +316,7 @@ pub fn start(ui: &PrefsWindow, on_theme: impl Fn(&Prefs) + 'static) {
         let prefs = Prefs::read(&s);
         drop(s);
         fill(&ui, &prefs, &codecs);
-        if key == "theme" || key == "glass_frost" {
+        if key == "theme" || key == "glass_frost" || key == "glass_material" {
             on_theme(&prefs);
         }
         if key == "language" {
@@ -381,6 +386,8 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
     g.set_grid_for_media(p.grid_for_media);
     g.set_theme(p.theme as i32);
     g.set_glass_frost(i32::from(p.glass_frost));
+    g.set_glass_materials(platform::GLASS_MATERIALS);
+    g.set_glass_material(i32::from(p.glass_mica));
     g.set_default_grid(p.default_grid);
     g.set_ratio_column(p.ratio_column);
     g.set_new_format(

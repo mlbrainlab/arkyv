@@ -22,6 +22,8 @@ export global PrefsUi {
     in property <bool> grid-for-media;
     in property <int> theme; // 0 system, 1 light, 2 dark, 3 glass (Pro)
     in property <int> glass-frost; // 0 clear glass (40% tint) … 100 fully frosted
+    in property <bool> glass-materials; // Windows: the Material row
+    in property <int> glass-material; // 0 Acrylic, 1 Mica
     in property <bool> default-grid;
     in property <bool> ratio-column;
     in property <int> new-format; // 0 ZIP, 1 TAR.ZST, 2 7Z, 3 TAR.GZ, 4 TAR.XZ
@@ -274,7 +276,9 @@ export component PrefsWindow inherits Window {
         }
 
         VerticalLayout {
-            Header {
+            // Where the system's title bar says "Preferences" (Windows), or
+            // Crate's caption strip does, a second title would only repeat it.
+            if root.custom-frame || root.titlebar-inset > 0: Header {
                 title: @tr("Preferences");
                 custom-frame: root.custom-frame;
                 titlebar-inset: root.titlebar-inset;
@@ -413,6 +417,15 @@ export component PrefsWindow inherits Window {
                                         chosen(v) => { PrefsUi.choose("glass_frost", Math.round(v * 100)); }
                                     }
                                     Text { col: Locale.rtl ? 0 : 2; row: 0; text: @tr("Frosted"); color: Tokens.ink-2; font-size: 12px; vertical-alignment: center; }
+                                }
+                            }
+                            if PrefsUi.theme == 3 && PrefsUi.glass-materials: Item {
+                                title: @tr("Material");
+                                note: @tr("Acrylic blurs what’s behind the window. Mica takes its tint from the wallpaper and needs Windows 11.");
+                                Segmented {
+                                    options: [@tr("Acrylic"), @tr("Mica")];
+                                    current: PrefsUi.glass-material;
+                                    chosen(i) => { PrefsUi.choose("glass_material", i); }
                                 }
                             }
                             Item {

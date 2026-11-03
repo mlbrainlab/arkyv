@@ -23,7 +23,7 @@ pub fn glass_frost() -> u8 {
 
 /// KWin's blur protocol on Wayland, through winit; nothing on GNOME (no
 /// such protocol) or X11 (winit doesn't set KDE's blur property there).
-pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool) {
+pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, _mica: bool) {
     w.set_blur(on);
 }
 

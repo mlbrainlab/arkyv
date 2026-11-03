@@ -105,6 +105,14 @@
   - Switching away from Glass turns the hook off and gives the title bar back.
 - Tests: shots 162 (mini) and 163 (full view, maximize hovered). **Not seen yet on Windows:** this machine can't build for Windows (no Windows C headers for the C dependencies); CI compiles it. To check there: drag, double-click, the three buttons, Snap Layouts on resting over maximize, resizing from every edge, the rounded corners and shadow, maximized and restored, and Arabic.
 
+### Acrylic and Mica that reach the window (2026-11-03, 0.2.30)
+- Your report on 0.2.29: macOS blur is right; Windows showed only a color. `apply_acrylic` set the system backdrop, but Windows paints a backdrop only under the window's frame, and Crate's frame stopped at the edges. `blur` now extends the frame over the whole window (`DwmExtendFrameIntoClientArea`, margins -1).
+- With the frame over the window, Windows would draw its own caption buttons under the see-through strip, and it draws them only for a window with a system menu. The caption hook takes `WS_SYSMENU` off while Glass is on, and again when winit resets the style (`WM_STYLECHANGING`). So Alt+Space has no menu on Glass.
+- Material (design: GlassMiniWin, GlassBrowseWin): `pref.glass_material`, 0 Acrylic, 1 Mica, a row under Glass on Windows only. Mica on Windows 10 falls back to Acrylic. `Tokens.mica` makes panes firmer (75%, as in the mockup). The mockup's 95% window fill stood in for the material itself, so the real window keeps its tint from the slider.
+- Windows only paints either material while the window is active: an inactive window shows a plain tint. Transparency effects off, battery saver, or a VM without a GPU (Slint falls back to its software renderer, which has no alpha) also give a plain color.
+- Also: a Preferences button in the full view's header; Preferences hides its own title where the system's title bar or the caption strip has it.
+- Tests: `glass_flow.rs`, the setting and shot 164. **Not seen yet on Windows:** the backdrop, the hidden system buttons, Snap Layouts and Alt+F4 without the system menu.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

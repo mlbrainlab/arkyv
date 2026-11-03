@@ -47,10 +47,10 @@ pub const NATIVE_MENU: bool = cfg!(target_os = "macos");
 pub const SYSTEM_FONTS: bool = cfg!(target_os = "macos");
 
 /// Blurs what's behind a Glass window (`on`), or stops: the system's
-/// material where there is one ([`blur`]: Acrylic on Windows, the window
-/// blur on macOS, KWin's blur on Wayland). GNOME and X11 have none, so
+/// material where there is one ([`blur`]: Acrylic or Mica on Windows, the
+/// window blur on macOS, KWin's blur on Wayland). GNOME and X11 have none, so
 /// there Glass leans on the frost slider instead ([`glass_frost`]).
-pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool) {
+pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool, mica: bool) {
     use slint::winit_030::WinitWindowAccessor;
 
     // The winit window may not exist yet (a window shown before the event
@@ -58,10 +58,13 @@ pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool) {
     let ui = ui.clone_strong();
     let _ = slint::spawn_local(async move {
         if let Ok(w) = ui.window().winit_window().await {
-            blur(&w, on);
+            blur(&w, on, mica);
         }
     });
 }
+
+/// Glass offers a choice of system material, Acrylic or Mica (Windows only).
+pub const GLASS_MATERIALS: bool = cfg!(windows);
 
 /// Glass draws its own caption strip in place of the system title bar
 /// (Windows only; see `own_caption` there).

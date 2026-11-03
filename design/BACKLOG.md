@@ -100,7 +100,7 @@ Last updated: 2026-10-24
 | 5.5 | Screens: Pro upgrade sheet, license entry, Pro badges on locked features | ✅ Pro.dc.html (2026-10-31) | |
 | 5.6 | Liquid Glass theme: mini view + full view | ✅ macOS: GlassMini · GlassBrowse · Ubuntu: GlassMiniUbuntu · GlassBrowseUbuntu · Windows 11: GlassMiniWin · GlassBrowseWin | Ubuntu: Frosted / Blur toggle · Windows: Acrylic / Mica toggle |
 | 5.7 | Glass on the remaining screens + a dark glass variant | 🎨 | Only if the theme ships |
-| 5.8 | Native window blur per OS (macOS vibrancy, Windows Mica/Acrylic, Linux fallback) | 🛠 Built in 0.2.27: Acrylic, macOS window blur, KWin blur; to check on each OS | See DESIGN.md "Glass theme". README tells Linux users to enable blur via a GNOME blur extension (verify name/setting) or KDE |
+| 5.8 | Native window blur per OS (macOS vibrancy, Windows Mica/Acrylic, Linux fallback) | 🛠 Built in 0.2.27, Windows redone in 0.2.30 with an Acrylic / Mica choice; macOS seen working; Windows and KDE to check | See DESIGN.md "Glass theme". README tells Linux users to enable blur via a GNOME blur extension (verify name/setting) or KDE |
 | 5.11 | Glass looks identical on all OSes: Crate draws its own frame, corners and buttons | ✔ decided | Build plan: docs/milestones/M9-pro-glass.md |
 | 5.9 | "Reduce transparency" fallback: solid panes when the OS setting is on | 🛠 | |
 | 5.10 | Alternate app icons picker (4 concepts) inside Pro | ✅ GlassBrowse (sidebar card) · 🛠 | macOS can change the Dock icon at runtime; Windows/Linux need a restart or a new shortcut |

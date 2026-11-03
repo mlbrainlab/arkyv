@@ -347,17 +347,17 @@ export component FullBody inherits Rectangle {
                 padding-right: 12px;
                 spacing: 8px;
                 // View toggles: sidebar, and back to the mini view.
-                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - (0) : 0; row: 0;
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - (0) : 0; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
                     IconButton { label: @tr("Toggle sidebar"); icon: Icons.sidebar; pressed: ArchiveUi.sidebar; clicked => { ArchiveUi.sidebar = !ArchiveUi.sidebar; } }
                 }
-                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - (1) : 1; row: 0;
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - (1) : 1; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
                     IconButton { label: @tr("Mini view"); icon: Icons.collapse; clicked => { ArchiveUi.toggle-full(); } }
                 }
-                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - (2) : 2; row: 0;
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - (2) : 2; row: 0;
                     alignment: center;
                     horizontal-stretch: 1;
                     spacing: 2px;
@@ -370,17 +370,22 @@ export component FullBody inherits Rectangle {
                         overflow: elide;
                     }
                 }
-                if ArchiveUi.streaming: VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - (3) : 3; row: 0;
+                if ArchiveUi.streaming: VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - (3) : 3; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
                     Button { text: @tr("Stop reading"); clicked => { ArchiveUi.stop-reading(); } }
                 }
-                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 3) : (ArchiveUi.streaming ? 1 : 0) + 3; row: 0;
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 3) : (ArchiveUi.streaming ? 1 : 0) + 3; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
                     IconButton { label: @tr("Properties"); icon: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16v-5M12 8h.01"; clicked => { ArchiveUi.open-properties(); } }
                 }
-                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 4) : (ArchiveUi.streaming ? 1 : 0) + 4; row: 0;
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 4) : (ArchiveUi.streaming ? 1 : 0) + 4; row: 0;
+                    alignment: center;
+                    horizontal-stretch: 0;
+                    IconButton { label: @tr("Preferences"); icon: Icons.gear; clicked => { ArchiveUi.open-prefs(); } }
+                }
+                VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 5) : (ArchiveUi.streaming ? 1 : 0) + 5; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
                     Button {
@@ -392,7 +397,7 @@ export component FullBody inherits Rectangle {
                     }
                 }
                 // Window controls, at the far right.
-                if root.custom-frame: GridLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 5) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 5) : (ArchiveUi.streaming ? 1 : 0) + 5; row: 0;
+                if root.custom-frame: GridLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 6) : (ArchiveUi.streaming ? 1 : 0) + 6; row: 0;
                     padding-left: Locale.rtl ? 0px : 12px;
                     padding-right: Locale.rtl ? 12px : 0px;
                     horizontal-stretch: 0;
