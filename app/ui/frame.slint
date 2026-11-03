@@ -4,6 +4,7 @@
 // and a 1 px rim. Maximized or full screen, the body fills the window.
 // Sizes per platform: design/DESIGN.md → Glass theme → Per-platform variants.
 import { Tokens } from "tokens.slint";
+import { Locale } from "locale.slint";
 
 export global Frame {
     // Set from Rust per window (`connect_frame` in lib.rs).
@@ -14,6 +15,13 @@ export global Frame {
     out property <length> inset: drawn ? 12px : 0;
     // Corner radius of the body: Ubuntu's 12 px, 16 px on glass.
     out property <length> radius: drawn ? (Tokens.glass ? 16px : 12px) : 0;
+    // Windows on glass: no system title bar; Crate draws a 32 px caption
+    // strip with 46 × 32 buttons instead (`CaptionBar`).
+    in property <bool> caption;
+    out property <length> caption-height: caption ? 32px : 0;
+    // The pointer is on the maximize button. Windows reports it to Rust, as
+    // it hit-tests that button itself to offer Snap Layouts.
+    in property <bool> max-hover;
     // The window's size changed: Rust checks whether it's maximized.
     callback resized;
     // Resizing from an edge: 0 north, then clockwise to 7 north-west.
@@ -74,5 +82,121 @@ export component WindowFrame inherits Rectangle {
         Grip { edge: 1; x: root.width - c; y: 0; width: c; height: c; mouse-cursor: MouseCursor.ne-resize; }
         Grip { edge: 5; x: 0; y: root.height - c; width: c; height: c; mouse-cursor: MouseCursor.sw-resize; }
         Grip { edge: 3; x: root.width - c; y: root.height - c; width: c; height: c; mouse-cursor: MouseCursor.se-resize; }
+    }
+}
+
+// One caption button: 46 × 32, a flat hover; Close turns red.
+component CaptionButton inherits Rectangle {
+    in property <string> label;
+    in property <string> icon;
+    in property <float> icon-size: 14;
+    in property <bool> close;
+    in property <bool> hover-from-system;
+    callback clicked;
+    property <bool> hover: area.has-hover || root.hover-from-system;
+    width: 46px;
+    height: 32px;
+    background: root.hover ? (root.close ? Tokens.caption-close : Tokens.caption-hover) : transparent;
+    accessible-role: button;
+    accessible-label: root.label;
+    accessible-action-default => { root.clicked(); }
+    Path {
+        width: root.icon-size * 1px;
+        height: root.icon-size * 1px;
+        viewbox-width: 24;
+        viewbox-height: 24;
+        stroke-width: 1.2px;
+        stroke-line-cap: round;
+        stroke-line-join: round;
+        fill: transparent;
+        stroke: root.hover && root.close ? white : Tokens.ink;
+        commands: root.icon;
+    }
+    area := TouchArea { clicked => { root.clicked(); } }
+}
+
+// Windows on glass: the strip in place of the system title bar, with the
+// app icon, the title and the caption buttons at the far end
+// (GlassMiniWin.dc.html). It's the window's drag region. Rust hit-tests
+// the maximize button for Snap Layouts at the same place: 46–92 px from
+// the end, 32 px tall.
+export component CaptionBar inherits Rectangle {
+    in property <string> title;
+    callback start-drag;
+    callback minimize;
+    callback toggle-maximize;
+    callback close;
+    height: Frame.caption-height;
+    drag := TouchArea {
+        property <length> press-x;
+        property <length> press-y;
+        property <bool> pressing;
+        pointer-event(event) => {
+            if event.button == PointerEventButton.left {
+                if event.kind == PointerEventKind.down {
+                    self.pressing = true;
+                    self.press-x = self.mouse-x;
+                    self.press-y = self.mouse-y;
+                } else if event.kind == PointerEventKind.up {
+                    self.pressing = false;
+                }
+            }
+        }
+        moved => {
+            if self.pressing && (abs(self.mouse-x - self.press-x) > 4px || abs(self.mouse-y - self.press-y) > 4px) {
+                self.pressing = false;
+                root.start-drag();
+            }
+        }
+        double-clicked => { root.toggle-maximize(); }
+    }
+    GridLayout {
+        padding-left: Locale.rtl ? 0 : 12px;
+        padding-right: Locale.rtl ? 12px : 0;
+        spacing: 8px;
+        VerticalLayout {
+            col: Locale.rtl ? 2 : 0; row: 0;
+            alignment: center;
+            Image {
+                width: 16px;
+                height: 16px;
+                source: @image-url("../../assets/icons/png/crate-256.png");
+            }
+        }
+        Text {
+            col: 1; row: 0;
+            text: root.title;
+            color: Tokens.ink;
+            font-size: 12px;
+            vertical-alignment: center;
+            horizontal-alignment: Locale.rtl ? right : left;
+            horizontal-stretch: 1;
+            overflow: elide;
+        }
+        GridLayout {
+            col: Locale.rtl ? 0 : 2; row: 0;
+            spacing: 0;
+            CaptionButton {
+                col: Locale.rtl ? 2 : 0; row: 0;
+                label: @tr("Minimize");
+                icon: "M5 12h14";
+                clicked => { root.minimize(); }
+            }
+            CaptionButton {
+                col: 1; row: 0;
+                label: @tr("Maximize");
+                icon: "M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z";
+                icon-size: 12;
+                hover-from-system: Frame.max-hover;
+                clicked => { root.toggle-maximize(); }
+            }
+            CaptionButton {
+                col: Locale.rtl ? 0 : 2; row: 0;
+                label: @tr("Close");
+                icon: "M5 5l14 14M19 5 5 19";
+                close: true;
+                clicked => { root.close(); }
+            }
+        }
     }
 }

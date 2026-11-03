@@ -50,6 +50,8 @@ In the app the tokens are properties of the Slint global `Tokens` (`app/ui/token
 | `--danger` | `#C2261B` | `#FF8A80` |
 | `--crypto` | `#6B3FC4` | `#CDB4FA` |
 | `--pro` (the PRO label) | `#1E2F8F` | `#1E2F8F` |
+| `--caption-hover` (Windows caption buttons) | `rgba(0,0,0,.06)` | `rgba(255,255,255,.08)` |
+| `--caption-close` (Close on hover, white icon) | `#C42B1C` | `#C42B1C` |
 
 The Glass theme (Pro, archive windows) is light only and overrides these: `--bg` (panes) `rgba(255,255,255,.55)`, `--surface-2` `rgba(255,255,255,.45)`, `--chrome` transparent, `--line` `rgba(255,255,255,.7)`, `--ink-2` `#1D2939`, `--ink-3` `#334155`, `--accent` `rgba(51,82,224,.9)`, `--accent-soft` `rgba(51,82,224,.16)` / `#1E3399`, `--selection` `rgba(51,82,224,.18)`; the window itself `rgba(255,255,255,.40)`, and dialogs over it (`--sheet`) solid `#EEF1F6`.
 
@@ -64,7 +66,7 @@ Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (In
 - **Decision (Oct 24): Slint** (Rust UI toolkit, `.slint` markup). The M0 startup spike showed the mini view in 282 ms cold with Slint against 576 ms with Tauri 2 + WebKitGTK; the budget is 500 ms (`docs/perf.md`). Cost: the HTML/CSS mockups no longer move over directly, so each screen is rebuilt in `.slint` with the mockup as the reference. Tauri was the earlier pick; GTK4/libadwaita looks wrong on Windows and macOS; Electron ships installers of roughly 100 MB or more.
 - [Likely] Archive engine: pure-Rust crates (`zip`, `tar`, `zstd`, `xz2`, `bzip2`, a 7z crate such as `sevenz-rust2`). These avoid bundling native libarchive on Windows and macOS. Use the `unrar` crate for RAR, extract only.
 - [Hypothesis] Check AES-256 *write* support in the current `zip` crate and 7z encryption support before committing to those features.
-- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three. On Linux Crate draws the whole frame (0.2.28): 12 px rounded corners (16 px on glass), a 1 px `line` rim and a soft shadow in a 12 px clear margin, which is also the resize grip; none of it while maximized.
+- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three. On Linux Crate draws the whole frame (0.2.28): 12 px rounded corners (16 px on glass), a 1 px `line` rim and a soft shadow in a 12 px clear margin, which is also the resize grip; none of it while maximized. On Windows, Glass replaces the title bar with a 32 px caption strip (icon, title, 46 × 32 caption buttons), keeping the system shadow, 8 px corners and Snap Layouts (0.2.29).
 - Packaging:
   - Linux: AppImage + Flatpak (Flathub) + .deb/.rpm
   - Windows: MSI or NSIS installer + winget

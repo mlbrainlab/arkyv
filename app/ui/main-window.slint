@@ -1,7 +1,7 @@
 // Home (Main.dc.html, the parts M4 needs): start a new archive or open one.
 // The New archive dialog (create-dialog.slint) opens on top of it.
 import { Tokens } from "tokens.slint";
-import { Frame, WindowFrame } from "frame.slint";
+import { CaptionBar, Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Header } from "header.slint";
@@ -76,7 +76,7 @@ export component MainWindow inherits Window {
     preferred-height: 720px;
     min-width: 720px;
     min-height: 560px;
-    no-frame: custom-frame;
+    no-frame: custom-frame || Frame.caption;
     background: Tokens.glass || Frame.custom ? transparent : Tokens.bg;
     default-font-family: Locale.font;
     default-font-size: 14px;
@@ -120,11 +120,21 @@ export component MainWindow inherits Window {
         }
     }
 
+    if Frame.caption: CaptionBar {
+        y: 0;
+        width: root.width;
+        title: root.title;
+        start-drag => { root.start-drag(); }
+        minimize => { root.minimize(); }
+        toggle-maximize => { root.toggle-maximize(); }
+        close => { root.close-window(); }
+    }
+
     keys := FocusScope {
         x: Frame.inset;
-        y: Frame.inset;
+        y: Frame.inset + Frame.caption-height;
         width: root.width - 2 * Frame.inset;
-        height: root.height - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset - Frame.caption-height;
         key-pressed(event) => {
             if ShortcutsUi.show {
                 if event.text == Key.Escape || event.text == Key.F1 || ((event.text == "?" || event.text == "/") && event.modifiers.control) { ShortcutsUi.show = false; return accept; }

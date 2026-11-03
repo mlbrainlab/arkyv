@@ -87,6 +87,18 @@ fn glass_flow() {
     h.until("mini", || !g(&ui).get_full());
     h.shot("156-glass-mini-dark");
 
+    // Windows: the system's frame, but Crate's caption strip on glass.
+    ui.global::<crate_app::Palette>()
+        .set_color_scheme(slint::language::ColorScheme::Light);
+    ui.set_custom_frame(false);
+    ui.global::<crate_app::Frame>().set_custom(false);
+    ui.global::<crate_app::Frame>().set_caption(true);
+    h.shot("162-glass-mini-windows");
+    ui.global::<crate_app::Frame>().set_max_hover(true);
+    g(&ui).invoke_toggle_full();
+    h.until("full", || g(&ui).get_full());
+    h.shot("163-glass-full-windows");
+
     // Home in glass.
     let home = h.home(vec![]);
     linux_frame!(&home);

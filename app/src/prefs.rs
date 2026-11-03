@@ -172,7 +172,7 @@ impl Prefs {
 
     /// Applies the theme to a window: its color scheme, and glass. Glass
     /// follows the system's light or dark, like System. The blur behind the
-    /// window is [`Prefs::apply_blur`].
+    /// window and its frame are [`Prefs::apply_window`].
     pub fn apply_theme(&self, palette: &crate::Palette<'_>, tokens: &crate::Tokens<'_>) {
         palette.set_color_scheme(match self.theme {
             Theme::System | Theme::Glass => slint::language::ColorScheme::Unknown,
@@ -183,9 +183,26 @@ impl Prefs {
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
     }
 
-    /// The system's blur behind a window, on with Glass.
-    pub fn apply_blur<C: slint::ComponentHandle + 'static>(&self, ui: &C) {
-        crate::platform::set_blur(ui, self.theme == Theme::Glass);
+    /// What Glass asks of the window itself: the system's blur behind it,
+    /// and on Windows Crate's caption strip in place of the title bar.
+    pub fn apply_window<C>(&self, ui: &C)
+    where
+        C: slint::ComponentHandle + 'static,
+        for<'a> crate::Frame<'a>: slint::Global<'a, C>,
+    {
+        let glass = self.theme == Theme::Glass;
+        crate::platform::set_blur(ui, glass);
+        let caption = glass && crate::platform::GLASS_CAPTION;
+        let frame = ui.global::<crate::Frame>();
+        if frame.get_caption() != caption {
+            frame.set_caption(caption);
+            let weak = ui.as_weak();
+            crate::platform::own_caption(ui, caption, move |on| {
+                if let Some(ui) = weak.upgrade() {
+                    ui.global::<crate::Frame>().set_max_hover(on);
+                }
+            });
+        }
     }
 }
 
@@ -351,7 +368,7 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
         &ui.global::<crate::Palette>(),
         &ui.global::<crate::Tokens>(),
     );
-    p.apply_blur(ui);
+    p.apply_window(ui);
     let g = ui.global::<PrefsUi>();
     g.set_language(p.language.map_or(0, |l| l as i32 + 1));
     g.set_system_language(language_name(Language::system()).into());

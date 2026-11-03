@@ -63,6 +63,21 @@ pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool) {
     });
 }
 
+/// Glass draws its own caption strip in place of the system title bar
+/// (Windows only; see `own_caption` there).
+#[cfg(not(windows))]
+pub const GLASS_CAPTION: bool = false;
+
+/// Windows: hands the window's title bar to Crate's caption strip. Nothing
+/// elsewhere.
+#[cfg(not(windows))]
+pub fn own_caption<C: slint::ComponentHandle + 'static>(
+    _ui: &C,
+    _on: bool,
+    _hover: impl Fn(bool) + 'static,
+) {
+}
+
 /// macOS: puts the traffic lights inside Crate's own header (`on`), or gives
 /// the window its plain title bar back, and calls `inset` with the width the
 /// header leaves free for them at the left and the height it takes on to

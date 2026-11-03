@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.29 — 2026-11-03
+- Windows, Glass theme: Crate draws its own slim title bar with Windows-style minimize, maximize and close buttons, and keeps the system's shadow and rounded corners. Snap Layouts still appear when you rest the pointer on maximize, and the window resizes from every edge.
+
 ## 0.2.28 — 2026-11-03
 - Linux: Crate draws its whole window frame: rounded corners, a soft shadow and a thin rim, in every theme. Windows can now be resized by dragging their edges and corners. Maximized, the window fills the screen edge to edge.
 

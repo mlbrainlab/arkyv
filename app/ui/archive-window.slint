@@ -2,7 +2,7 @@
 // double-click opens) and the full view (Ctrl+Enter or the expand button).
 // Both read ArchiveUi; the dialogs sit on top of either.
 import { Tokens } from "tokens.slint";
-import { Frame, WindowFrame } from "frame.slint";
+import { CaptionBar, Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { ArchiveUi } from "state.slint";
 import { MiniBody } from "mini-view.slint";
@@ -27,7 +27,7 @@ export component ArchiveWindow inherits Window {
     preferred-height: 620px;
     min-width: ArchiveUi.full ? 720px : 420px;
     min-height: 480px;
-    no-frame: custom-frame;
+    no-frame: custom-frame || Frame.caption;
     background: Tokens.glass || Frame.custom ? transparent : Tokens.bg;
     default-font-family: Locale.font;
     default-font-size: 14px;
@@ -113,11 +113,21 @@ export component ArchiveWindow inherits Window {
     // Ctrl+Enter switches views. macOS adds Finder's ⌘↑, ⌘↓, ⌘⌫ and Return
     // to rename. The rest is listed in the shortcuts sheet
     // (Ctrl+?, app/src/shortcuts.rs), which must stay in step with this.
+    if Frame.caption: CaptionBar {
+        y: 0;
+        width: root.width;
+        title: root.title;
+        start-drag => { ArchiveUi.start-drag(); }
+        minimize => { ArchiveUi.minimize(); }
+        toggle-maximize => { ArchiveUi.toggle-maximize(); }
+        close => { ArchiveUi.close-window(); }
+    }
+
     keys := FocusScope {
         x: Frame.inset;
-        y: Frame.inset;
+        y: Frame.inset + Frame.caption-height;
         width: root.width - 2 * Frame.inset;
-        height: root.height - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset - Frame.caption-height;
         key-pressed(event) => {
             if ShortcutsUi.show {
                 if event.text == Key.Escape || event.text == Key.F1 || ((event.text == "?" || event.text == "/") && event.modifiers.control) { ShortcutsUi.show = false; return accept; }

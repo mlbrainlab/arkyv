@@ -195,8 +195,9 @@ export component MiniBody inherits Rectangle {
         // Glass: panes float inside the window with a 12 px gap.
         padding: Tokens.glass ? 14px : 0;
         spacing: Tokens.glass ? 6px : 0;
-        // Header bar
-        Rectangle {
+        // Header bar; on Windows glass the caption strip shows the name
+        // and Close instead (frame.slint).
+        if !Frame.caption: Rectangle {
             height: Tokens.glass ? 34px : 46px;
             background: Tokens.chrome;
             // Crate's own frame rounds the window's corners (frame.slint).

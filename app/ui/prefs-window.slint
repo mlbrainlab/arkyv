@@ -4,7 +4,7 @@
 // M5 tasks.
 import { ScrollView } from "std-widgets.slint";
 import { Tokens } from "tokens.slint";
-import { Frame, WindowFrame } from "frame.slint";
+import { CaptionBar, Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Header } from "header.slint";
@@ -233,7 +233,7 @@ export component PrefsWindow inherits Window {
     preferred-height: 760px;
     min-width: 560px;
     min-height: 480px;
-    no-frame: custom-frame;
+    no-frame: custom-frame || Frame.caption;
     background: Tokens.glass || Frame.custom ? transparent : Tokens.surface-2;
     default-font-family: Locale.font;
     default-font-size: 14px;
@@ -246,11 +246,21 @@ export component PrefsWindow inherits Window {
     // solid white.
     if Tokens.glass || Frame.custom: WindowFrame { fill: Tokens.glass ? Tokens.window : Tokens.surface-2; }
 
+    if Frame.caption: CaptionBar {
+        y: 0;
+        width: root.width;
+        title: root.title;
+        start-drag => { root.start-drag(); }
+        minimize => { root.minimize(); }
+        toggle-maximize => { root.toggle-maximize(); }
+        close => { PrefsUi.close(); }
+    }
+
     keys := FocusScope {
         x: Frame.inset;
-        y: Frame.inset;
+        y: Frame.inset + Frame.caption-height;
         width: root.width - 2 * Frame.inset;
-        height: root.height - 2 * Frame.inset;
+        height: root.height - 2 * Frame.inset - Frame.caption-height;
         key-pressed(event) => {
             if ProUi.show {
                 if event.text == Key.Escape && !ProUi.busy { ProUi.cancel(); return accept; }
