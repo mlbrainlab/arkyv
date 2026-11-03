@@ -113,6 +113,14 @@
 - Also: a Preferences button in the full view's header; Preferences hides its own title where the system's title bar or the caption strip has it.
 - Tests: `glass_flow.rs`, the setting and shot 164. **Not seen yet on Windows:** the backdrop, the hidden system buttons, Snap Layouts and Alt+F4 without the system menu.
 
+### Windows draws in software (2026-11-04, 0.2.31)
+- Your screenshots of 0.2.30, from two PCs with full GPU access: Preferences' body was #666, which is the 40% white tint shown opaque over black. So Windows was ignoring the window's alpha, whatever the backdrop behind it.
+- Cause, as far as the sources go: FemtoVG on WGL. Slint's config picker tests `supports_transparency`, which on WGL means a color-keyed format, not alpha, and it has no way to ask for `PFD_SUPPORT_COMPOSITION`. Slint offers no hook for the pixel format. Not confirmed on a Windows machine.
+- Fix: `select_backend` asks for the software renderer on Windows, in every theme, as one process can't mix renderers and the theme can change while it runs. softbuffer copies a 32-bit image with `BitBlt`; with the frame extended, alpha in that image is how classic Windows glass worked. Slint writes premultiplied alpha there.
+- Rejected: the FemtoVG wgpu renderer through DX12 and DirectComposition, which is the modern route and may be needed if this falls short. It adds wgpu to the binary and to startup, and needs more code that can't run here.
+- Cost: drawing is on the CPU. Slint repaints only what changed, and Crate's UI is simple, but large previews, big grids and maximized 4K windows are the places to watch. All test screenshots already use this renderer, so the look is known.
+- **Not seen yet on Windows.** To check there: see-through with both materials; text, Arabic, and non-Latin file names; scrolling a long list and resizing at full size.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked

@@ -11,7 +11,7 @@ Design source of truth: `design/` (canvas boards in `design/canvas/*.dc.html`, r
 
 | Layer | Choice | Why |
 |---|---|---|
-| UI toolkit | **Slint 1.18** (Rust + `.slint` markup; winit backend, FemtoVG renderer) | No web engine to start: the M0 spike showed the mini view in 93 ms warm / 282 ms cold, against 267 / 576 ms for Tauri 2 + Svelte (`docs/perf.md`). Runs on Linux/Windows/macOS. Decided in M0 (Oct 24), replacing Tauri 2 + Svelte 5 |
+| UI toolkit | **Slint 1.18** (Rust + `.slint` markup; winit backend, FemtoVG renderer; software renderer on Windows, for Glass) | No web engine to start: the M0 spike showed the mini view in 93 ms warm / 282 ms cold, against 267 / 576 ms for Tauri 2 + Svelte (`docs/perf.md`). Runs on Linux/Windows/macOS. Decided in M0 (Oct 24), replacing Tauri 2 + Svelte 5 |
 | Archive engine | `crate-core` Rust library | Shared by the app and the CLI; easy to test |
 | Formats | `zip`, `tar`, `flate2`, `xz2`/`liblzma`, `zstd`, `bzip2`, `sevenz-rust2`, `unrar` (read only) | Pure-Rust where possible, so nothing native to bundle |
 | Filename encodings | `encoding_rs` + `chardetng` | Fixes CP1256 / CP437 / Shift-JIS names |

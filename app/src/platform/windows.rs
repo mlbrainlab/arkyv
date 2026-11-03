@@ -60,9 +60,15 @@ fn extend_frame(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
     }
 }
 
+/// Slint's software renderer here. OpenGL can't keep Glass see-through:
+/// Slint can't ask for a pixel format Windows composites with alpha, so the
+/// window came out opaque, its 40% tint grey over black. The software
+/// renderer's 32-bit image keeps its alpha on the way to the window, the
+/// way classic Windows glass drew.
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()
         .backend_name("winit".into())
+        .renderer_name("software".into())
         .select()
 }
 
