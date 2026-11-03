@@ -93,9 +93,14 @@ fn round_corners(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
     }
 }
 
-/// The window procedure hook behind [`own_caption`].
+/// The window procedure hook behind [`own_caption`]. It replaces the
+/// window procedure (`GWLP_WNDPROC`) and passes everything it doesn't answer
+/// to winit's: `SetWindowSubclass` would be neater, but comctl32 exports it
+/// only by ordinal without a common-controls v6 manifest, and then the
+/// binary doesn't start.
 mod caption {
-    use std::cell::Cell;
+    use std::cell::{Cell, RefCell};
+    use std::collections::HashMap;
     use std::rc::Rc;
     use std::time::Duration;
 
@@ -104,16 +109,12 @@ mod caption {
     use ::windows::Win32::UI::Input::KeyboardAndMouse::{
         TME_LEAVE, TME_NONCLIENT, TRACKMOUSEEVENT, TrackMouseEvent,
     };
-    use ::windows::Win32::UI::Shell::{
-        DefSubclassProc, GetWindowSubclass, RemoveWindowSubclass, SetWindowSubclass,
-    };
     use ::windows::Win32::UI::WindowsAndMessaging::{
-        GetWindowRect, HTBOTTOM, HTBOTTOMLEFT, HTBOTTOMRIGHT, HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP,
-        HTTOPLEFT, HTTOPRIGHT, IsZoomed, WM_MOUSEMOVE, WM_NCDESTROY, WM_NCHITTEST,
-        WM_NCLBUTTONDBLCLK, WM_NCLBUTTONDOWN, WM_NCLBUTTONUP, WM_NCMOUSELEAVE, WM_NCMOUSEMOVE,
+        CallWindowProcW, GWLP_WNDPROC, GetWindowRect, HTBOTTOM, HTBOTTOMLEFT, HTBOTTOMRIGHT,
+        HTLEFT, HTMAXBUTTON, HTRIGHT, HTTOP, HTTOPLEFT, HTTOPRIGHT, IsZoomed, SetWindowLongPtrW,
+        WM_MOUSEMOVE, WM_NCDESTROY, WM_NCHITTEST, WM_NCLBUTTONDBLCLK, WM_NCLBUTTONDOWN,
+        WM_NCLBUTTONUP, WM_NCMOUSELEAVE, WM_NCMOUSEMOVE, WNDPROC,
     };
-
-    const ID: usize = 0x4352_4154; // "CRAT"
 
     /// The resize grip inside the window's edges, and the caption buttons
     /// (frame.slint): 46 × 32 each, the maximize button second from the end.
@@ -124,8 +125,18 @@ mod caption {
     struct State {
         on: Cell<bool>,
         hovering: Cell<bool>,
+        previous: WNDPROC,
         toggle: Box<dyn Fn()>,
         hover: Rc<dyn Fn(bool)>,
+    }
+
+    thread_local! {
+        // Hooked windows, by handle: all on the UI thread.
+        static HOOKED: RefCell<HashMap<isize, Rc<State>>> = RefCell::new(HashMap::new());
+    }
+
+    fn state(hwnd: HWND) -> Option<Rc<State>> {
+        HOOKED.with(|h| h.borrow().get(&(hwnd.0 as isize)).cloned())
     }
 
     pub(super) fn set(
@@ -134,27 +145,28 @@ mod caption {
         toggle: impl Fn() + 'static,
         hover: impl Fn(bool) + 'static,
     ) {
-        let mut data = 0usize;
-        // SAFETY: the hook is ours: `data` is the `State` it was installed with.
-        unsafe {
-            if GetWindowSubclass(hwnd, Some(proc), ID, Some(&mut data)).as_bool() {
-                (*(data as *const State)).on.set(on);
-                return;
-            }
+        if let Some(state) = state(hwnd) {
+            state.on.set(on);
+            return;
         }
         if !on {
             return;
         }
-        let state = Box::new(State {
+        // SAFETY: a live window handle; `proc` passes on what it doesn't
+        // handle to the procedure it replaces.
+        let previous = unsafe { SetWindowLongPtrW(hwnd, GWLP_WNDPROC, proc as *const () as isize) };
+        if previous == 0 {
+            return;
+        }
+        let state = Rc::new(State {
             on: Cell::new(true),
             hovering: Cell::new(false),
+            // SAFETY: what GWLP_WNDPROC held is a window procedure.
+            previous: unsafe { std::mem::transmute::<isize, WNDPROC>(previous) },
             toggle: Box::new(toggle),
             hover: Rc::new(hover),
         });
-        // SAFETY: the State lives until WM_NCDESTROY frees it.
-        unsafe {
-            let _ = SetWindowSubclass(hwnd, Some(proc), ID, Box::into_raw(state) as usize);
-        }
+        HOOKED.with(|h| h.borrow_mut().insert(hwnd.0 as isize, state));
     }
 
     /// Maximize or restore, after the window procedure returns.
@@ -190,7 +202,7 @@ mod caption {
     }
 
     /// What's under the screen point in `lparam`: a resize edge, the
-    /// maximize button, or `None` for the system's answer.
+    /// maximize button, or `None` for winit's answer.
     fn hit(hwnd: HWND, lparam: LPARAM) -> Option<u32> {
         let x = (lparam.0 & 0xffff) as i16 as i32;
         let y = ((lparam.0 >> 16) & 0xffff) as i16 as i32;
@@ -235,20 +247,13 @@ mod caption {
         msg: u32,
         wparam: WPARAM,
         lparam: LPARAM,
-        _id: usize,
-        data: usize,
     ) -> LRESULT {
-        // SAFETY: `data` is the State `set` installed; freed only below.
-        let state = unsafe { &*(data as *const State) };
+        let Some(state) = state(hwnd) else {
+            return LRESULT(0);
+        };
         if msg == WM_NCDESTROY {
-            // SAFETY: the hook goes first, so nothing reads the State after.
-            unsafe {
-                let _ = RemoveWindowSubclass(hwnd, Some(proc), ID);
-                drop(Box::from_raw(data as *mut State));
-                return DefSubclassProc(hwnd, msg, wparam, lparam);
-            }
-        }
-        if state.on.get() {
+            HOOKED.with(|h| h.borrow_mut().remove(&(hwnd.0 as isize)));
+        } else if state.on.get() {
             let on_max = wparam.0 == HTMAXBUTTON as usize;
             match msg {
                 WM_NCHITTEST => {
@@ -256,8 +261,8 @@ mod caption {
                         return LRESULT(code as isize);
                     }
                 }
-                WM_NCMOUSEMOVE => set_hovering(state, hwnd, on_max),
-                WM_NCMOUSELEAVE | WM_MOUSEMOVE => set_hovering(state, hwnd, false),
+                WM_NCMOUSEMOVE => set_hovering(&state, hwnd, on_max),
+                WM_NCMOUSELEAVE | WM_MOUSEMOVE => set_hovering(&state, hwnd, false),
                 // The system would draw its own old button while pressed.
                 WM_NCLBUTTONDOWN | WM_NCLBUTTONDBLCLK if on_max => return LRESULT(0),
                 WM_NCLBUTTONUP if on_max => {
@@ -267,8 +272,8 @@ mod caption {
                 _ => {}
             }
         }
-        // SAFETY: passing the message on, unchanged.
-        unsafe { DefSubclassProc(hwnd, msg, wparam, lparam) }
+        // SAFETY: winit's procedure, for everything else.
+        unsafe { CallWindowProcW(state.previous, hwnd, msg, wparam, lparam) }
     }
 }
 
