@@ -2,6 +2,10 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.32 — 2026-11-05
+- Windows Glass: Crate no longer lays its own tint over Acrylic or Mica, which already have one, so more of what's behind the window can show.
+- Glass: the Home page no longer shows through Operations.
+
 ## 0.2.31 — 2026-11-04
 - Windows: Crate now draws its windows without OpenGL, so Glass can really be see-through, with Acrylic or Mica behind it. Before, Windows showed Glass windows as plain grey.
 

@@ -113,6 +113,13 @@
 - Also: a Preferences button in the full view's header; Preferences hides its own title where the system's title bar or the caption strip has it.
 - Tests: `glass_flow.rs`, the setting and shot 164. **Not seen yet on Windows:** the backdrop, the hidden system buttons, Snap Layouts and Alt+F4 without the system menu.
 
+### Windows: the material's own tint (2026-11-05, 0.2.32)
+Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels follow each backdrop type; Mica's come out as 40% white over `#F3F3F3`). So 0.2.31's see-through works, and the flat look has other causes:
+- The VM has no GPU and its materials are flat colors, over Remote Desktop and on the console, so **the VM can't show blur**. Check blur on a machine with a GPU.
+- The 40% window tint and the panes came from the mockups, where CSS blur has no tint. Real Acrylic and Mica have their own, so on Windows the window tint now starts at 0 and panes are lighter (`Tokens.material`).
+- What looked fixed in Operations was Home showing through the page. Home isn't drawn under it now.
+- If this is still too flat: Windows 11's system Acrylic has a fixed tint. The older `SetWindowCompositionAttribute` acrylic takes any tint, but it's undocumented.
+
 ### Windows draws in software (2026-11-04, 0.2.31)
 - Your screenshots of 0.2.30, from two PCs with full GPU access: Preferences' body was #666, which is the 40% white tint shown opaque over black. So Windows was ignoring the window's alpha, whatever the backdrop behind it.
 - Cause, as far as the sources go: FemtoVG on WGL. Slint's config picker tests `supports_transparency`, which on WGL means a color-keyed format, not alpha, and it has no way to ask for `PFD_SUPPORT_COMPOSITION`. Slint offers no hook for the pixel format. Not confirmed on a Windows machine.

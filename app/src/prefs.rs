@@ -186,6 +186,7 @@ impl Prefs {
         tokens.set_glass(self.theme == Theme::Glass);
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
         tokens.set_mica(self.glass_mica && crate::platform::GLASS_MATERIALS);
+        tokens.set_material(crate::platform::GLASS_MATERIALS);
     }
 
     /// What Glass asks of the window itself: the system's blur behind it,

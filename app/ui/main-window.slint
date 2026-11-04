@@ -173,7 +173,8 @@ export component MainWindow inherits Window {
             reject
         }
 
-        VerticalLayout {
+        // Operations is see-through on Glass: Home would show under it.
+        if !OpsUi.show: VerticalLayout {
             Header {
                 custom-frame: root.custom-frame;
                 titlebar-inset: root.titlebar-inset;
