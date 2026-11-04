@@ -173,8 +173,9 @@ export component MainWindow inherits Window {
             reject
         }
 
-        // Operations is see-through on Glass: Home would show under it.
-        if !OpsUi.show: VerticalLayout {
+        // Operations is see-through on Glass: Home would show under it. Faded out,
+        // not hidden, so the keyboard stays on the button that opened it.
+        Rectangle { opacity: OpsUi.show ? 0 : 1; VerticalLayout {
             Header {
                 custom-frame: root.custom-frame;
                 titlebar-inset: root.titlebar-inset;
@@ -266,7 +267,7 @@ export component MainWindow inherits Window {
                     }
                 }
             }
-        }
+        } }
 
         if OpsUi.show: OpsPage { titlebar-inset: root.titlebar-inset; titlebar-height: root.titlebar-height; }
         if CreateUi.show: CreateDialog { }
