@@ -118,7 +118,7 @@ Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels 
 - The VM has no GPU and its materials are flat colors, over Remote Desktop and on the console, so **the VM can't show blur**. Check blur on a machine with a GPU.
 - The 40% window tint and the panes came from the mockups, where CSS blur has no tint. Real Acrylic and Mica have their own, so on Windows the window tint now starts at 0 and panes are lighter (`Tokens.material`).
 - What looked fixed in Operations was Home showing through the page. Home isn't drawn under it now.
-- If this is still too flat: Windows 11's system Acrylic has a fixed tint. The older `SetWindowCompositionAttribute` acrylic takes any tint, but it's undocumented.
+- It was still flat on a laptop with a GPU: the body one grey (106) from edge to edge. Windows 11's system Acrylic (`DWMSBT_TRANSIENTWINDOW`) shows its flat fallback whenever the window isn't active, and screenshot tools take the focus. So Acrylic is now the `SetWindowCompositionAttribute` blur, untinted, with Crate's own tint over it as in the mockup; Mica keeps the system backdrop.
 
 ### Windows draws in software (2026-11-04, 0.2.31)
 - Your screenshots of 0.2.30, from two PCs with full GPU access: Preferences' body was #666, which is the 40% white tint shown opaque over black. So Windows was ignoring the window's alpha, whatever the backdrop behind it.

@@ -13,9 +13,8 @@ export global Tokens {
     // Windows: Mica behind the window. Its backdrop hides what's behind the
     // window, so panes are firmer than on Acrylic (GlassMiniWin.dc.html).
     in property <bool> mica;
-    // Windows: Acrylic and Mica come with their own tint, so the window adds
-    // none at frost 0 and panes are lighter. A tint on top of the material's
-    // would hide what's behind.
+    // Windows Mica: it comes with its own tint, so the window adds none at
+    // frost 0 and panes are lighter. Acrylic takes Crate's tint, as on macOS.
     in property <bool> material;
     // Follows the system color scheme, or the Theme preference (prefs.rs).
     out property <bool> dark: Palette.color-scheme == ColorScheme.dark;

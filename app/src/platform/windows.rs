@@ -19,11 +19,12 @@ thread_local! {
     static MATERIAL: RefCell<HashMap<isize, bool>> = RefCell::new(HashMap::new());
 }
 
-/// Acrylic or Mica behind the window (winit has no blur here). Windows
-/// paints either one only under the window's frame, so the frame is extended
-/// over the whole window, and Crate's see-through pixels show it. Mica needs
-/// Windows 11: Windows 10 gets Acrylic (1809 and later; older systems are
-/// see-through only).
+/// Acrylic or Mica behind the window (winit has no blur here). The frame is
+/// extended over the whole window, so Crate's see-through pixels show what's
+/// under them. Mica is Windows 11's backdrop. Acrylic is the older blur
+/// ([`acrylic`]): Windows 11's own Acrylic has a fixed tint and turns into a
+/// flat color whenever the window isn't the active one. Without either
+/// (before Windows 10 1803) the window is see-through only.
 pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: bool) {
     let Some(hwnd) = hwnd(w) else { return };
     let key = hwnd.0 as isize;
@@ -32,14 +33,65 @@ pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: 
     }
     let _ = window_vibrancy::clear_mica(w);
     let _ = window_vibrancy::clear_acrylic(w);
+    acrylic(hwnd, false);
     extend_frame(hwnd, on);
     if on {
         if !mica || window_vibrancy::apply_mica(w, None).is_err() {
-            let _ = window_vibrancy::apply_acrylic(w, None);
+            acrylic(hwnd, true);
         }
         MATERIAL.with(|m| m.borrow_mut().insert(key, mica));
     } else {
         MATERIAL.with(|m| m.borrow_mut().remove(&key));
+    }
+}
+
+/// The blur behind the window through `SetWindowCompositionAttribute`
+/// (Windows 10 1803 and later; undocumented, but what Windows' own shell
+/// used). It takes no tint here: Crate's window color is the tint, as in the
+/// mockups (GlassMiniWin.dc.html), and it stays when the window is inactive.
+fn acrylic(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
+    use ::windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
+    use ::windows::core::{s, w};
+
+    #[repr(C)]
+    struct AccentPolicy {
+        state: u32,
+        flags: u32,
+        color: u32, // ABGR
+        animation: u32,
+    }
+    #[repr(C)]
+    struct Data {
+        attribute: u32,
+        data: *mut AccentPolicy,
+        size: usize,
+    }
+    type Set = unsafe extern "system" fn(::windows::Win32::Foundation::HWND, *mut Data) -> i32;
+
+    // 4: ACCENT_ENABLE_ACRYLICBLURBEHIND; 0: off. Acrylic needs a tint
+    // alpha above 0, so the lightest one.
+    let mut policy = AccentPolicy {
+        state: if on { 4 } else { 0 },
+        flags: 0,
+        color: if on { 0x01ff_ffff } else { 0 },
+        animation: 0,
+    };
+    // 19: WCA_ACCENT_POLICY.
+    let mut data = Data {
+        attribute: 19,
+        data: &raw mut policy,
+        size: size_of::<AccentPolicy>(),
+    };
+    // SAFETY: user32 is loaded in every GUI process; the function, where it
+    // exists, takes a window handle and this struct.
+    unsafe {
+        let Ok(user32) = GetModuleHandleW(w!("user32.dll")) else {
+            return;
+        };
+        if let Some(f) = GetProcAddress(user32, s!("SetWindowCompositionAttribute")) {
+            let set: Set = std::mem::transmute(f);
+            set(hwnd, &raw mut data);
+        }
     }
 }
 
