@@ -15,7 +15,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO = "https://github.com/mlbrainlab/crate"
+REPO = "https://github.com/mlbrainlab/arkyv"
 # "crate" is taken in homebrew-cask; the Linux packages use this name too.
 TOKEN = "crate-archiver"
 

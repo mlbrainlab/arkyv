@@ -2,8 +2,8 @@
 
 A fast, friendly archiver. Double-click a zip, get your files. Written in Rust.
 
-[![CI](https://github.com/mlbrainlab/crate/actions/workflows/ci.yml/badge.svg)](https://github.com/mlbrainlab/crate/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/mlbrainlab/crate?include_prereleases)](https://github.com/mlbrainlab/crate/releases)
+[![CI](https://github.com/mlbrainlab/arkyv/actions/workflows/ci.yml/badge.svg)](https://github.com/mlbrainlab/arkyv/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/mlbrainlab/arkyv?include_prereleases)](https://github.com/mlbrainlab/arkyv/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [Download](#install) · [Screenshots](#screenshots) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
@@ -37,8 +37,8 @@ Linux and Windows today; macOS is next on the [roadmap](docs/ROADMAP.md).
 
 | Platform | Get it | Notes |
 |---|---|---|
-| Linux | `.deb`, `.rpm` or AppImage from [Releases](https://github.com/mlbrainlab/crate/releases) | Built on Ubuntu 22.04: runs on Ubuntu 22.04+, Debian 12+, Fedora 38+ and most others. Flathub: coming |
-| Windows | `Crate-…-x64-setup.exe` from [Releases](https://github.com/mlbrainlab/crate/releases), from 0.2.0 ([M7](docs/milestones/M7-windows.md)) | Windows 10 and 11. Unsigned: see [below](#windows) |
+| Linux | `.deb`, `.rpm` or AppImage from [Releases](https://github.com/mlbrainlab/arkyv/releases) | Built on Ubuntu 22.04: runs on Ubuntu 22.04+, Debian 12+, Fedora 38+ and most others. Flathub: coming |
+| Windows | `Crate-…-x64-setup.exe` from [Releases](https://github.com/mlbrainlab/arkyv/releases), from 0.2.0 ([M7](docs/milestones/M7-windows.md)) | Windows 10 and 11. Unsigned: see [below](#windows) |
 | macOS | — | Planned ([M8](docs/milestones/M8-macos.md)) |
 
 ```bash

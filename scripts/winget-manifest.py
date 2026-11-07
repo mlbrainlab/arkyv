@@ -14,7 +14,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REPO = "https://github.com/mlbrainlab/crate"
+REPO = "https://github.com/mlbrainlab/arkyv"
 ID = "mlbrainlab.Crate"
 SCHEMA = "1.10.0"
 

@@ -73,7 +73,7 @@ zstd = "0.14"
 # target/packaging/ first: the .desktop file with the installed Exec).
 [package.metadata.deb]
 name = "crate-archiver"
-maintainer = "mlbrainlab <https://github.com/mlbrainlab/crate>"
+maintainer = "mlbrainlab <https://github.com/mlbrainlab/arkyv>"
 copyright = "Crate contributors (MIT); UnRAR by Alexander Roshal (freeware, extraction only)"
 license-file = ["../LICENSE", "0"]
 extended-description = """\
@@ -109,7 +109,7 @@ assets = [
 name = "crate-archiver"
 summary = "Open, extract and create archives"
 license = "MIT AND LicenseRef-UnRAR"
-url = "https://github.com/mlbrainlab/crate"
+url = "https://github.com/mlbrainlab/arkyv"
 auto-req = "no"
 assets = [
     { source = "target/release/crate-app", dest = "/usr/bin/crate-app", mode = "755" },

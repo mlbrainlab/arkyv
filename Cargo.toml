@@ -3,10 +3,10 @@ resolver = "2"
 members = ["crates/crate-core", "crates/crate-cli", "app"]
 
 [workspace.package]
-version = "0.2.32"
+version = "0.2.33"
 edition = "2024"
 license = "MIT"
-repository = "https://github.com/mlbrainlab/crate"
+repository = "https://github.com/mlbrainlab/arkyv"
 rust-version = "1.85"
 
 [workspace.dependencies]

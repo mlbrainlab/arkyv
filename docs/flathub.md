@@ -11,7 +11,7 @@ In a copy of `packaging/flatpak/io.github.mlbrainlab.crate.yml`, replace the `di
 ```yaml
     sources:
       - type: git
-        url: https://github.com/mlbrainlab/crate.git
+        url: https://github.com/mlbrainlab/arkyv.git
         tag: v0.1.0
         commit: <the commit v0.1.0 points at: git rev-parse v0.1.0^{commit}>
       - cargo-sources.json

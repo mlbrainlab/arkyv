@@ -11,7 +11,7 @@ use crate::i18n::{trf, trn};
 use crate::settings::Settings;
 use crate::{AboutUi, MainWindow};
 
-const SOURCE: &str = "https://github.com/mlbrainlab/crate";
+const SOURCE: &str = "https://github.com/mlbrainlab/arkyv";
 
 /// Donation links. Empty until the accounts exist (see `.github/FUNDING.yml`,
 /// which should list the same ones): an empty link hides its button, and

@@ -47,7 +47,7 @@ fn about_flow() {
     a().invoke_open_link("issues".into());
     assert_eq!(
         OPENED.lock().unwrap().last().unwrap(),
-        Path::new("https://github.com/mlbrainlab/crate/issues/new")
+        Path::new("https://github.com/mlbrainlab/arkyv/issues/new")
     );
     h.key(Key::Escape);
     assert!(!a().get_show());

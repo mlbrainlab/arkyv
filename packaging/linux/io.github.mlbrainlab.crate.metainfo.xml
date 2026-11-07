@@ -13,9 +13,9 @@
     <name>mlbrainlab</name>
   </developer>
   <launchable type="desktop-id">io.github.mlbrainlab.crate.desktop</launchable>
-  <url type="homepage">https://github.com/mlbrainlab/crate</url>
-  <url type="bugtracker">https://github.com/mlbrainlab/crate/issues</url>
-  <url type="vcs-browser">https://github.com/mlbrainlab/crate</url>
+  <url type="homepage">https://github.com/mlbrainlab/arkyv</url>
+  <url type="bugtracker">https://github.com/mlbrainlab/arkyv/issues</url>
+  <url type="vcs-browser">https://github.com/mlbrainlab/arkyv</url>
 
   <description>
     <p>
@@ -38,19 +38,19 @@
   <screenshots>
     <screenshot type="default">
       <caption>The mini view: everything in the archive, one click from extracting it</caption>
-      <image>https://raw.githubusercontent.com/mlbrainlab/crate/master/docs/screenshots/mini.png</image>
+      <image>https://raw.githubusercontent.com/mlbrainlab/arkyv/master/docs/screenshots/mini.png</image>
     </screenshot>
     <screenshot>
       <caption>The full view: browse, preview, extract a selection</caption>
-      <image>https://raw.githubusercontent.com/mlbrainlab/crate/master/docs/screenshots/full.png</image>
+      <image>https://raw.githubusercontent.com/mlbrainlab/arkyv/master/docs/screenshots/full.png</image>
     </screenshot>
     <screenshot>
       <caption>Creating an archive</caption>
-      <image>https://raw.githubusercontent.com/mlbrainlab/crate/master/docs/screenshots/create.png</image>
+      <image>https://raw.githubusercontent.com/mlbrainlab/arkyv/master/docs/screenshots/create.png</image>
     </screenshot>
     <screenshot>
       <caption>Dark mode</caption>
-      <image>https://raw.githubusercontent.com/mlbrainlab/crate/master/docs/screenshots/dark.png</image>
+      <image>https://raw.githubusercontent.com/mlbrainlab/arkyv/master/docs/screenshots/dark.png</image>
     </screenshot>
   </screenshots>
 
