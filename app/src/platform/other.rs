@@ -11,7 +11,11 @@ pub fn glass_frost() -> u8 {
 }
 
 /// Blur where winit has it.
-pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, _mica: bool) {
+pub(super) fn blur(
+    w: &slint::winit_030::winit::window::Window,
+    on: bool,
+    _material: super::Material,
+) {
     w.set_blur(on);
 }
 

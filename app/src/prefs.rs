@@ -73,8 +73,8 @@ pub struct Prefs {
     pub theme: Theme,
     /// The Glass slider, 0–100: clear glass (a 40% tint) to fully frosted.
     pub glass_frost: u8,
-    /// Windows: Mica behind Glass windows, not Acrylic.
-    pub glass_mica: bool,
+    /// Windows: what's behind Glass windows.
+    pub glass_material: crate::platform::Material,
     /// Pro: the app icon, an index into `Tokens.app-icons`; 0 is Layers.
     pub app_icon: u8,
     pub default_grid: bool,
@@ -94,7 +94,7 @@ impl Default for Prefs {
             grid_for_media: true,
             theme: Theme::System,
             glass_frost: crate::platform::glass_frost(),
-            glass_mica: false,
+            glass_material: crate::platform::Material::Acrylic,
             app_icon: 0,
             default_grid: false,
             ratio_column: true,
@@ -142,7 +142,11 @@ impl Prefs {
             glass_frost: s
                 .get::<u8>("pref.glass_frost")
                 .map_or(d.glass_frost, |v| v.min(100)),
-            glass_mica: s.get::<u8>("pref.glass_material") == Some(1),
+            glass_material: match s.get::<u8>("pref.glass_material") {
+                Some(1) => crate::platform::Material::Mica,
+                Some(2) => crate::platform::Material::Clear,
+                _ => crate::platform::Material::Acrylic,
+            },
             app_icon: s
                 .get::<u8>("pref.app_icon")
                 .filter(|&i| pro && usize::from(i) < APP_ICONS)
@@ -192,8 +196,14 @@ impl Prefs {
         });
         tokens.set_glass(self.theme == Theme::Glass);
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
-        tokens.set_mica(self.glass_mica && crate::platform::GLASS_MATERIALS);
-        tokens.set_material(self.glass_mica && crate::platform::GLASS_MATERIALS);
+        // Mica brings its own tint, and Clear wants as little as can be read:
+        // both start the window's tint at none and keep panes light.
+        let m = crate::platform::GLASS_MATERIALS.then_some(self.glass_material);
+        tokens.set_mica(m == Some(crate::platform::Material::Mica));
+        tokens.set_material(matches!(
+            m,
+            Some(crate::platform::Material::Mica | crate::platform::Material::Clear)
+        ));
         tokens.set_app_icon(i32::from(self.app_icon));
     }
 
@@ -205,7 +215,7 @@ impl Prefs {
         for<'a> crate::Frame<'a>: slint::Global<'a, C>,
     {
         let glass = self.theme == Theme::Glass;
-        crate::platform::set_blur(ui, glass, self.glass_mica);
+        crate::platform::set_blur(ui, glass, self.glass_material);
         let caption = glass && crate::platform::GLASS_CAPTION;
         let frame = ui.global::<crate::Frame>();
         if frame.get_caption() != caption {
@@ -396,7 +406,7 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
     g.set_theme(p.theme as i32);
     g.set_glass_frost(i32::from(p.glass_frost));
     g.set_glass_materials(platform::GLASS_MATERIALS);
-    g.set_glass_material(i32::from(p.glass_mica));
+    g.set_glass_material(p.glass_material as i32);
     g.set_app_icon(i32::from(p.app_icon));
     g.set_default_grid(p.default_grid);
     g.set_ratio_column(p.ratio_column);

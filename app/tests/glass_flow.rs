@@ -9,6 +9,7 @@ mod support;
 
 mod common;
 
+use arkyv_app::platform::Material;
 use arkyv_app::prefs::{Prefs, Theme};
 use arkyv_app::{PrefsUi, ProUi, Tokens};
 use common::{Harness, g};
@@ -57,12 +58,16 @@ fn glass_flow() {
     prefs
         .global::<PrefsUi>()
         .invoke_choose("glass_material".into(), 1);
-    assert!(Prefs::load().glass_mica);
+    assert_eq!(Prefs::load().glass_material, Material::Mica);
     assert_eq!(prefs.global::<PrefsUi>().get_glass_material(), 1);
     prefs
         .global::<PrefsUi>()
+        .invoke_choose("glass_material".into(), 2);
+    assert_eq!(Prefs::load().glass_material, Material::Clear);
+    prefs
+        .global::<PrefsUi>()
         .invoke_choose("glass_material".into(), 0);
-    assert!(!Prefs::load().glass_mica);
+    assert_eq!(Prefs::load().glass_material, Material::Acrylic);
     // (Choosing refills the window from the saved settings: no key, no Glass.)
     prefs.global::<Tokens>().set_glass(true);
     prefs.global::<Tokens>().set_frost(0.6);

@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arkyv VERSION\n"
-"POT-Creation-Date: 2026-11-07 19:17+0000\n"
+"POT-Creation-Date: 2026-11-07 21:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1231,7 +1231,7 @@ msgid ""
 "other windows."
 msgstr ""
 
-#: ui/prefs-window.slint:448
+#: ui/prefs-window.slint:448 ui/prefs-window.slint:462
 msgid "Clear"
 msgstr ""
 
@@ -1246,7 +1246,7 @@ msgstr ""
 #: ui/prefs-window.slint:460
 msgid ""
 "Acrylic blurs what’s behind the window. Mica takes its tint from the "
-"wallpaper and needs Windows 11."
+"wallpaper and needs Windows 11. Clear shows what’s behind as it is."
 msgstr ""
 
 #: ui/prefs-window.slint:462
@@ -2025,7 +2025,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr ""
 
-#: src/prefs.rs:301
+#: src/prefs.rs:311
 msgid "Auto-detect"
 msgstr ""
 

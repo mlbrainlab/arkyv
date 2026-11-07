@@ -13,22 +13,28 @@ pub fn glass_frost() -> u8 {
 }
 
 thread_local! {
-    /// The material each window has now (`true`: Mica), so that moving the
+    /// The material each window has now, so that moving the
     /// Glass slider doesn't restart it. Hooked windows only: `caption` drops
     /// the entry when the window goes.
-    static MATERIAL: RefCell<HashMap<isize, bool>> = RefCell::new(HashMap::new());
+    static MATERIAL: RefCell<HashMap<isize, super::Material>> = RefCell::new(HashMap::new());
 }
 
-/// Acrylic or Mica behind the window (winit has no blur here). The frame is
-/// extended over the whole window, so Arkyv's see-through pixels show what's
-/// under them. Mica is Windows 11's backdrop. Acrylic is the older blur
+/// Acrylic, Mica or nothing behind the window (winit has no blur here). The
+/// frame is extended over the whole window, so Arkyv's see-through pixels
+/// show what's under them: with Clear, the other windows and the wallpaper as
+/// they are. Mica is Windows 11's backdrop. Acrylic is the older blur
 /// ([`acrylic`]): Windows 11's own Acrylic has a fixed tint and turns into a
 /// flat color whenever the window isn't the active one. Without either
-/// (before Windows 10 1803) the window is see-through only.
-pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: bool) {
+/// (before Windows 10 1803) the window is see-through only, as with Clear.
+pub(super) fn blur(
+    w: &slint::winit_030::winit::window::Window,
+    on: bool,
+    material: super::Material,
+) {
+    use super::Material;
     let Some(hwnd) = hwnd(w) else { return };
     let key = hwnd.0 as isize;
-    if on && MATERIAL.with(|m| m.borrow().get(&key) == Some(&mica)) {
+    if on && MATERIAL.with(|m| m.borrow().get(&key) == Some(&material)) {
         return;
     }
     let _ = window_vibrancy::clear_mica(w);
@@ -36,10 +42,12 @@ pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: 
     acrylic(hwnd, false);
     extend_frame(hwnd, on);
     if on {
-        if !mica || window_vibrancy::apply_mica(w, None).is_err() {
-            acrylic(hwnd, true);
+        match material {
+            Material::Clear => {}
+            Material::Mica if window_vibrancy::apply_mica(w, None).is_ok() => {}
+            _ => acrylic(hwnd, true),
         }
-        MATERIAL.with(|m| m.borrow_mut().insert(key, mica));
+        MATERIAL.with(|m| m.borrow_mut().insert(key, material));
     } else {
         MATERIAL.with(|m| m.borrow_mut().remove(&key));
     }

@@ -14,7 +14,11 @@ pub fn glass_frost() -> u8 {
 }
 
 /// The system's blur behind the window, through winit.
-pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, _mica: bool) {
+pub(super) fn blur(
+    w: &slint::winit_030::winit::window::Window,
+    on: bool,
+    _material: super::Material,
+) {
     w.set_blur(on);
 }
 

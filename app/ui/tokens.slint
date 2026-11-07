@@ -13,8 +13,9 @@ export global Tokens {
     // Windows: Mica behind the window. Its backdrop hides what's behind the
     // window, so panes are firmer than on Acrylic (GlassMiniWin.dc.html).
     in property <bool> mica;
-    // Windows Mica: it comes with its own tint, so the window adds none at
-    // frost 0 and panes are lighter. Acrylic takes Arkyv's tint, as on macOS.
+    // Windows Mica or Clear: Mica comes with its own tint, and Clear shows
+    // what's behind as it is, so the window adds no tint at frost 0 and panes
+    // are lighter. Acrylic takes Arkyv's tint, as on macOS.
     in property <bool> material;
     // The app icon (Pro; Preferences → Appearance): 0 is Layers, the
     // others are the alternates in `assets/icons/alt/`, in the picker's order.

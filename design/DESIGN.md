@@ -57,7 +57,7 @@ The Glass theme (Pro, archive windows) is light only and overrides these: `--bg`
 
 Dark glass (Glass follows the system's dark mode): `--bg` `rgba(28,32,41,.65)`, `--surface-2` `rgba(255,255,255,.08)`, `--line` `rgba(255,255,255,.15)`, `--ink` `#F1F4F9`, `--ink-2` `#CFD5DF`, `--ink-3` `#B4BCC8`, `--accent` `rgba(74,101,240,.9)`, `--accent-soft` `rgba(74,101,240,.22)` / `#C9D4FF`, `--selection` `rgba(74,101,240,.28)`; the window `rgba(15,17,21,.45)`, `--sheet` `#161A21`. Glass applies to every window: Home, Preferences and archive windows.
 
-Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; macOS and Windows at 0. On Windows, Mica brings its own tint, so with Mica the window tint runs from `0`, the panes from `.75` (dark `.35`) and `--surface-2` from `.25`. Acrylic is an untinted blur, so Arkyv's own tint applies, as in the mockup. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
+Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; macOS and Windows at 0. On Windows, Mica brings its own tint, so with Mica the window tint runs from `0`, the panes from `.75` (dark `.35`) and `--surface-2` from `.25`. Acrylic is an untinted blur, so Arkyv's own tint applies, as in the mockup. Clear has no material: what's behind shows sharp, so like Mica the window tint runs from `0` and the panes from `.3` (`--surface-2` `.25`), just enough to read text. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
 
 Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (Inter 4.1, OFL). Never load fonts at runtime. Monospace text uses the system monospace font.
 
@@ -150,7 +150,7 @@ Boards: `GlassMini.dc.html`, `GlassBrowse.dc.html`.
 | Window radius | 28–30 px | 16 px | 8 px |
 | Control radius | pills | 10–12 px | 4–6 px |
 | Window controls | traffic lights, left | round buttons, right; menu in the header bar | 46 × 32 caption buttons; Close turns red on hover |
-| Material | vibrancy (true blur) | **Frosted** by default: translucent window, near-opaque panes, no blur. **Blur** where the compositor provides it (KDE, or GNOME with a blur extension) | **Acrylic** = see-through blur (Win 10 + 11) · **Mica** = wallpaper-tinted, opaque (Win 11 only) |
+| Material | vibrancy (true blur) | **Frosted** by default: translucent window, near-opaque panes, no blur. **Blur** where the compositor provides it (KDE, or GNOME with a blur extension) | **Acrylic** = see-through blur (Win 10 + 11) · **Mica** = wallpaper-tinted, opaque (Win 11 only) · **Clear** = no material, what's behind shows sharp |
 | Selection | solid accent fill | solid accent fill | white fill + 3 px accent bar on the left (Fluent style) |
 
 All variants share the same layout and colour tokens; only the shape, chrome and material change.

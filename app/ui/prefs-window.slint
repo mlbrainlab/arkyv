@@ -23,7 +23,7 @@ export global PrefsUi {
     in property <int> theme; // 0 system, 1 light, 2 dark, 3 glass (Pro)
     in property <int> glass-frost; // 0 clear glass (40% tint) … 100 fully frosted
     in property <bool> glass-materials; // Windows: the Material row
-    in property <int> glass-material; // 0 Acrylic, 1 Mica
+    in property <int> glass-material; // 0 Acrylic, 1 Mica, 2 Clear
     in property <int> app-icon; // Tokens.app-icons; 0 without a key
     in property <bool> default-grid;
     in property <bool> ratio-column;
@@ -457,9 +457,9 @@ export component PrefsWindow inherits Window {
                             }
                             if PrefsUi.theme == 3 && PrefsUi.glass-materials: Item {
                                 title: @tr("Material");
-                                note: @tr("Acrylic blurs what’s behind the window. Mica takes its tint from the wallpaper and needs Windows 11.");
+                                note: @tr("Acrylic blurs what’s behind the window. Mica takes its tint from the wallpaper and needs Windows 11. Clear shows what’s behind as it is.");
                                 Segmented {
-                                    options: [@tr("Acrylic"), @tr("Mica")];
+                                    options: [@tr("Acrylic"), @tr("Mica"), @tr("Clear")];
                                     current: PrefsUi.glass-material;
                                     chosen(i) => { PrefsUi.choose("glass_material", i); }
                                 }

@@ -138,6 +138,11 @@ Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels 
 - Tested: `glass_flow.rs`, shots 165 (no key) and 166 (an alternate chosen).
 - Later the same day: Layers became the app icon everywhere (`assets/icons/arkyv-icon.svg`, the PNGs, `.ico`, `.icns`) and the free choice; Open Lid moved to `alt/` as a Pro alternate (0.2.35).
 
+### Windows: Clear (2026-11-08, 0.2.37)
+- On a real PC with a GPU (0.2.36), neither material looked like the mockup. Mica only takes a color from the wallpaper and never shows other windows; Acrylic blurs so heavily that Explorer behind it is a soft wash, and Windows has no public way to make the blur lighter. Arkyv's own white (40% window, 55% panes at the clear end) then covered most of it. Acrylic also looked the same tan over Explorer as over the sky, so it may have been showing a fallback color: to check (Transparency effects on? half the window over Explorer, half over the wallpaper).
+- A third Material, **Clear**: no system material, only the extended frame, so the software renderer's see-through pixels show the windows and wallpaper behind as they are. Tokens treat it like Mica (`Tokens.material`): no window tint at frost 0, panes from 30% white. No blur: Windows offers none that can be turned down.
+- `platform::Material` (Acrylic 0, Mica 1, Clear 2) replaces the `glass_mica` flag; `pref.glass_material` keeps its numbers.
+
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs
 - [ ] Without a key, Glass and the icons show a "PRO" label and the upgrade sheet; nothing else is locked
