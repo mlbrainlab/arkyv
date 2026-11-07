@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.38 — 2026-11-08
+- Windows, Glass with Clear: Home and archive windows are see-through too. Before, only Preferences was; the others showed solid white.
+
 ## 0.2.37 — 2026-11-08
 - Windows, Glass theme: a new Material choice, Clear. Other windows and the wallpaper show through as they are, sharp, with only a light tint behind the text. Acrylic and Mica stay for a frosted look.
 

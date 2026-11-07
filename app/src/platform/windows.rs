@@ -42,6 +42,10 @@ pub(super) fn blur(
     acrylic(hwnd, false);
     extend_frame(hwnd, on);
     if on {
+        // Clearing Acrylic and Mica also drops what makes Windows use the
+        // window's alpha at all; without it the see-through pixels came out
+        // white with Clear (tested in the VM, 2026-11-08).
+        see_through(hwnd);
         match material {
             Material::Clear => {}
             Material::Mica if window_vibrancy::apply_mica(w, None).is_ok() => {}
@@ -104,6 +108,30 @@ fn acrylic(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
 }
 
 /// The frame over the whole window, or back to its edges.
+/// Makes DWM compose the window with its alpha channel: "blur behind" over
+/// an empty region, so nothing is blurred. winit does this for transparent
+/// windows when it creates them; it's set again here, after the materials
+/// change.
+fn see_through(hwnd: ::windows::Win32::Foundation::HWND) {
+    use ::windows::Win32::Graphics::Dwm::{
+        DWM_BB_BLURREGION, DWM_BB_ENABLE, DWM_BLURBEHIND, DwmEnableBlurBehindWindow,
+    };
+    use ::windows::Win32::Graphics::Gdi::{CreateRectRgn, DeleteObject};
+    // SAFETY: a live window handle; the region is ours and freed after use
+    // (DWM keeps its own copy).
+    unsafe {
+        let region = CreateRectRgn(0, 0, -1, -1);
+        let bb = DWM_BLURBEHIND {
+            dwFlags: DWM_BB_ENABLE | DWM_BB_BLURREGION,
+            fEnable: true.into(),
+            hRgnBlur: region,
+            fTransitionOnMaximized: false.into(),
+        };
+        let _ = DwmEnableBlurBehindWindow(hwnd, &bb);
+        let _ = DeleteObject(region.into());
+    }
+}
+
 fn extend_frame(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
     use ::windows::Win32::Graphics::Dwm::DwmExtendFrameIntoClientArea;
     use ::windows::Win32::UI::Controls::MARGINS;
