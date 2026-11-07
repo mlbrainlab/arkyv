@@ -1,3 +1,5 @@
+<img src="assets/icons/png/crate-256.png" alt="Crate's app icon: three stacked slabs" width="96" align="right">
+
 # Crate
 
 A fast, friendly archiver. Double-click a zip, get your files. Written in Rust.
@@ -31,6 +33,7 @@ Linux and Windows today; macOS is next on the [roadmap](docs/ROADMAP.md).
 - **Readable names, any language.** Fixes garbled Arabic, Cyrillic and Japanese names in old ZIPs, and remembers the fix per archive. Full Arabic interface, right to left.
 - **The formats you meet.** ZIP, 7z and tar (gz, xz, zst, bz2) to read and write, RAR to read. Split archives (`.7z.001`, `.part1.rar`) with missing-part detection, batch extract, archives inside archives, passwords (AES-256).
 - **Fits in.** Light and dark, keyboard shortcuts, screen-reader labels, an Operations panel for long jobs, desktop notifications when one finishes in the background. No account, no tracking.
+- **Optional Pro (coming soon).** The Glass theme and seven more app icons, for one payment. Nothing else is ever locked.
 - **Scriptable.** `crate x photos.zip` uses the same engine from the terminal: list, extract, test, create, add, delete, rename, convert, checksums.
 
 ## Install

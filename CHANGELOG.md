@@ -2,6 +2,10 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.35 — 2026-11-07
+- New app icon: Layers, three stacked slabs, everywhere Crate's icon appears. Open Lid, the old icon, is now one of the Pro icons.
+- README: the app icon at the top, and a line on Crate Pro.
+
 ## 0.2.34 — 2026-11-07
 - Crate Pro: pick the app icon in Preferences → Appearance, from Open Lid and seven new ones. Crate's windows and their taskbar buttons show the one you pick. Pinned shortcuts, the Linux app menu and the macOS Dock follow later.
 

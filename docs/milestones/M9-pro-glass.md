@@ -135,7 +135,8 @@ Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels 
 - `Tokens.app-icon` picks from `Tokens.app-icons`; every window's `icon` and the Glass caption bar use `Tokens.app-image`. `pref.app_icon` counts only with a key, like Glass, else Open Lid. `apply_theme` sets it, so it follows the theme's path to the window that opened Preferences, and the others as they next open.
 - The row: title and PRO, then the eight icons under it (beside the title they don't fit at the window's minimum width). Without a key the alternates are faded and open the upgrade sheet; arrows step through them only with a key. Each is a checkable button with its name, for screen readers.
 - What shows the window icon: the Windows taskbar and Alt+Tab, X11 docks. Not yet: a pinned taskbar shortcut, the Start menu, GNOME on Wayland (it shows the `.desktop` file's icon), the macOS Dock.
-- Tested: `glass_flow.rs`, shots 165 (no key) and 166 (Layers chosen).
+- Tested: `glass_flow.rs`, shots 165 (no key) and 166 (an alternate chosen).
+- Later the same day: Layers became the app icon everywhere (`assets/icons/crate-icon.svg`, the PNGs, `.ico`, `.icns`) and the free choice; Open Lid moved to `alt/` as a Pro alternate (0.2.35).
 
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs

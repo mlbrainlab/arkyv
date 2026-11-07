@@ -76,7 +76,7 @@ fn glass_flow() {
     prefs.global::<PrefsUi>().set_glass_materials(false);
 
     // App icon: without a key the alternates carry PRO, and choosing one
-    // keeps Open Lid.
+    // keeps Layers.
     prefs
         .global::<PrefsUi>()
         .invoke_choose("app_icon".into(), 3);
@@ -84,7 +84,7 @@ fn glass_flow() {
     assert_eq!(prefs.global::<Tokens>().get_app_icon(), 0);
     assert_eq!(prefs.global::<Tokens>().get_app_icons().row_count(), 8);
     h.shot("165-app-icon-pro");
-    // With a key, as `apply_theme` gives it: Layers chosen, the window's
+    // With a key, as `apply_theme` gives it: Zip chosen, the window's
     // icon follows.
     prefs.global::<ProUi>().set_active(true);
     prefs.global::<PrefsUi>().set_app_icon(3);

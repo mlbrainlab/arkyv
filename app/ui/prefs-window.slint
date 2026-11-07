@@ -489,10 +489,10 @@ export component PrefsWindow inherits Window {
                                         for img[i] in Tokens.app-icons: IconChoice {
                                             col: Locale.rtl ? Tokens.app-icons.length - i : i; row: 0;
                                             source: img;
-                                            label: [@tr("Open Lid"), @tr("Ark"), @tr("Zip"), @tr("Layers"), @tr("Squeeze"), @tr("A monogram"), @tr("Open crate"), @tr("Vault")][i];
+                                            label: [@tr("Layers"), @tr("Open Lid"), @tr("Ark"), @tr("Zip"), @tr("Squeeze"), @tr("A monogram"), @tr("Open crate"), @tr("Vault")][i];
                                             on: i == PrefsUi.app-icon;
                                             locked: i != 0 && !ProUi.active;
-                                            // Open Lid is free; the others open the upgrade sheet without a key.
+                                            // Layers is free; the others open the upgrade sheet without a key.
                                             clicked => {
                                                 if i != 0 && !ProUi.active { ProUi.open(0); } else { PrefsUi.choose("app_icon", i); }
                                             }

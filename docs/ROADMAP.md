@@ -78,6 +78,6 @@ The version lives in the workspace `Cargo.toml` (`version`), and every version g
 |---|---|
 | ~~UI framework~~: decided, Slint (replaced Tauri + Svelte 5 after the M0 startup spike) | done |
 | ~~License~~: decided, MIT | done |
-| ~~App icon~~: decided, concept #1 "Open Lid" (`assets/icons/`) | done |
+| ~~App icon~~: decided, "Layers" (`assets/icons/`; was "Open Lid" until 2026-11-07, now a Pro alternate) | done |
 | ~~Passwords for tar.*~~: decided, ZIP (AES-256) and 7z (AES-256), and tar.* encrypted as a whole with age (`.tar.zst.age`, passphrase / scrypt) | done |
 | ~~Pro model + payment provider~~: decided, honor-system signed key, Lemon Squeezy, $9 one-time (M9 notes) | done |

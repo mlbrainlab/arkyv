@@ -1,4 +1,6 @@
-# Crate app icon: concept #1 "Open Lid"
+# Crate app icon: "Layers"
+
+Three rounded slabs, files pressed flat (chosen 2026-11-07 from the Arkyv icon sheet). It replaced concept #1 "Open Lid", which is now a Pro alternate.
 
 | File | Use |
 |---|---|
@@ -14,7 +16,9 @@
 - Linux packages (M6): install `png/crate-{16…512}.png` into the hicolor theme as `io.github.mlbrainlab.crate.png` (the Wayland app id), referenced by the `.desktop` file.
 - Windows (M7): `crate.ico` as the executable resource. macOS (M8): `crate.icns` (the padded version) in the app bundle.
 
-Colors: tile `#3352E0`, lid `#DDE4FF`, box `#FFFFFF`, document `#FFD27A`.
+Colors: tile `#3352E0`, slabs `#FFFFFF`, `#DDE4FF`, `#FFD27A`.
+
+Rebuild after changing the master: `resvg -w N -h N crate-icon.svg png/crate-N.png` for 16–1024, `crate-icon-macos.svg` to `png/crate-macos-1024.png`; `crate.ico` with `magick` from the 16–256 PNGs; `crate.icns` holds PNGs of the macOS version (`ic07`–`ic14`, 32–1024 px).
 
 ## Alternate icons (Pro)
-Seven more, picked in Preferences → Appearance → App icon: `alt/{ark,zip,layers,squeeze,monogram,open-crate,vault}.svg`, on the same 100-unit grid and tile as Open Lid, with 256 px PNGs in `alt/png/` for the window icon. Render them with `resvg -w 256 -h 256 alt/<name>.svg alt/png/<name>-256.png` (`cargo install resvg`); ImageMagick's own SVG renderer gets strokes and transforms wrong. Extra artwork colors: `#8EA0F0`, `#C7D0F8`, `#1E2F8F`.
+Seven more, picked in Preferences → Appearance → App icon: `alt/{open-lid,ark,zip,squeeze,monogram,open-crate,vault}.svg`, on the same 100-unit grid and tile as Layers, with 256 px PNGs in `alt/png/` for the window icon. Render them with `resvg -w 256 -h 256 alt/<name>.svg alt/png/<name>-256.png` (`cargo install resvg`); ImageMagick's own SVG renderer gets strokes and transforms wrong. Extra artwork colors: `#8EA0F0`, `#C7D0F8`, `#1E2F8F`.

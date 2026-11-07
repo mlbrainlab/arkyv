@@ -75,7 +75,7 @@ pub struct Prefs {
     pub glass_frost: u8,
     /// Windows: Mica behind Glass windows, not Acrylic.
     pub glass_mica: bool,
-    /// Pro: the app icon, an index into `Tokens.app-icons`; 0 is Open Lid.
+    /// Pro: the app icon, an index into `Tokens.app-icons`; 0 is Layers.
     pub app_icon: u8,
     pub default_grid: bool,
     pub ratio_column: bool,

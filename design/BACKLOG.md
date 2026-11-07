@@ -18,7 +18,7 @@ Last updated: 2026-10-24
 | Donations: GitHub Sponsors + Patreon + PayPal, low-key (About, README, FUNDING.yml) | ✔ |
 | "Pro" tier: some features paid, small income expected | ✔ wanted · ❓ model (see section 5) |
 | Pro includes extra themes (first: Liquid Glass) + alternate app icons | ✔ |
-| App icon: concept #1 "Open Lid" (Icons board); the other 7 stay as Pro alternate icons | ✔ (files in `assets/icons/`) |
+| App icon: "Layers" (Arkyv icon sheet, 2026-11-07; Open Lid before); the other 7 are Pro alternate icons | ✔ (files in `assets/icons/`) |
 | Animations: free, short and purposeful, respect "reduce motion"; Glass theme's extra motion is Pro | ❓ proposed |
 | Startup speed is a priority: budget + measurement in M0, Slint as the fallback UI | ✔ |
 | License: **MIT** (README badge + About screen) | ✔ |
