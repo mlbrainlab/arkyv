@@ -15,7 +15,7 @@ OUT=target/dist-local
 if [[ -z "${SKIP_BUILD:-}" ]]; then
   cargo build --release -p arkyv-app -p arkyv-cli
 fi
-for bin in arkyv-app crate; do
+for bin in arkyv-app arkyv; do
   [[ -x target/release/$bin ]] || { echo "target/release/$bin is missing" >&2; exit 1; }
 done
 

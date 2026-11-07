@@ -2,8 +2,8 @@
 # most current distributions. The release workflow does the same on an
 # ubuntu-22.04 runner; locally:
 #
-#   docker build -t crate-build -f packaging/linux/Dockerfile.build packaging/linux
-#   docker run --rm -v "$PWD":/src -w /src crate-build scripts/package-linux.sh
+#   docker build -t arkyv-build -f packaging/linux/Dockerfile.build packaging/linux
+#   docker run --rm -v "$PWD":/src -w /src arkyv-build scripts/package-linux.sh
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \

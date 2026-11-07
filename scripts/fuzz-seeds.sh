@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Seed corpora for the fuzz targets (crates/crate-core/fuzz/corpus/<target>/):
-# small valid archives made with the crate CLI, so the fuzzer starts from
+# small valid archives made with the arkyv CLI, so the fuzzer starts from
 # real structure. Run once; the files are committed.
 set -euo pipefail
 cd "$(dirname "$0")/.."

@@ -40,7 +40,7 @@ mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources" "$DIST"
 
 # One binary with both architectures for each program. The CLI sits next to
 # the app's; the Homebrew cask links it onto PATH.
-for bin in arkyv-app crate; do
+for bin in arkyv-app arkyv; do
   lipo -create -output "$APP/Contents/MacOS/$bin" \
     "target/${TARGETS[0]}/release/$bin" "target/${TARGETS[1]}/release/$bin"
   lipo "$APP/Contents/MacOS/$bin" -verify_arch arm64 x86_64
