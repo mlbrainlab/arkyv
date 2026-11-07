@@ -8,7 +8,7 @@ import { CaptionBar, Frame, WindowFrame } from "frame.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
 import { Header } from "header.slint";
-import { Button, Icons, Segmented, Select, FocusRing, KeyFocus } from "parts.slint";
+import { Button, Icons, Segmented, Select, FocusRing, KeyFocus, ProBadge } from "parts.slint";
 import { TypeChoice } from "first-run.slint";
 import { ProUi, ProSheet, ProIcons } from "pro.slint";
 
@@ -24,6 +24,7 @@ export global PrefsUi {
     in property <int> glass-frost; // 0 clear glass (40% tint) … 100 fully frosted
     in property <bool> glass-materials; // Windows: the Material row
     in property <int> glass-material; // 0 Acrylic, 1 Mica
+    in property <int> app-icon; // Tokens.app-icons; 0 without a key
     in property <bool> default-grid;
     in property <bool> ratio-column;
     in property <int> new-format; // 0 ZIP, 1 TAR.ZST, 2 7Z, 3 TAR.GZ, 4 TAR.XZ
@@ -204,6 +205,41 @@ component Item inherits Rectangle {
     }
 }
 
+// One icon of the App icon picker (Pro.dc.html): a ring when it's chosen,
+// faded while it's locked.
+component IconChoice inherits Rectangle {
+    in property <image> source;
+    in property <string> label;
+    in property <bool> on;
+    in property <bool> locked;
+    callback clicked;
+    callback step(int);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border-width: root.on ? 2px : 0;
+    border-color: Tokens.accent;
+    accessible-role: button;
+    accessible-label: root.label;
+    accessible-checkable: true;
+    accessible-checked: root.on;
+    accessible-action-default => { root.clicked(); }
+    Image {
+        x: 5px;
+        y: 5px;
+        width: 32px;
+        height: 32px;
+        source: root.source;
+        opacity: root.locked ? (area.has-hover ? 0.8 : 0.55) : 1;
+    }
+    area := TouchArea {
+        mouse-cursor: pointer;
+        clicked => { root.clicked(); }
+    }
+    focus := KeyFocus { arrows: true; activate => { root.clicked(); } step(d) => { root.step(d); } }
+    FocusRing { x: -3px; y: -3px; width: root.width + 6px; height: root.height + 6px; on: focus.has-focus; radius: 12px; }
+}
+
 // .grp with its heading (.gh).
 component Group inherits VerticalLayout {
     in property <string> title;
@@ -230,7 +266,7 @@ export component PrefsWindow inherits Window {
     callback toggle-maximize;
 
     title: @tr("Preferences");
-    icon: @image-url("../../assets/icons/png/crate-256.png");
+    icon: Tokens.app-image;
     preferred-width: 760px;
     preferred-height: 760px;
     min-width: 560px;
@@ -307,7 +343,7 @@ export component PrefsWindow inherits Window {
                             if !ProUi.active: Item {
                                 first: true;
                                 title: @tr("Not activated");
-                                note: @tr("Glass theme and four more app icons, {} once", ProUi.price);
+                                note: @tr("Glass theme and seven more app icons, {} once", ProUi.price);
                                 GridLayout {
                                     spacing: 8px;
                                     Button { col: Locale.rtl ? 1 : 0; row: 0; text: @tr("Enter key"); min-height: 34px; clicked => { ProUi.open(1); } }
@@ -426,6 +462,46 @@ export component PrefsWindow inherits Window {
                                     options: [@tr("Acrylic"), @tr("Mica")];
                                     current: PrefsUi.glass-material;
                                     chosen(i) => { PrefsUi.choose("glass_material", i); }
+                                }
+                            }
+                            // App icon (Pro): the icons go under the title, the
+                            // row is too narrow for eight beside it.
+                            Rectangle {
+                                Rectangle { y: 0; height: 1px; background: Tokens.line; }
+                                VerticalLayout {
+                                    padding-left: 16px;
+                                    padding-right: 16px;
+                                    padding-top: 14px;
+                                    padding-bottom: 14px;
+                                    spacing: 10px;
+                                    VerticalLayout {
+                                        spacing: 2px;
+                                        GridLayout {
+                                            spacing: 6px;
+                                            Text { col: Locale.rtl ? 2 : 0; row: 0; text: @tr("App icon"); color: Tokens.ink; font-size: 13px; font-weight: 600; vertical-alignment: center; }
+                                            if !ProUi.active: ProBadge { col: 1; row: 0; }
+                                            Rectangle { col: Locale.rtl ? 0 : 2; row: 0; horizontal-stretch: 1; }
+                                        }
+                                        Text { horizontal-alignment: Locale.start; text: @tr("Shown in the taskbar and on Crate’s windows"); color: Tokens.ink-2; font-size: 12px; wrap: word-wrap; }
+                                    }
+                                    GridLayout {
+                                        spacing: 6px;
+                                        for img[i] in Tokens.app-icons: IconChoice {
+                                            col: Locale.rtl ? Tokens.app-icons.length - i : i; row: 0;
+                                            source: img;
+                                            label: [@tr("Open Lid"), @tr("Ark"), @tr("Zip"), @tr("Layers"), @tr("Squeeze"), @tr("A monogram"), @tr("Open crate"), @tr("Vault")][i];
+                                            on: i == PrefsUi.app-icon;
+                                            locked: i != 0 && !ProUi.active;
+                                            // Open Lid is free; the others open the upgrade sheet without a key.
+                                            clicked => {
+                                                if i != 0 && !ProUi.active { ProUi.open(0); } else { PrefsUi.choose("app_icon", i); }
+                                            }
+                                            step(d) => {
+                                                if ProUi.active { PrefsUi.choose("app_icon", Math.clamp(PrefsUi.app-icon + d, 0, Tokens.app-icons.length - 1)); }
+                                            }
+                                        }
+                                        Rectangle { col: Locale.rtl ? 0 : Tokens.app-icons.length; row: 0; horizontal-stretch: 1; }
+                                    }
                                 }
                             }
                             Item {

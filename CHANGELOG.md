@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.34 — 2026-11-07
+- Crate Pro: pick the app icon in Preferences → Appearance, from Open Lid and seven new ones. Crate's windows and their taskbar buttons show the one you pick. Pinned shortcuts, the Linux app menu and the macOS Dock follow later.
+
 ## 0.2.33 — 2026-11-07
 - The project moved to github.com/mlbrainlab/arkyv, ahead of the app's new name, Arkyv. Old links redirect. About, the installers and the store listings point at the new address.
 

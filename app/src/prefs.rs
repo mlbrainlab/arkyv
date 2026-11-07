@@ -57,6 +57,9 @@ pub const NEW_FORMATS: [OutFormat; 5] = [
 ];
 
 /// What "Always exclude" leaves out of new archives.
+/// How many app icons Preferences offers (`Tokens.app-icons`).
+const APP_ICONS: usize = 8;
+
 pub const ALWAYS_EXCLUDE: [&str; 4] = [".git/", "node_modules/", ".DS_Store", "Thumbs.db"];
 
 #[derive(Clone, Debug, PartialEq)]
@@ -72,6 +75,8 @@ pub struct Prefs {
     pub glass_frost: u8,
     /// Windows: Mica behind Glass windows, not Acrylic.
     pub glass_mica: bool,
+    /// Pro: the app icon, an index into `Tokens.app-icons`; 0 is Open Lid.
+    pub app_icon: u8,
     pub default_grid: bool,
     pub ratio_column: bool,
     pub new_format: OutFormat,
@@ -90,6 +95,7 @@ impl Default for Prefs {
             theme: Theme::System,
             glass_frost: crate::platform::glass_frost(),
             glass_mica: false,
+            app_icon: 0,
             default_grid: false,
             ratio_column: true,
             new_format: OutFormat::TarZst,
@@ -108,6 +114,10 @@ impl Prefs {
     pub fn read(s: &Settings) -> Self {
         let d = Prefs::default();
         let flag = |key: &str, default: bool| s.get::<u8>(key).map_or(default, |v| v != 0);
+        // Pro choices fall back without a key (removed, or settings copied
+        // over). Read the key from disk: Preferences keeps the settings it
+        // opened with, and the key may have been entered since.
+        let pro = crate::license::from_settings(s).is_some() || crate::license::is_pro();
         Prefs {
             language: match s.get::<String>("pref.language").as_deref() {
                 Some("en") => Some(Language::English),
@@ -126,20 +136,17 @@ impl Prefs {
             theme: match s.get::<u8>("pref.theme") {
                 Some(1) => Theme::Light,
                 Some(2) => Theme::Dark,
-                // Without a key (removed, or settings copied over) it's System
-                // again. Read the key from disk: Preferences keeps the settings
-                // it opened with, and the key may have been entered since.
-                Some(3)
-                    if crate::license::from_settings(s).is_some() || crate::license::is_pro() =>
-                {
-                    Theme::Glass
-                }
+                Some(3) if pro => Theme::Glass,
                 _ => Theme::System,
             },
             glass_frost: s
                 .get::<u8>("pref.glass_frost")
                 .map_or(d.glass_frost, |v| v.min(100)),
             glass_mica: s.get::<u8>("pref.glass_material") == Some(1),
+            app_icon: s
+                .get::<u8>("pref.app_icon")
+                .filter(|&i| pro && usize::from(i) < APP_ICONS)
+                .unwrap_or(0),
             default_grid: flag("pref.default_grid", d.default_grid),
             ratio_column: flag("pref.ratio_column", d.ratio_column),
             new_format: s
@@ -187,6 +194,7 @@ impl Prefs {
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
         tokens.set_mica(self.glass_mica && crate::platform::GLASS_MATERIALS);
         tokens.set_material(self.glass_mica && crate::platform::GLASS_MATERIALS);
+        tokens.set_app_icon(i32::from(self.app_icon));
     }
 
     /// What Glass asks of the window itself: the system's blur behind it,
@@ -317,7 +325,7 @@ pub fn start(ui: &PrefsWindow, on_theme: impl Fn(&Prefs) + 'static) {
         let prefs = Prefs::read(&s);
         drop(s);
         fill(&ui, &prefs, &codecs);
-        if key == "theme" || key == "glass_frost" || key == "glass_material" {
+        if ["theme", "glass_frost", "glass_material", "app_icon"].contains(&key) {
             on_theme(&prefs);
         }
         if key == "language" {
@@ -389,6 +397,7 @@ fn fill(ui: &PrefsWindow, p: &Prefs, codecs: &[NameCodec]) {
     g.set_glass_frost(i32::from(p.glass_frost));
     g.set_glass_materials(platform::GLASS_MATERIALS);
     g.set_glass_material(i32::from(p.glass_mica));
+    g.set_app_icon(i32::from(p.app_icon));
     g.set_default_grid(p.default_grid);
     g.set_ratio_column(p.ratio_column);
     g.set_new_format(

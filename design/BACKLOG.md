@@ -103,4 +103,4 @@ Last updated: 2026-10-24
 | 5.8 | Native window blur per OS (macOS vibrancy, Windows Mica/Acrylic, Linux fallback) | 🛠 Built in 0.2.27, Windows redone in 0.2.30 with an Acrylic / Mica choice; macOS seen working; Windows and KDE to check | See DESIGN.md "Glass theme". README tells Linux users to enable blur via a GNOME blur extension (verify name/setting) or KDE |
 | 5.11 | Glass looks identical on all OSes: Crate draws its own frame, corners and buttons | ✔ decided | Build plan: docs/milestones/M9-pro-glass.md |
 | 5.9 | "Reduce transparency" fallback: solid panes when the OS setting is on | 🛠 | |
-| 5.10 | Alternate app icons picker (4 concepts) inside Pro | ✅ GlassBrowse (sidebar card) · 🛠 | macOS can change the Dock icon at runtime; Windows/Linux need a restart or a new shortcut |
+| 5.10 | Alternate app icons picker (7 alternates, Arkyv icon sheet) inside Pro | ✅ GlassBrowse (sidebar card) · 🛠 Preferences row in 0.2.34; shortcuts / Dock still to do | macOS can change the Dock icon at runtime; Windows/Linux need a restart or a new shortcut |

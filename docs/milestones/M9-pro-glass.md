@@ -18,7 +18,9 @@
   - Windows: keep Snap Layouts. Windows shows them only when `WM_NCHITTEST` answers `HTMAXBUTTON` over the maximize button; winit has no hook for that, so hook the window procedure and hit-test Crate's own maximize button. Caption buttons 46 × 32, Close red on hover (DESIGN.md). Kept the native frame in M7 for this reason (2026-10-29)
   - Material: macOS vibrancy, Windows Acrylic (`window-vibrancy` crate on the winit window handle), Linux Frosted fallback (true blur only through the compositor / a blur extension). Slint can't blur inside the window, so panes are translucent fills over the OS material
   - Respect "Reduce transparency" → solid panes
-- [ ] Alternate app icons (4 concepts): macOS can switch the Dock icon live; Windows/Linux update the shortcut/desktop icon (may need a restart)
+- [ ] Alternate app icons (seven, from the Arkyv icon sheet, 2026-11-07): macOS can switch the Dock icon live; Windows/Linux update the shortcut/desktop icon (may need a restart)
+  - [x] The App icon row in Preferences → Appearance, with PRO, and every window's icon following it (0.2.34)
+  - [ ] The taskbar pin / Start menu shortcut on Windows, the `.desktop` icon on Linux (GNOME on Wayland shows that one, not the window's), the Dock on macOS (M8)
 - [ ] Give GitHub sponsors a free key (manual at first)
 - [ ] README note for blur on Linux: "For the Glass theme's see-through blur on GNOME, install a blur extension such as Blur my Shell; KDE Plasma blurs natively." Test the exact extension name and setting yourself before publishing (moved from M6, 2026-10-28: the note ships with the theme)
 
@@ -47,7 +49,7 @@
 - Slint 1.18's winit backend makes windows transparent on Linux and Windows, and on macOS when the background isn't opaque, so a translucent `Window.background` shows what's behind it. Without the OS material that's the desktop, unblurred: the panes are near-opaque so text stays readable.
 - `PRO` badges: `ProBadge` in parts.slint; `Segmented` takes `badge-index` / `badge`.
 - Tests: `glass_flow.rs` (shots 150–153). Screenshots now composite a translucent window over a stand-in wallpaper (`common::shot_now`).
-- Not done: the PRO label on an App icon row (that row arrives with the icons).
+- Not done: the PRO label on an App icon row (that row arrives with the icons). Done in 0.2.34.
 
 ### Glass, part 2 (2026-10-31, 0.2.21)
 - Full view: the window gets 12 px padding; the sidebar and the content column are panes (22 px radius, glass fill, white border); the header sits on the glass with no line under it. `Button` and `ToolButton` are pills under Glass.
@@ -127,6 +129,13 @@ Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels 
 - Rejected: the FemtoVG wgpu renderer through DX12 and DirectComposition, which is the modern route and may be needed if this falls short. It adds wgpu to the binary and to startup, and needs more code that can't run here.
 - Cost: drawing is on the CPU. Slint repaints only what changed, and Crate's UI is simple, but large previews, big grids and maximized 4K windows are the places to watch. All test screenshots already use this renderer, so the look is known.
 - **Not seen yet on Windows.** To check there: see-through with both materials; text, Arabic, and non-Latin file names; scrolling a long list and resizing at full size.
+
+### App icons (2026-11-07, 0.2.34)
+- Eight icons, drawn for the rename to Arkyv (Arkyv icon concepts canvas): Open Lid (today's, free) and seven Pro alternates: Ark, Zip, Layers (rounded corners), Squeeze, A monogram, Open crate, Vault. Masters in `assets/icons/alt/*.svg`, 256 px PNGs in `assets/icons/alt/png/`, rendered with `resvg` (ImageMagick's own SVG renderer drops strokes and transforms).
+- `Tokens.app-icon` picks from `Tokens.app-icons`; every window's `icon` and the Glass caption bar use `Tokens.app-image`. `pref.app_icon` counts only with a key, like Glass, else Open Lid. `apply_theme` sets it, so it follows the theme's path to the window that opened Preferences, and the others as they next open.
+- The row: title and PRO, then the eight icons under it (beside the title they don't fit at the window's minimum width). Without a key the alternates are faded and open the upgrade sheet; arrows step through them only with a key. Each is a checkable button with its name, for screen readers.
+- What shows the window icon: the Windows taskbar and Alt+Tab, X11 docks. Not yet: a pinned taskbar shortcut, the Start menu, GNOME on Wayland (it shows the `.desktop` file's icon), the macOS Dock.
+- Tested: `glass_flow.rs`, shots 165 (no key) and 166 (Layers chosen).
 
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs

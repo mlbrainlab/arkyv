@@ -16,6 +16,20 @@ export global Tokens {
     // Windows Mica: it comes with its own tint, so the window adds none at
     // frost 0 and panes are lighter. Acrylic takes Crate's tint, as on macOS.
     in property <bool> material;
+    // The app icon (Pro; Preferences → Appearance): 0 is Open Lid, the
+    // others are the alternates in `assets/icons/alt/`, in the picker's order.
+    in property <int> app-icon;
+    out property <[image]> app-icons: [
+        @image-url("../../assets/icons/png/crate-256.png"),
+        @image-url("../../assets/icons/alt/png/ark-256.png"),
+        @image-url("../../assets/icons/alt/png/zip-256.png"),
+        @image-url("../../assets/icons/alt/png/layers-256.png"),
+        @image-url("../../assets/icons/alt/png/squeeze-256.png"),
+        @image-url("../../assets/icons/alt/png/monogram-256.png"),
+        @image-url("../../assets/icons/alt/png/open-crate-256.png"),
+        @image-url("../../assets/icons/alt/png/vault-256.png"),
+    ];
+    out property <image> app-image: app-icons[app-icon];
     // Follows the system color scheme, or the Theme preference (prefs.rs).
     out property <bool> dark: Palette.color-scheme == ColorScheme.dark;
 

@@ -12,7 +12,7 @@ mod common;
 use common::{Harness, g};
 use crate_app::prefs::{Prefs, Theme};
 use crate_app::{PrefsUi, ProUi, Tokens};
-use slint::ComponentHandle;
+use slint::{ComponentHandle, Model};
 
 /// Crate's own frame and header, as on Linux.
 macro_rules! linux_frame {
@@ -74,6 +74,25 @@ fn glass_flow() {
     h.shot("164-glass-prefs-windows");
     prefs.global::<crate_app::Frame>().set_caption(false);
     prefs.global::<PrefsUi>().set_glass_materials(false);
+
+    // App icon: without a key the alternates carry PRO, and choosing one
+    // keeps Open Lid.
+    prefs
+        .global::<PrefsUi>()
+        .invoke_choose("app_icon".into(), 3);
+    assert_eq!(Prefs::load().app_icon, 0, "no key, no alternate icon");
+    assert_eq!(prefs.global::<Tokens>().get_app_icon(), 0);
+    assert_eq!(prefs.global::<Tokens>().get_app_icons().row_count(), 8);
+    h.shot("165-app-icon-pro");
+    // With a key, as `apply_theme` gives it: Layers chosen, the window's
+    // icon follows.
+    prefs.global::<ProUi>().set_active(true);
+    prefs.global::<PrefsUi>().set_app_icon(3);
+    prefs.global::<Tokens>().set_app_icon(3);
+    h.shot("166-app-icon");
+    prefs.global::<ProUi>().set_active(false);
+    prefs.global::<PrefsUi>().set_app_icon(0);
+    prefs.global::<Tokens>().set_app_icon(0);
     linux_frame!(&prefs);
     prefs.global::<PrefsUi>().set_theme(0);
     prefs.global::<Tokens>().set_glass(false);

@@ -15,3 +15,6 @@
 - Windows (M7): `crate.ico` as the executable resource. macOS (M8): `crate.icns` (the padded version) in the app bundle.
 
 Colors: tile `#3352E0`, lid `#DDE4FF`, box `#FFFFFF`, document `#FFD27A`.
+
+## Alternate icons (Pro)
+Seven more, picked in Preferences → Appearance → App icon: `alt/{ark,zip,layers,squeeze,monogram,open-crate,vault}.svg`, on the same 100-unit grid and tile as Open Lid, with 256 px PNGs in `alt/png/` for the window icon. Render them with `resvg -w 256 -h 256 alt/<name>.svg alt/png/<name>-256.png` (`cargo install resvg`); ImageMagick's own SVG renderer gets strokes and transforms wrong. Extra artwork colors: `#8EA0F0`, `#C7D0F8`, `#1E2F8F`.

@@ -22,7 +22,7 @@ export component ArchiveWindow inherits Window {
     in property <bool> native-menu;
 
     title: ArchiveUi.archive-name == "" ? @tr("Crate") : @tr("{} — Crate", ArchiveUi.archive-name);
-    icon: @image-url("../../assets/icons/png/crate-256.png");
+    icon: Tokens.app-image;
     preferred-width: 520px;
     preferred-height: 620px;
     min-width: ArchiveUi.full ? 720px : 420px;
