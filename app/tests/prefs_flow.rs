@@ -5,9 +5,9 @@ mod common;
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
 mod support;
 
+use arkyv_app::prefs::{Level, OpenWith, Prefs, Theme};
+use arkyv_app::{CreateUi, PrefsUi};
 use common::{Harness, g, rows};
-use crate_app::prefs::{Level, OpenWith, Prefs, Theme};
-use crate_app::{CreateUi, PrefsUi};
 use crate_core::create::OutFormat;
 use slint::{ComponentHandle, Model};
 
@@ -20,7 +20,7 @@ fn preferences_flow() {
     // Defaults, as the mockup shows them.
     let ui = h.prefs();
     let p = || ui.global::<PrefsUi>();
-    // (With CRATE_UI_DARK the harness starts the theme at Dark.)
+    // (With ARKYV_UI_DARK the harness starts the theme at Dark.)
     let (theme, theme_index) = if h.dark {
         (Theme::Dark, 2)
     } else {
@@ -44,7 +44,7 @@ fn preferences_flow() {
     p().invoke_choose("theme".into(), 2);
     assert_eq!(p().get_theme(), 2);
     assert_eq!(
-        ui.global::<crate_app::Palette>().get_color_scheme(),
+        ui.global::<arkyv_app::Palette>().get_color_scheme(),
         slint::language::ColorScheme::Dark
     );
     h.shot("51-prefs-dark");

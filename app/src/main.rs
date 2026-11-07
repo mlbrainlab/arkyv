@@ -1,4 +1,4 @@
-//! `crate-app`: command line, startup probe and window setup.
+//! `arkyv-app`: command line, startup probe and window setup.
 // Prevents an extra console window on Windows in release builds.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
@@ -8,14 +8,14 @@ use std::time::{Duration, Instant};
 use slint::ComponentHandle;
 use slint::winit_030::WinitWindowAccessor;
 
-use crate_app::{
+use arkyv_app::{
     ArchiveWindow, Locale, MainWindow, begin_window_drag, connect_frame, instance, platform, view,
 };
 
 const USAGE: &str = "\
-Usage: crate-app [archive]
-       crate-app --compress <files and folders…>
-       crate-app --extract-each <archives…>
+Usage: arkyv-app [archive]
+       arkyv-app --compress <files and folders…>
+       arkyv-app --extract-each <archives…>
 
 With an archive, opens it in the mini view (the same archive twice brings
 the open window to the front). With --compress, opens the New archive
@@ -68,7 +68,7 @@ impl Launch {
         Ok(launch)
     }
 
-    /// No archive and nothing else to do: how Finder launches Crate.
+    /// No archive and nothing else to do: how Finder launches Arkyv.
     fn is_plain(&self) -> bool {
         self.archive.is_none()
             && self.compress.is_empty()
@@ -106,13 +106,13 @@ fn main() -> std::process::ExitCode {
         return std::process::ExitCode::SUCCESS;
     }
     if args.iter().any(|a| a == "-V" || a == "--version") {
-        println!("crate-app {}", env!("CARGO_PKG_VERSION"));
+        println!("arkyv-app {}", env!("CARGO_PKG_VERSION"));
         return std::process::ExitCode::SUCCESS;
     }
     let launch = match Launch::parse(&args) {
         Ok(l) => l,
         Err(msg) => {
-            eprintln!("crate-app: {msg}\n\n{USAGE}");
+            eprintln!("arkyv-app: {msg}\n\n{USAGE}");
             return std::process::ExitCode::from(2);
         }
     };
@@ -124,7 +124,7 @@ fn main() -> std::process::ExitCode {
     match result {
         Ok(()) => std::process::ExitCode::SUCCESS,
         Err(e) => {
-            eprintln!("crate-app: {e}");
+            eprintln!("arkyv-app: {e}");
             std::process::ExitCode::FAILURE
         }
     }
@@ -178,7 +178,7 @@ fn run_main(
     ui.run()
 }
 
-/// macOS, launched with no arguments: that's how Finder starts Crate to open
+/// macOS, launched with no arguments: that's how Finder starts Arkyv to open
 /// an archive too, sending the archive in an Apple Event that has arrived by
 /// the event loop's first turn. The first archive opens here in the mini
 /// view (any others in their own windows); with none, Home.
@@ -223,7 +223,7 @@ fn run_launched() -> Result<(), slint::PlatformError> {
             Ok(())
         })();
         if let Err(e) = shown {
-            eprintln!("crate-app: {e}");
+            eprintln!("arkyv-app: {e}");
             let _ = slint::quit_event_loop();
         }
     });
@@ -240,7 +240,7 @@ fn open_each(paths: Vec<PathBuf>) {
     };
     for path in paths {
         if let Err(e) = std::process::Command::new(&exe).arg(&path).spawn() {
-            eprintln!("crate-app: can't open {}: {e}", path.display());
+            eprintln!("arkyv-app: can't open {}: {e}", path.display());
         }
     }
 }
@@ -270,7 +270,7 @@ fn main_window(launch: &Launch) -> Result<MainWindow, slint::PlatformError> {
                 .with_winit_window(|w| w.set_maximized(!w.is_maximized()));
         }
     });
-    crate_app::home::Home::start(&ui, launch.compress.clone());
+    arkyv_app::home::Home::start(&ui, launch.compress.clone());
     let weak = ui.as_weak();
     platform::overlay_titlebar(&ui, true, move |inset, height| {
         if let Some(ui) = weak.upgrade() {
@@ -279,7 +279,7 @@ fn main_window(launch: &Launch) -> Result<MainWindow, slint::PlatformError> {
         }
     });
     if !launch.extract_each.is_empty() {
-        crate_app::batch::start(&ui, launch.extract_each.clone(), true);
+        arkyv_app::batch::start(&ui, launch.extract_each.clone(), true);
     }
     // Files dropped on Home: winit sends one event per file, so collect them
     // until the burst ends.
@@ -294,7 +294,7 @@ fn main_window(launch: &Launch) -> Result<MainWindow, slint::PlatformError> {
                 Duration::from_millis(80),
                 move || {
                     let paths = std::mem::take(&mut *dropped.borrow_mut());
-                    crate_app::home::post(move |home| home.open_paths(paths));
+                    arkyv_app::home::post(move |home| home.open_paths(paths));
                 },
             );
         }
@@ -347,7 +347,7 @@ impl Probe {
             }
         });
         if let Err(err) = result {
-            eprintln!("crate-startup: rendering notifier unavailable: {err:?}");
+            eprintln!("arkyv-startup: rendering notifier unavailable: {err:?}");
         }
         probe
     }
@@ -361,7 +361,7 @@ impl Probe {
         let s = &self.0;
         let ms = |d: Duration| d.as_secs_f64() * 1e3;
         eprintln!(
-            "crate-startup view={} premain_ms={:.0} window_ms={:.1} first_frame_ms={:.1} ready_ms={:.1} visible_ms={:.1} signal=after-render",
+            "arkyv-startup view={} premain_ms={:.0} window_ms={:.1} first_frame_ms={:.1} ready_ms={:.1} visible_ms={:.1} signal=after-render",
             s.view,
             s.pre_main.map(ms).unwrap_or_default(),
             ms(s.built),

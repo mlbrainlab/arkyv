@@ -1,7 +1,7 @@
-// The Crate Pro signer (Cloudflare Worker). Crate posts a Lemon Squeezy
-// license key; if Lemon Squeezy says it's an active key for Crate Pro and the
+// The Arkyv Pro signer (Cloudflare Worker). Arkyv posts a Lemon Squeezy
+// license key; if Lemon Squeezy says it's an active key for Arkyv Pro and the
 // key has a free activation, the Worker answers with a key signed with
-// Crate's private key, which the app then checks offline. Nothing is stored
+// Arkyv's private key, which the app then checks offline. Nothing is stored
 // here: Lemon Squeezy keeps the activations.
 //
 //   POST /            {license_key, instance_id?, instance_name}
@@ -14,7 +14,7 @@
 // Secrets and variables (see README.md):
 //   LICENSE_PRIVATE_KEY  secret: ~/crate-license/license-ed25519.pem (PKCS#8 PEM)
 //   LS_STORE_ID          the Lemon Squeezy store's id
-//   LS_PRODUCT_ID        Crate Pro's product id
+//   LS_PRODUCT_ID        Arkyv Pro's product id
 //   MAX_ACTIVATIONS      computers per key (default 5), checked here as well,
 //                        so a missing limit in Lemon Squeezy doesn't open it up
 
@@ -64,15 +64,15 @@ async function activate(body, env) {
     // Deactivated meanwhile (from another computer, or by support): activate anew.
   }
 
-  const name = String(body.instance_name || "Crate").slice(0, 100);
+  const name = String(body.instance_name || "Arkyv").slice(0, 100);
   const answer = await lemon("activate", { license_key: licenseKey, instance_name: name });
   if (!answer.activated) {
     const limit = /limit/i.test(String(answer.error || ""));
-    return limit ? json(409, { error: "limit" }) : json(404, { error: "not a Crate Pro key" });
+    return limit ? json(409, { error: "limit" }) : json(404, { error: "not a Arkyv Pro key" });
   }
   if (!ours(answer, env)) {
     await lemon("deactivate", { license_key: licenseKey, instance_id: answer.instance.id });
-    return json(404, { error: "not a Crate Pro key" });
+    return json(404, { error: "not a Arkyv Pro key" });
   }
   if (Number(answer.license_key?.activation_usage) > max) {
     await lemon("deactivate", { license_key: licenseKey, instance_id: answer.instance.id });

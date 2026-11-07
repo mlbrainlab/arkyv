@@ -10,12 +10,12 @@
 #                                       # another archive (default: a generated
 #                                       # 2,000-entry zip in $OUT)
 #   BIN=path/to/other OUT=target/startup-bench-other scripts/startup-bench.sh
-#                                       # another binary that prints the same crate-startup line
+#                                       # another binary that prints the same arkyv-startup line
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 RUNS=10
-DEFAULT_BIN=target/release/crate-app
+DEFAULT_BIN=target/release/arkyv-app
 BIN=${BIN:-$DEFAULT_BIN}
 OUT=${OUT:-target/startup-bench}
 MODES=(warm cold)
@@ -24,7 +24,7 @@ MODES=(warm cold)
 command -v hyperfine >/dev/null || { echo "hyperfine is missing: sudo apt install hyperfine" >&2; exit 1; }
 if [[ -z "${SKIP_BUILD:-}" ]]; then
   if [[ $BIN == "$DEFAULT_BIN" ]]; then
-    cargo build --release -p crate-app
+    cargo build --release -p arkyv-app
   else
     echo "BIN=$BIN: build it yourself first."
   fi
@@ -70,7 +70,7 @@ import json, re, statistics, sys
 out, runs, modes = sys.argv[1], int(sys.argv[2]), sys.argv[3:]
 print(f"\n{'mode':<6} {'metric':<26} {'median':>8} {'min':>8} {'max':>8}  (ms)")
 for mode in modes:
-    lines = [l for l in open(f"{out}/{mode}.log") if l.startswith("crate-startup")][-runs:]
+    lines = [l for l in open(f"{out}/{mode}.log") if l.startswith("arkyv-startup")][-runs:]
     vals = {k: [float(m.group(1)) for l in lines if (m := re.search(k + r"=([\d.]+)", l))]
             for k in ("premain_ms", "window_ms", "first_frame_ms", "ready_ms", "visible_ms")}
     total = [p + v for p, v in zip(vals["premain_ms"], vals["visible_ms"])]

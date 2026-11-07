@@ -3,7 +3,7 @@
 // Rust fills it (`app/src/about.rs`). The donation links are empty until the
 // accounts exist; an empty link hides its button, and with none at all the
 // Support box and the nudge stay hidden. The mockup's "Up to date" chip waits
-// for an update check, which Crate doesn't have.
+// for an update check, which Arkyv doesn't have.
 import { Tokens } from "tokens.slint";
 import { Locale } from "locale.slint";
 import { Icon } from "icon.slint";
@@ -19,7 +19,7 @@ export global AboutUi {
     out property <bool> has-support: sponsor != "" || patreon != "" || paypal != "";
     // The nudge: shown once after enough successful operations.
     in-out property <bool> nudge;
-    in property <string> nudge-title; // "Crate has handled 50 archives for you"
+    in property <string> nudge-title; // "Arkyv has handled 50 archives for you"
     callback open; // fill, then show
     callback open-link(string); // "sponsor", "patreon", "paypal", "source", "issues", "releases"
     callback nudge-support;
@@ -98,11 +98,11 @@ export component AboutSheet inherits Scrim {
                         Icon { size: 40; stroke: white; commands: Icons.archive; }
                     }
                 }
-                Text { text: @tr("Crate"); color: Tokens.ink; font-size: 24px; font-weight: 700; horizontal-alignment: center; }
+                Text { text: @tr("Arkyv"); color: Tokens.ink; font-size: 24px; font-weight: 700; horizontal-alignment: center; }
                 Text { text: AboutUi.version; color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; }
             }
 
-            // Support Crate (only once there is somewhere to send support).
+            // Support Arkyv (only once there is somewhere to send support).
             // The box's background shares the grid cell with its content, so
             // the wrapped text's height counts (inside a Rectangle it didn't).
             if AboutUi.has-support: GridLayout {
@@ -122,9 +122,9 @@ export component AboutSheet inherits Scrim {
                             GridLayout {
                                 spacing: 10px;
                                 Icon { col: Locale.rtl ? 1 : 0; row: 0; stroke: Tokens.danger; commands: AboutIcons.heart; }
-                                Text { col: Locale.rtl ? 0 : 1; row: 0; text: @tr("Support Crate"); color: Tokens.ink; font-size: 14px; font-weight: 600; vertical-alignment: center; horizontal-stretch: 1; horizontal-alignment: Locale.start; }
+                                Text { col: Locale.rtl ? 0 : 1; row: 0; text: @tr("Support Arkyv"); color: Tokens.ink; font-size: 14px; font-weight: 600; vertical-alignment: center; horizontal-stretch: 1; horizontal-alignment: Locale.start; }
                             }
-                            Text { text: @tr("Crate is free and open source, with no ads or tracking. If it saves you time, you can help fund development."); color: Tokens.ink-2; font-size: 13px; wrap: word-wrap; horizontal-alignment: Locale.start;
+                            Text { text: @tr("Arkyv is free and open source, with no ads or tracking. If it saves you time, you can help fund development."); color: Tokens.ink-2; font-size: 13px; wrap: word-wrap; horizontal-alignment: Locale.start;
                                 // A set width, so the layout measures the wrapped height (card − 2 × 20 − 2 × 18).
                                 width: root.card-width - 76px; }
                             if AboutUi.sponsor != "": Button { text: @tr("Sponsor on GitHub"); icon: AboutIcons.heart; primary: true; min-height: 38px; clicked => { AboutUi.open-link("sponsor"); } }

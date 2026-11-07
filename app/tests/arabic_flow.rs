@@ -5,8 +5,8 @@ mod common;
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
 mod support;
 
+use arkyv_app::i18n::{self, Language};
 use common::{Harness, g};
-use crate_app::i18n::{self, Language};
 use slint::ComponentHandle;
 
 #[test]
@@ -20,10 +20,10 @@ fn arabic_flow() {
     h.until("listing", || {
         g(&ui).get_status() == "ready" && !g(&ui).get_streaming()
     });
-    assert!(!ui.global::<crate_app::Locale>().get_rtl());
+    assert!(!ui.global::<arkyv_app::Locale>().get_rtl());
     i18n::set(Language::Arabic);
     assert!(
-        ui.global::<crate_app::Locale>().get_rtl(),
+        ui.global::<arkyv_app::Locale>().get_rtl(),
         "follows the translation"
     );
     assert_eq!(
@@ -38,7 +38,7 @@ fn arabic_flow() {
     h.until("listing", || {
         g(&ui).get_status() == "ready" && !g(&ui).get_streaming()
     });
-    assert!(ui.global::<crate_app::Locale>().get_rtl());
+    assert!(ui.global::<arkyv_app::Locale>().get_rtl());
     assert!(
         g(&ui).get_summary().contains("عناصر"),
         "{}",
@@ -75,13 +75,13 @@ fn arabic_flow() {
     // Home with First run, the New archive dialog, and Preferences.
     let home = h.home(vec![]);
     h.shot("75-ar-first-run");
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     let src = dir.path().join("رحلة");
     std::fs::create_dir_all(&src).unwrap();
     std::fs::write(src.join("notes.txt"), "notes").unwrap();
     let home = h.home(vec![src]);
     h.until("counted", || {
-        home.global::<crate_app::CreateUi>()
+        home.global::<arkyv_app::CreateUi>()
             .get_summary()
             .contains("عنصر")
     });
@@ -94,11 +94,11 @@ fn arabic_flow() {
 
     set_language("system");
     let ui = h.open(&path("project-assets.zip"));
-    assert!(!ui.global::<crate_app::Locale>().get_rtl());
+    assert!(!ui.global::<arkyv_app::Locale>().get_rtl());
 }
 
 fn set_language(code: &str) {
-    let mut s = crate_app::settings::Settings::load();
+    let mut s = arkyv_app::settings::Settings::load();
     s.set("pref.language", code);
     s.save();
 }

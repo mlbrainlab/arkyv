@@ -1,7 +1,7 @@
 //! The Glass theme (Pro): the Theme row in Preferences, and archive windows
 //! in glass. Test builds can't make a real key, so the windows get glass the
 //! way `Prefs::apply_theme` gives it to them, frosted as on Linux, in
-//! Crate's own frame (Linux). Shots are composited over a stand-in
+//! Arkyv's own frame (Linux). Shots are composited over a stand-in
 //! wallpaper.
 
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
@@ -9,16 +9,16 @@ mod support;
 
 mod common;
 
+use arkyv_app::prefs::{Prefs, Theme};
+use arkyv_app::{PrefsUi, ProUi, Tokens};
 use common::{Harness, g};
-use crate_app::prefs::{Prefs, Theme};
-use crate_app::{PrefsUi, ProUi, Tokens};
 use slint::{ComponentHandle, Model};
 
-/// Crate's own frame and header, as on Linux.
+/// Arkyv's own frame and header, as on Linux.
 macro_rules! linux_frame {
     ($ui:expr) => {{
         $ui.set_custom_frame(true);
-        crate_app::connect_frame($ui, true);
+        arkyv_app::connect_frame($ui, true);
     }};
 }
 
@@ -69,10 +69,10 @@ fn glass_flow() {
     prefs.global::<PrefsUi>().set_theme(3);
     prefs.global::<PrefsUi>().set_glass_materials(true);
     prefs.set_custom_frame(false);
-    prefs.global::<crate_app::Frame>().set_custom(false);
-    prefs.global::<crate_app::Frame>().set_caption(true);
+    prefs.global::<arkyv_app::Frame>().set_custom(false);
+    prefs.global::<arkyv_app::Frame>().set_caption(true);
     h.shot("164-glass-prefs-windows");
-    prefs.global::<crate_app::Frame>().set_caption(false);
+    prefs.global::<arkyv_app::Frame>().set_caption(false);
     prefs.global::<PrefsUi>().set_glass_materials(false);
 
     // App icon: without a key the alternates carry PRO, and choosing one
@@ -122,21 +122,21 @@ fn glass_flow() {
     h.shot("153-glass-full");
 
     // Dark glass: Glass follows the system's dark mode.
-    ui.global::<crate_app::Palette>()
+    ui.global::<arkyv_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Dark);
     h.shot("155-glass-full-dark");
     g(&ui).invoke_toggle_full();
     h.until("mini", || !g(&ui).get_full());
     h.shot("156-glass-mini-dark");
 
-    // Windows: the system's frame, but Crate's caption strip on glass.
-    ui.global::<crate_app::Palette>()
+    // Windows: the system's frame, but Arkyv's caption strip on glass.
+    ui.global::<arkyv_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Light);
     ui.set_custom_frame(false);
-    ui.global::<crate_app::Frame>().set_custom(false);
-    ui.global::<crate_app::Frame>().set_caption(true);
+    ui.global::<arkyv_app::Frame>().set_custom(false);
+    ui.global::<arkyv_app::Frame>().set_caption(true);
     h.shot("162-glass-mini-windows");
-    ui.global::<crate_app::Frame>().set_max_hover(true);
+    ui.global::<arkyv_app::Frame>().set_max_hover(true);
     g(&ui).invoke_toggle_full();
     h.until("full", || g(&ui).get_full());
     h.shot("163-glass-full-windows");
@@ -148,7 +148,7 @@ fn glass_flow() {
     home.global::<Tokens>().set_glass(true);
     home.global::<Tokens>().set_frost(0.6);
     h.shot("157-glass-home");
-    home.global::<crate_app::Palette>()
+    home.global::<arkyv_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Dark);
     h.shot("158-glass-home-dark");
 }

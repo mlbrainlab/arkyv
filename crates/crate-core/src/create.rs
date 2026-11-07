@@ -14,7 +14,7 @@ use crate::error::{Error, Result};
 use crate::pattern;
 use crate::progress::{CancelToken, Progress};
 
-/// Formats Crate can write.
+/// Formats Arkyv can write.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum OutFormat {
     Zip,
@@ -275,7 +275,7 @@ fn walk(
         .file_name()
         .map(|n| n.to_string_lossy())
         .unwrap_or_default();
-    if file_name.starts_with(".crate-new-") {
+    if file_name.starts_with(".arkyv-new-") {
         return; // another archive being written right here
     }
     let item = |kind, size| Item {
@@ -1029,7 +1029,7 @@ impl AtomicFile {
             _ => PathBuf::from("."),
         };
         let temp = tempfile::Builder::new()
-            .prefix(".crate-new-")
+            .prefix(".arkyv-new-")
             .tempfile_in(dir)?;
         Ok(Self {
             target: target.to_owned(),

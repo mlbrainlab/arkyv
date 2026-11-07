@@ -1,5 +1,5 @@
-// Crate Pro keys, shared by the Worker and sign.mjs. The format is checked by
-// app/src/license.rs: "CRATE-PRO-" + base64url(payload + 64-byte Ed25519
+// Arkyv Pro keys, shared by the Worker and sign.mjs. The format is checked by
+// app/src/license.rs: "ARKYV-PRO-" + base64url(payload + 64-byte Ed25519
 // signature), payload "1|<id>|<issued, YYYY-MM-DD>".
 
 export function payload(id, issued = new Date().toISOString().slice(0, 10)) {
@@ -15,5 +15,5 @@ export function encode(payloadBytes, signature) {
   all.set(sig, payloadBytes.length);
   let bin = "";
   for (const b of all) bin += String.fromCharCode(b);
-  return "CRATE-PRO-" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return "ARKYV-PRO-" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }

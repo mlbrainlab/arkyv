@@ -68,7 +68,7 @@ pub type Opener = fn(&Path) -> std::io::Result<()>;
 
 thread_local! {
     static OPENER: std::cell::Cell<Opener> = std::cell::Cell::new(|p| open::that_detached(p));
-    /// Opens an archive in its own window (normally: start Crate on it).
+    /// Opens an archive in its own window (normally: start Arkyv on it).
     static OPEN_ARCHIVE: std::cell::Cell<Opener> = std::cell::Cell::new(open_in_new_window);
 }
 
@@ -244,7 +244,7 @@ struct State {
 
 impl Home {
     /// Wires the Home window. With `sources`, the New archive dialog opens
-    /// right away (`crate-app --compress …`).
+    /// right away (`arkyv-app --compress …`).
     pub fn start(ui: &MainWindow, sources: Vec<PathBuf>) {
         let settings = Settings::load();
         let prefs = Prefs::read(&settings);
@@ -736,11 +736,11 @@ impl Home {
         };
         let encrypt_note = match format {
             OutFormat::Zip => {
-                tr("AES-256. File names stay visible; opens in 7-Zip, WinRAR, macOS and Crate.")
+                tr("AES-256. File names stay visible; opens in 7-Zip, WinRAR, macOS and Arkyv.")
             }
             OutFormat::SevenZ => tr("AES-256. File names are hidden too."),
             _ => tr(
-                "Encrypted with age (scrypt). File names are hidden too. Opens in Crate and the age tool.",
+                "Encrypted with age (scrypt). File names are hidden too. Opens in Arkyv and the age tool.",
             ),
         };
         let mut presets: Vec<SharedString> =

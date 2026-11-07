@@ -1,4 +1,4 @@
-//! The Crate Pro sheet and the Crate Pro group in Preferences
+//! The Arkyv Pro sheet and the Arkyv Pro group in Preferences
 //! (`design/canvas/Pro.dc.html`, `app/ui/pro.slint`). Activation runs on a
 //! worker thread: it may go to the signer (`license.rs`).
 
@@ -9,7 +9,7 @@ use std::sync::atomic::{AtomicU32, Ordering};
 use slint::ComponentHandle;
 
 use crate::i18n::{tr, trf};
-use crate::license::{self, ActivateError, License, PREFIX};
+use crate::license::{self, ActivateError, License};
 use crate::{PrefsWindow, ProUi};
 
 /// Shown on the Buy button and in Preferences.
@@ -17,7 +17,7 @@ const PRICE: &str = "$9";
 
 /// The Lemon Squeezy checkout, set at build time by the release workflow (a
 /// repository variable). Builds without it hide the Buy button.
-const BUY_URL: Option<&str> = option_env!("CRATE_BUY_URL");
+const BUY_URL: Option<&str> = option_env!("ARKYV_BUY_URL");
 
 fn buy_url() -> Option<&'static str> {
     BUY_URL.filter(|u| !u.is_empty())
@@ -105,30 +105,30 @@ fn show_status(ui: &PrefsWindow, license: Option<&License>) {
         .map(crate::model::date_text)
         .map(|date| {
             trf(
-                "Since {date} · thank you for supporting Crate",
+                "Since {date} · thank you for supporting Arkyv",
                 &[("date", &date)],
             )
         })
-        .unwrap_or_else(|| tr("Thank you for supporting Crate"));
+        .unwrap_or_else(|| tr("Thank you for supporting Arkyv"));
     g.set_since(since.into());
 }
 
 fn error_text(e: &ActivateError, key: &str) -> String {
     match e {
-        ActivateError::Rejected if key.trim().starts_with(PREFIX) => {
+        ActivateError::Rejected if license::is_signed_key(key) => {
             tr("This key isn’t valid. Check that you copied all of it.")
         }
         ActivateError::Rejected => {
             tr("Lemon Squeezy doesn’t know this key. Check that you copied all of it.")
         }
         ActivateError::Limit => tr(
-            "This key is already active on 5 computers. Remove the license in Crate on one of them, then try again.",
+            "This key is already active on 5 computers. Remove the license in Arkyv on one of them, then try again.",
         ),
         ActivateError::Network(_) => {
             tr("Couldn’t reach the license server. Check your connection and try again.")
         }
         ActivateError::Unavailable => tr(
-            "This copy of Crate can’t activate store keys. Paste a key that starts with CRATE-PRO.",
+            "This copy of Arkyv can’t activate store keys. Paste a key that starts with ARKYV-PRO.",
         ),
     }
 }

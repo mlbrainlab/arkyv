@@ -27,14 +27,14 @@ pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, _mica:
     w.set_blur(on);
 }
 
-/// Winit backend with Crate's app id, so GNOME matches windows to the
+/// Winit backend with Arkyv's app id, so GNOME matches windows to the
 /// .desktop file and its icon.
 ///
 /// The desktop's launch token (`XDG_ACTIVATION_TOKEN` on Wayland,
 /// `DESKTOP_STARTUP_ID` on X11) goes to the first window: showing it then
 /// tells the shell the launch is over. Without it GNOME keeps the busy
 /// cursor until its timeout although the window is up. The variables are
-/// cleared, so windows Crate starts itself don't reuse the token.
+/// cleared, so windows Arkyv starts itself don't reuse the token.
 pub fn select_backend() -> Result<(), slint::PlatformError> {
     use slint::winit_030::winit::platform::startup_notify::{
         WindowAttributesExtStartupNotify, reset_activation_token_env,
@@ -50,7 +50,7 @@ pub fn select_backend() -> Result<(), slint::PlatformError> {
     slint::BackendSelector::new()
         .backend_name("winit".into())
         .with_winit_window_attributes_hook(move |attrs| {
-            let attrs = attrs.with_name(super::APP_ID, "crate");
+            let attrs = attrs.with_name(super::APP_ID, "arkyv");
             match token.lock().unwrap().take() {
                 Some(t) => attrs.with_activation_token(ActivationToken::from_raw(t)),
                 None => attrs,
@@ -126,7 +126,7 @@ pub const SYSTEM_MIME: MimeBackend = MimeBackend {
 
 /// The default app as GLib (and so GNOME Files) sees it; `None` when `gio`
 /// isn't installed. `xdg-mime query` misreads `mimeapps.list` on Ubuntu's
-/// GNOME (it reported Files while GLib, and Files, used Crate).
+/// GNOME (it reported Files while GLib, and Files, used Arkyv).
 fn gio_default(mime: &str) -> Option<Option<String>> {
     let out = Command::new("gio")
         .args(["mime", mime])
@@ -136,7 +136,7 @@ fn gio_default(mime: &str) -> Option<Option<String>> {
     Some(parse_gio_mime(&String::from_utf8_lossy(&out.stdout)))
 }
 
-/// `Default application for “application/zip”: crate.desktop` → the app.
+/// `Default application for “application/zip”: arkyv.desktop` → the app.
 fn parse_gio_mime(text: &str) -> Option<String> {
     text.lines()
         .next()?
@@ -156,7 +156,7 @@ fn xdg_mime_default(mime: &str) -> Option<String> {
     (out.status.success() && !name.is_empty()).then(|| name.to_owned())
 }
 
-/// Crate's .desktop file in the XDG data folders, if it is installed.
+/// Arkyv's .desktop file in the XDG data folders, if it is installed.
 pub fn installed_desktop_file() -> Option<PathBuf> {
     let home = std::env::var_os("HOME").map(PathBuf::from);
     let data_home = std::env::var_os("XDG_DATA_HOME")
@@ -186,10 +186,10 @@ pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
 mod tests {
     #[test]
     fn reads_gio_mime() {
-        let out = "Default application for “application/zip”: io.github.mlbrainlab.crate.desktop\nRegistered applications:\n\tx.desktop\n";
+        let out = "Default application for “application/zip”: io.github.mlbrainlab.arkyv.desktop\nRegistered applications:\n\tx.desktop\n";
         assert_eq!(
             super::parse_gio_mime(out).as_deref(),
-            Some("io.github.mlbrainlab.crate.desktop")
+            Some("io.github.mlbrainlab.arkyv.desktop")
         );
         assert_eq!(
             super::parse_gio_mime("No default applications for “application/x-foo”\n"),

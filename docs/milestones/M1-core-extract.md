@@ -24,7 +24,7 @@
 - [x] Progress callback: bytes done, files done, current path; cancel token checked between files and chunks
 
 ### CLI
-- [x] `crate l <archive>`, `crate x <archive> [-o dir] [--encoding cp1256]`, `crate t <archive>` (test integrity)
+- [x] `arkyv l <archive>`, `arkyv x <archive> [-o dir] [--encoding cp1256]`, `arkyv t <archive>` (test integrity)
 
 ### Test fixtures (`tests/fixtures/`)
 - [x] Normal: zip, tar.zst, 7z, nested folders, unicode names
@@ -41,8 +41,8 @@
 
 ## Acceptance (on Ubuntu)
 - [x] `cargo test --workspace` passes, including every malicious fixture
-- [x] `crate x tests/fixtures/arabic-cp1256.zip --encoding cp1256` produces readable Arabic names
+- [x] `arkyv x tests/fixtures/arabic-cp1256.zip --encoding cp1256` produces readable Arabic names
 - [x] Ctrl+C during a large extract leaves no partial files behind
 
 ## Prompt for Claude Code
-> Read CLAUDE.md and docs/milestones/M1-core-extract.md. Build crate-core and crate-cli step by step: one format plus its tests per commit, starting with ZIP and the safety module. Generate the malicious fixtures with a small Rust test helper rather than downloading them.
+> Read CLAUDE.md and docs/milestones/M1-core-extract.md. Build crate-core and arkyv-cli step by step: one format plus its tests per commit, starting with ZIP and the safety module. Generate the malicious fixtures with a small Rust test helper rather than downloading them.

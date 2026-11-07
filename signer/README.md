@@ -1,16 +1,16 @@
-# Crate Pro signer
+# Arkyv Pro signer
 
-A Cloudflare Worker that turns a Lemon Squeezy license key into a Crate Pro key
-signed with Crate's private key. Crate calls it once, when the buyer enters
+A Cloudflare Worker that turns a Lemon Squeezy license key into a Arkyv Pro key
+signed with Arkyv's private key. Arkyv calls it once, when the buyer enters
 their key (`app/src/license.rs`); after that the app checks the key offline.
 The Worker stores nothing.
 
 - `worker.mjs`: the Worker. It activates the key with Lemon Squeezy's License
-  API for this computer, checks that it belongs to Crate Pro (store and
+  API for this computer, checks that it belongs to Arkyv Pro (store and
   product id) and that the key is on at most `MAX_ACTIVATIONS` computers (5),
   then signs `1|ls:<order>|<date>`. A computer that enters its key again
   sends its activation id and doesn't use another. `POST /deactivate` frees
-  one: Crate calls it on Remove license.
+  one: Arkyv calls it on Remove license.
 - `key.mjs`: the key format, shared with `sign.mjs`.
 - `sign.mjs`: signs a key by hand, for GitHub sponsors and support cases:
   `node signer/sign.mjs gh:<sponsor>`.
@@ -22,7 +22,7 @@ the keys signed before stop working.
 
 ## Deploy
 
-1. In Lemon Squeezy, create the product "Crate Pro" ($9, one-time) with
+1. In Lemon Squeezy, create the product "Arkyv Pro" ($9, one-time) with
    license keys turned on and an activation limit of 5. Note the store id
    and the product id. (The Worker checks the limit too, so a product without
    one still stops at 5.)
@@ -32,7 +32,7 @@ the keys signed before stop working.
    npx wrangler deploy
    npx wrangler secret put LICENSE_PRIVATE_KEY < ~/crate-license/license-ed25519.pem
    ```
-4. Set the repository variable `CRATE_LICENSE_URL` (Settings → Secrets and
+4. Set the repository variable `ARKYV_LICENSE_URL` (Settings → Secrets and
    variables → Actions → Variables) to the Worker's address. Release builds
    take it in; until then, they accept only signed keys.
 
@@ -42,8 +42,8 @@ the keys signed before stop working.
 curl -s -X POST https://<worker>/ -H 'content-type: application/json' -d '{"license_key":"<a test key>"}'
 ```
 
-A key Lemon Squeezy knows for Crate Pro returns
-`{"key":"CRATE-PRO-…","instance_id":"…"}` and uses one of its 5 activations
+A key Lemon Squeezy knows for Arkyv Pro returns
+`{"key":"ARKYV-PRO-…","instance_id":"…"}` and uses one of its 5 activations
 (free it again with `POST /deactivate` and `{"license_key":…,"instance_id":…}`).
 A key on 5 computers returns 409; anything else 404.
 

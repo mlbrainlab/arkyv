@@ -1,4 +1,4 @@
-//! Crate desktop app (Slint UI): the windows and their behavior. Archive work
+//! Arkyv desktop app (Slint UI): the windows and their behavior. Archive work
 //! lives in `crate-core`; `main.rs` only parses the command line.
 
 pub mod about;
@@ -39,7 +39,7 @@ pub fn begin_window_drag<C: ComponentHandle + 'static>(ui: &C) {
     });
 }
 
-/// Like [`begin_window_drag`], for a resize from one of Crate's own frame
+/// Like [`begin_window_drag`], for a resize from one of Arkyv's own frame
 /// edges (`edge`: 0 north, then clockwise to 7 north-west).
 pub fn begin_window_resize<C: ComponentHandle + 'static>(ui: &C, edge: i32) {
     use slint::winit_030::winit::window::ResizeDirection as D;
@@ -75,7 +75,7 @@ fn hand_to_window_manager<C: ComponentHandle + 'static>(
     });
 }
 
-/// Crate's own frame around a window (app/ui/frame.slint), where Crate
+/// Arkyv's own frame around a window (app/ui/frame.slint), where Arkyv
 /// draws its header (`custom`): resizing from its edges, and no margin
 /// while the window is maximized or full screen.
 pub fn connect_frame<C>(ui: &C, custom: bool)

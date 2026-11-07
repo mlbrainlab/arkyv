@@ -1,5 +1,5 @@
 // Preferences (design/canvas/Settings.dc.html). One scrolling page of the
-// mockup's groups. Only settings Crate already acts on are shown: Language,
+// mockup's groups. Only settings Arkyv already acts on are shown: Language,
 // CPU threads, file manager entries and the keyring arrive with their own
 // M5 tasks.
 import { ScrollView } from "std-widgets.slint";
@@ -31,7 +31,7 @@ export global PrefsUi {
     in property <int> new-level; // 0 fastest, 1 balanced, 2 smallest
     in property <bool> always-exclude;
     in property <bool> smart-folder;
-    in property <[TypeChoice]> types; // on: Crate opens it by default
+    in property <[TypeChoice]> types; // on: Arkyv opens it by default
     in property <int> defaults; // as FirstRunUi.defaults
     in property <string> defaults-error;
     callback make-default(/* type */ int);
@@ -152,8 +152,8 @@ component FrostSlider inherits Rectangle {
     FocusRing { x: -3px; y: -3px; width: parent.width + 6px; height: parent.height + 6px; on: kf-frost.has-focus; radius: 12px; }
 }
 
-// .fmtchip: a file type; tinted when Crate opens it. A click on a plain
-// one makes Crate its default app.
+// .fmtchip: a file type; tinted when Arkyv opens it. A click on a plain
+// one makes Arkyv its default app.
 component TypeChip inherits Rectangle {
     in property <TypeChoice> item;
     in property <bool> enabled;
@@ -278,7 +278,7 @@ export component PrefsWindow inherits Window {
     default-font-weight: 500;
     forward-focus: keys;
 
-    // Glass, or Crate's own frame: the window is cleared to transparent and
+    // Glass, or Arkyv's own frame: the window is cleared to transparent and
     // its body drawn here. A translucent Window.background is the GL clear
     // color, which isn't premultiplied, and the compositor then shows it as
     // solid white.
@@ -313,7 +313,7 @@ export component PrefsWindow inherits Window {
 
         VerticalLayout {
             // Where the system's title bar says "Preferences" (Windows), or
-            // Crate's caption strip does, a second title would only repeat it.
+            // Arkyv's caption strip does, a second title would only repeat it.
             if root.custom-frame || root.titlebar-inset > 0: Header {
                 title: @tr("Preferences");
                 custom-frame: root.custom-frame;
@@ -339,7 +339,7 @@ export component PrefsWindow inherits Window {
                         spacing: 22px;
 
                         Group {
-                            title: @tr("Crate Pro");
+                            title: @tr("Arkyv Pro");
                             if !ProUi.active: Item {
                                 first: true;
                                 title: @tr("Not activated");
@@ -482,14 +482,14 @@ export component PrefsWindow inherits Window {
                                             if !ProUi.active: ProBadge { col: 1; row: 0; }
                                             Rectangle { col: Locale.rtl ? 0 : 2; row: 0; horizontal-stretch: 1; }
                                         }
-                                        Text { horizontal-alignment: Locale.start; text: @tr("Shown in the taskbar and on Crate’s windows"); color: Tokens.ink-2; font-size: 12px; wrap: word-wrap; }
+                                        Text { horizontal-alignment: Locale.start; text: @tr("Shown in the taskbar and on Arkyv’s windows"); color: Tokens.ink-2; font-size: 12px; wrap: word-wrap; }
                                     }
                                     GridLayout {
                                         spacing: 6px;
                                         for img[i] in Tokens.app-icons: IconChoice {
                                             col: Locale.rtl ? Tokens.app-icons.length - i : i; row: 0;
                                             source: img;
-                                            label: [@tr("Layers"), @tr("Open Lid"), @tr("Ark"), @tr("Zip"), @tr("Squeeze"), @tr("A monogram"), @tr("Open crate"), @tr("Vault")][i];
+                                            label: [@tr("Layers"), @tr("Open Lid"), @tr("Ark"), @tr("Zip"), @tr("Squeeze"), @tr("A monogram"), @tr("Open box"), @tr("Vault")][i];
                                             on: i == PrefsUi.app-icon;
                                             locked: i != 0 && !ProUi.active;
                                             // Layers is free; the others open the upgrade sheet without a key.
@@ -570,13 +570,13 @@ export component PrefsWindow inherits Window {
                                 }
                             }
                             Item {
-                                title: @tr("Open these with Crate");
+                                title: @tr("Open these with Arkyv");
                                 note: PrefsUi.defaults-error != "" ? PrefsUi.defaults-error
-                                    : PrefsUi.defaults == 0 ? @tr("Click a type to make Crate its default app. To use another app, pick it in Files → Open With.")
-                                    : PrefsUi.defaults == 1 ? @tr("Flatpak: in Files, right-click an archive → Properties → Open With → Crate → Set as default.")
-                                    : PrefsUi.defaults == 2 ? @tr("Crate isn’t installed as an app yet, so it can’t be the default.")
-                                    : PrefsUi.defaults == 4 ? @tr("Click a type to open Settings → Default apps, where you choose Crate for it.")
-                                    : PrefsUi.defaults == 5 ? @tr("Click a type to make Crate its default app. To use another app, pick it in Finder → Get Info → Open with.")
+                                    : PrefsUi.defaults == 0 ? @tr("Click a type to make Arkyv its default app. To use another app, pick it in Files → Open With.")
+                                    : PrefsUi.defaults == 1 ? @tr("Flatpak: in Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
+                                    : PrefsUi.defaults == 2 ? @tr("Arkyv isn’t installed as an app yet, so it can’t be the default.")
+                                    : PrefsUi.defaults == 4 ? @tr("Click a type to open Settings → Default apps, where you choose Arkyv for it.")
+                                    : PrefsUi.defaults == 5 ? @tr("Click a type to make Arkyv its default app. To use another app, pick it in Finder → Get Info → Open with.")
                                     : @tr("Not supported on this system yet.");
                                 GridLayout {
                                     spacing: 6px;

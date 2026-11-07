@@ -6,7 +6,7 @@ use std::path::PathBuf;
 pub enum Error {
     #[error("{0}")]
     Io(#[from] std::io::Error),
-    #[error("{0}: not an archive format Crate can read")]
+    #[error("{0}: not an archive format Arkyv can read")]
     UnknownFormat(PathBuf),
     #[error("damaged or invalid archive: {0}")]
     Corrupt(String),

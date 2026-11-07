@@ -1,5 +1,5 @@
 //! Open → edit → update (EditUpdate.dc.html): files opened from the archive
-//! are watched; after a save, Crate offers to put the new version back.
+//! are watched; after a save, Arkyv offers to put the new version back.
 
 use crate::i18n::{tr, trf, trn};
 use std::path::{Path, PathBuf};
@@ -320,7 +320,7 @@ impl View {
             g.set_close_title(title.into());
             g.set_close_text(
                 trf(
-                    "If you close now, changes to {names} are lost. Temp copies are deleted when Crate quits.",
+                    "If you close now, changes to {names} are lost. Temp copies are deleted when Arkyv quits.",
                     &[("names", &names)],
                 )
                 .into(),

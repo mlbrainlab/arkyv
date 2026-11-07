@@ -16,7 +16,7 @@ Budget (ROADMAP): mini view visible **≤ 500 ms after a cold double-click, ≤ 
 
 ## Method
 - Release build: `pnpm tauri build --no-bundle` (LTO, `codegen-units = 1`, `panic = "abort"`, stripped). Binary 4.7 MB; web bundle 312 KB, of which 270 KB is the Inter woff2 files (only the faces in use load).
-- `target/release/crate-app --mini --startup-probe` opens the static mini view (520 × 620), logs its timeline to stderr and exits once the window is visible.
+- `target/release/arkyv-app --mini --startup-probe` opens the static mini view (520 × 620), logs its timeline to stderr and exits once the window is visible.
 - Timeline points, measured from exec:
   - **pre-main**: process age at the first line of `main`, read from `/proc/self/stat` (10 ms resolution). Covers exec, dynamic loading of WebKitGTK/GTK and static initializers.
   - **window built**: the hidden window and webview exist (`setup()`).
@@ -86,7 +86,7 @@ Slint ranges: warm total 87–110, cold total 228–306.
 - Other ways to keep Tauri, measured or estimated above: the two WebKit env settings (≈ −30 ms; warm would pass, cold would stay ~545 ms), or a resident single-instance process so later double-clicks skip process start (helps every launch after the first, not the first cold one).
 
 ## Current app (Slint, `app/`)
-Same probe and script: `scripts/startup-bench.sh` builds `cargo build --release -p crate-app` and launches `target/release/crate-app --mini --startup-probe`. Differences from the spike: Inter 4.1 (400–700) compiled into the binary, the Wayland app id set through a winit hook. Release binary 17 MB.
+Same probe and script: `scripts/startup-bench.sh` builds `cargo build --release -p arkyv-app` and launches `target/release/arkyv-app --mini --startup-probe`. Differences from the spike: Inter 4.1 (400–700) compiled into the binary, the Wayland app id set through a winit hook. Release binary 17 MB.
 
 | Median, ms (10 runs) | Warm | min–max | Cold | min–max |
 |---|---:|---:|---:|---:|
@@ -100,7 +100,7 @@ Same probe and script: `scripts/startup-bench.sh` builds `cargo build --release 
 Measured 2026-10-24 on the machine above, after the header fixes. Both budgets are met: warm with 136 ms to spare, cold with 164 ms. Cold is ~54 ms slower than the spike (282 ms), most likely from reading the 1.6 MB of compiled-in Inter faces from disk; worth trimming (e.g. fewer faces or a subset) if M2's real work eats into the margin.
 
 ## Mini view with a real archive (M2)
-Since M2 the probe opens an archive: `scripts/startup-bench.sh` generates `target/startup-bench/bench.zip` (2,000 deflated text files in nested folders, 1.3 MB) and runs `target/release/crate-app --startup-probe target/startup-bench/bench.zip`. The archive is read on a worker thread while the window is built; the clock stops at the first frame that shows the listing (`visible_ms`). Release binary 21 MB, up from 17 MB now that the app links the archive engine (UnRAR, liblzma, zstd, bzip2, 7z, zip).
+Since M2 the probe opens an archive: `scripts/startup-bench.sh` generates `target/startup-bench/bench.zip` (2,000 deflated text files in nested folders, 1.3 MB) and runs `target/release/arkyv-app --startup-probe target/startup-bench/bench.zip`. The archive is read on a worker thread while the window is built; the clock stops at the first frame that shows the listing (`visible_ms`). Release binary 21 MB, up from 17 MB now that the app links the archive engine (UnRAR, liblzma, zstd, bzip2, 7z, zip).
 
 | Median, ms (10 runs) | Warm | min–max | Cold | min–max |
 |---|---:|---:|---:|---:|

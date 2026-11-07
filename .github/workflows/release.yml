@@ -21,9 +21,9 @@ env:
   # The Pro license signer's address (app/src/license.rs), a repository
   # variable. Empty until the signer is deployed: builds then take only
   # signed keys.
-  CRATE_LICENSE_URL: ${{ vars.CRATE_LICENSE_URL }}
-  # The Lemon Squeezy checkout for Crate Pro (app/src/pro.rs); empty hides Buy.
-  CRATE_BUY_URL: ${{ vars.CRATE_BUY_URL }}
+  ARKYV_LICENSE_URL: ${{ vars.ARKYV_LICENSE_URL }}
+  # The Lemon Squeezy checkout for Arkyv Pro (app/src/pro.rs); empty hides Buy.
+  ARKYV_BUY_URL: ${{ vars.ARKYV_BUY_URL }}
 
 jobs:
   linux:
@@ -107,22 +107,22 @@ jobs:
       - name: Install, check, uninstall
         shell: pwsh
         run: |
-          $setup = Get-ChildItem target\dist\Crate-*-x64-setup.exe | Select-Object -First 1
+          $setup = Get-ChildItem target\dist\Arkyv-*-x64-setup.exe | Select-Object -First 1
           Start-Process $setup.FullName -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/CURRENTUSER','/NORESTART' -Wait
-          $app = "$env:LOCALAPPDATA\Programs\Crate"
-          & "$app\crate.exe" --version
-          if ($LASTEXITCODE -ne 0) { throw "crate.exe didn't run" }
-          $registered = (Get-ItemProperty HKCU:\Software\RegisteredApplications).Crate
-          if ($registered -ne 'Software\Crate\Capabilities') { throw "not in RegisteredApplications: $registered" }
-          $zip = (Get-ItemProperty HKCU:\Software\Crate\Capabilities\FileAssociations).'.zip'
-          if ($zip -ne 'Crate.Archive') { throw "no .zip association: $zip" }
-          $verb = (Get-ItemProperty 'HKCU:\Software\Classes\SystemFileAssociations\.7z\shell\Crate.Extract\command').'(default)'
-          if ($verb -notlike '*crate-app.exe" --extract-each "%1"') { throw "Extract verb: $verb" }
+          $app = "$env:LOCALAPPDATA\Programs\Arkyv"
+          & "$app\arkyv.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw "arkyv.exe didn't run" }
+          $registered = (Get-ItemProperty HKCU:\Software\RegisteredApplications).Arkyv
+          if ($registered -ne 'Software\Arkyv\Capabilities') { throw "not in RegisteredApplications: $registered" }
+          $zip = (Get-ItemProperty HKCU:\Software\Arkyv\Capabilities\FileAssociations).'.zip'
+          if ($zip -ne 'Arkyv.Archive') { throw "no .zip association: $zip" }
+          $verb = (Get-ItemProperty 'HKCU:\Software\Classes\SystemFileAssociations\.7z\shell\Arkyv.Extract\command').'(default)'
+          if ($verb -notlike '*arkyv-app.exe" --extract-each "%1"') { throw "Extract verb: $verb" }
           Start-Process "$app\unins000.exe" -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -Wait
           # The uninstaller hands over to a copy of itself: wait for it.
-          for ($i = 0; $i -lt 60 -and (Test-Path HKCU:\Software\Crate); $i++) { Start-Sleep -Seconds 1 }
-          if (Test-Path HKCU:\Software\Crate) { throw "uninstall left Software\Crate" }
-          if (Test-Path "$app\crate-app.exe") { throw "uninstall left crate-app.exe" }
+          for ($i = 0; $i -lt 60 -and (Test-Path HKCU:\Software\Arkyv); $i++) { Start-Sleep -Seconds 1 }
+          if (Test-Path HKCU:\Software\Arkyv) { throw "uninstall left Software\Arkyv" }
+          if (Test-Path "$app\arkyv-app.exe") { throw "uninstall left arkyv-app.exe" }
           Write-Host "Installed, registered and uninstalled cleanly."
 
       - uses: actions/upload-artifact@v4
@@ -196,9 +196,9 @@ jobs:
       - name: Mount and check
         run: |
           set -euo pipefail
-          dmg=$(ls target/dist/Crate-*-universal.dmg)
+          dmg=$(ls target/dist/Arkyv-*-universal.dmg)
           mnt=$(hdiutil attach -nobrowse -readonly "$dmg" | tail -1 | cut -f3)
-          app="$mnt/Crate.app"
+          app="$mnt/Arkyv.app"
           codesign --verify --strict --verbose=2 "$app"
           if [ -n "$MACOS_SIGN_IDENTITY" ]; then
             # What Gatekeeper says on a downloaded copy.
@@ -206,8 +206,8 @@ jobs:
             spctl --assess --type open --context context:primary-signature --verbose=2 "$dmg"
             xcrun stapler validate "$dmg"
           fi
-          "$app/Contents/MacOS/crate" --version
-          arch -x86_64 "$app/Contents/MacOS/crate" --version
+          "$app/Contents/MacOS/arkyv" --version
+          arch -x86_64 "$app/Contents/MacOS/arkyv" --version
           test -L "$mnt/Applications"
           /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist"
           hdiutil detach "$mnt"
@@ -246,7 +246,7 @@ jobs:
 
       - uses: softprops/action-gh-release@v2
         with:
-          name: Crate ${{ github.ref_name }}
+          name: Arkyv ${{ github.ref_name }}
           body_path: NOTES.md
           files: |
             dist/*.deb

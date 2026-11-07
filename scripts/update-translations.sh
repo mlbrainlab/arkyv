@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Collects every translatable string into app/translations/crate-app.pot and
+# Collects every translatable string into app/translations/arkyv-app.pot and
 # merges it into each language's .po (new strings arrive untranslated, changed
 # ones are marked fuzzy). Slint: @tr() in app/ui/*.slint (slint-tr-extractor,
 # `cargo install slint-tr-extractor --version 1.18.1`). Rust: tr("…"),
 # trf("…", …) and trn("…", "…", n) in app/src (see app/src/i18n.rs).
 set -euo pipefail
 cd "$(dirname "$0")/../app"
-POT=translations/crate-app.pot
+POT=translations/arkyv-app.pot
 
-slint-tr-extractor --no-default-translation-context --package-name Crate \
+slint-tr-extractor --no-default-translation-context --package-name Arkyv \
   -o "$POT" ui/*.slint
 python3 - "$POT" src <<'PY'
 import pathlib, re, sys
@@ -34,7 +34,7 @@ for f in sorted(src.rglob("*.rs")):
 with open(pot, "a", encoding="utf-8") as fh:
     for o in out: fh.write("\n" + o)
 PY
-for po in translations/*/LC_MESSAGES/crate-app.po; do
+for po in translations/*/LC_MESSAGES/arkyv-app.po; do
   msgmerge --quiet --update --backup=none --no-fuzzy-matching --no-wrap "$po" "$POT"
   msgfmt --check --statistics -o /dev/null "$po"
 done

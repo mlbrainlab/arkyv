@@ -996,7 +996,7 @@ impl Staging {
             parent
         };
         let dir = tempfile::Builder::new()
-            .prefix(".crate-extract-")
+            .prefix(".arkyv-extract-")
             .tempdir_in(parent)?;
         Ok(Self { dir, dest_exists })
     }

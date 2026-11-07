@@ -9,8 +9,8 @@ mod support;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
+use arkyv_app::{BatchState, BatchUi};
 use common::Harness;
-use crate_app::{BatchState, BatchUi};
 use slint::{ComponentHandle, Model};
 
 static OPENED: Mutex<Vec<PathBuf>> = Mutex::new(Vec::new());
@@ -20,7 +20,7 @@ fn record(path: &Path) -> std::io::Result<()> {
     Ok(())
 }
 
-fn states(home: &crate_app::MainWindow) -> Vec<BatchState> {
+fn states(home: &arkyv_app::MainWindow) -> Vec<BatchState> {
     home.global::<BatchUi>()
         .get_items()
         .iter()
@@ -28,7 +28,7 @@ fn states(home: &crate_app::MainWindow) -> Vec<BatchState> {
         .collect()
 }
 
-fn settled(home: &crate_app::MainWindow) -> bool {
+fn settled(home: &arkyv_app::MainWindow) -> bool {
     !states(home)
         .iter()
         .any(|s| matches!(s, BatchState::Waiting | BatchState::Running))
@@ -37,7 +37,7 @@ fn settled(home: &crate_app::MainWindow) -> bool {
 #[test]
 fn batch_flow() {
     let h = Harness::new();
-    crate_app::home::set_opener(record);
+    arkyv_app::home::set_opener(record);
     let dir = tempfile::tempdir().unwrap();
     let path = |name: &str| dir.path().join(name);
     support::sample_zip(&path("a.zip"));
@@ -46,12 +46,12 @@ fn batch_flow() {
     support::truncated_tar_gz(&path("cut.tar.gz"));
 
     let home = h.home(vec![]);
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     let b = || home.global::<BatchUi>();
     let archives = ["a.zip", "b.zip", "secret.zip", "cut.tar.gz"]
         .map(path)
         .to_vec();
-    crate_app::batch::start(&home, archives, false);
+    arkyv_app::batch::start(&home, archives, false);
 
     // Ready: nothing written until Extract.
     assert!(b().get_show() && !b().get_started());
@@ -101,7 +101,7 @@ fn batch_flow() {
     let p2 = |name: &str| two.path().join(name);
     support::sample_zip(&p2("x.zip"));
     support::zipcrypto_zip(&p2("y.zip"));
-    crate_app::batch::start(&home, vec![p2("x.zip"), p2("y.zip")], false);
+    arkyv_app::batch::start(&home, vec![p2("x.zip"), p2("y.zip")], false);
     b().invoke_set_mode(1);
     b().invoke_start();
     h.until("settled", || settled(&home));
@@ -117,11 +117,11 @@ fn batch_flow() {
     h.shot("104-batch-one-folder");
 
     // Arabic: mirrored columns.
-    let mut st = crate_app::settings::Settings::load();
+    let mut st = arkyv_app::settings::Settings::load();
     st.set("pref.language", "ar");
     st.save();
     let home = h.home(vec![]);
-    crate_app::batch::start(&home, vec![p2("x.zip"), p2("y.zip")], false);
+    arkyv_app::batch::start(&home, vec![p2("x.zip"), p2("y.zip")], false);
     assert_eq!(home.global::<BatchUi>().get_title(), "استخراج أرشيفين");
     h.shot("105-ar-batch");
 }

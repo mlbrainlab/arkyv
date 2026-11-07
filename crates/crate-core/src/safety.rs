@@ -228,7 +228,7 @@ pub fn copy_limited(
     Ok(written)
 }
 
-/// Permission bits Crate applies to extracted files: the stored rwx bits only
+/// Permission bits Arkyv applies to extracted files: the stored rwx bits only
 /// (never setuid/setgid/sticky), and always readable and writable by the user.
 pub fn file_mode(stored: Option<u32>) -> u32 {
     (stored.unwrap_or(0o644) & 0o777) | 0o600

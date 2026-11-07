@@ -7,9 +7,9 @@ mod common;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
+use arkyv_app::AboutUi;
+use arkyv_app::settings::Settings;
 use common::Harness;
-use crate_app::AboutUi;
-use crate_app::settings::Settings;
 use slint::ComponentHandle;
 use slint::platform::Key;
 
@@ -29,7 +29,7 @@ fn set(key: &str, value: impl ToString) {
 #[test]
 fn about_flow() {
     let h = Harness::new();
-    crate_app::home::set_opener(record);
+    arkyv_app::home::set_opener(record);
     set("first_run_done", 1);
 
     // The sheet, as it ships today: no donation accounts, so no Support box.
@@ -62,14 +62,14 @@ fn about_flow() {
 
     // 50 operations: the nudge on Home. "Maybe later" puts it off 50 more.
     for _ in 0..50 {
-        crate_app::about::count_success();
+        arkyv_app::about::count_success();
     }
     let home = h.home(vec![]);
     let a = || home.global::<AboutUi>();
     assert!(a().get_nudge());
     assert_eq!(
         a().get_nudge_title(),
-        "Crate has handled 50 archives for you"
+        "Arkyv has handled 50 archives for you"
     );
     a().set_sponsor("https://github.com/sponsors/example".into());
     h.shot("92-nudge");

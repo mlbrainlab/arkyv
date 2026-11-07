@@ -70,7 +70,7 @@ export component MainWindow inherits Window {
     callback show-created;
     callback open-prefs;
 
-    title: @tr("Crate");
+    title: @tr("Arkyv");
     icon: Tokens.app-image;
     preferred-width: 1000px;
     preferred-height: 720px;
@@ -83,7 +83,7 @@ export component MainWindow inherits Window {
     default-font-weight: 500;
     forward-focus: keys;
 
-    // Glass, or Crate's own frame: the window is cleared to transparent and
+    // Glass, or Arkyv's own frame: the window is cleared to transparent and
     // its body drawn here. A translucent Window.background is the GL clear
     // color, which isn't premultiplied, and the compositor then shows it as
     // solid white.
@@ -95,8 +95,8 @@ export component MainWindow inherits Window {
     // macOS menu bar: each item does what its key does below.
     if native-menu: MenuBar {
         Menu {
-            title: @tr("Crate");
-            MenuItem { title: @tr("About Crate"); enabled: !modal; activated => { AboutUi.open(); } }
+            title: @tr("Arkyv");
+            MenuItem { title: @tr("About Arkyv"); enabled: !modal; activated => { AboutUi.open(); } }
             MenuSeparator {}
             MenuItem { title: @tr("Preferences"); shortcut: @keys(Control + ","); enabled: !modal; activated => { root.open-prefs(); } }
             MenuSeparator {}
@@ -210,7 +210,7 @@ export component MainWindow inherits Window {
                     }
                     Text { text: @tr("Compress files, or open an archive"); color: Tokens.ink; font-size: 20px; font-weight: 700; horizontal-alignment: center; }
                     Text {
-                        text: @tr("Crate opens ZIP, 7z, RAR and TAR (gz, xz, zst, bz2), and makes ZIP, 7z and tar archives.");
+                        text: @tr("Arkyv opens ZIP, 7z, RAR and TAR (gz, xz, zst, bz2), and makes ZIP, 7z and tar archives.");
                         color: Tokens.ink-2;
                         horizontal-alignment: center;
                         wrap: word-wrap;

@@ -8,7 +8,7 @@ needs this. Run it again whenever Cargo.lock changes:
     scripts/flatpak-cargo-sources.py
 
 Same output format as flatpak-builder-tools' flatpak-cargo-generator, for
-crates.io dependencies only (Crate has no git dependencies).
+crates.io dependencies only (Arkyv has no git dependencies).
 """
 
 import json

@@ -18,7 +18,7 @@ use slint::{ComponentHandle, Model};
 fn mini_view_flows() {
     let h = Harness::new();
     let dir = tempfile::tempdir().unwrap();
-    // Opened items go to $XDG_CACHE_HOME/crate; record instead of launching apps.
+    // Opened items go to $XDG_CACHE_HOME/arkyv; record instead of launching apps.
     let cache = tempfile::tempdir().unwrap();
     record_opens(cache.path());
     let path = |name: &str| dir.path().join(name);
@@ -65,8 +65,8 @@ fn mini_view_flows() {
     assert!(path("project-assets/project/run.sh").is_file());
 
     // Dark mode follows the same tokens.
-    let scheme = ui.global::<crate_app::Palette>().get_color_scheme();
-    ui.global::<crate_app::Palette>()
+    let scheme = ui.global::<arkyv_app::Palette>().get_color_scheme();
+    ui.global::<arkyv_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Dark);
     g(&ui).invoke_row_pressed(0, false, false);
     g(&ui).invoke_extract();
@@ -74,7 +74,7 @@ fn mini_view_flows() {
     h.shot("11-dark-done");
     g(&ui).invoke_back_to_archive();
     h.shot("12-dark");
-    ui.global::<crate_app::Palette>().set_color_scheme(scheme);
+    ui.global::<arkyv_app::Palette>().set_color_scheme(scheme);
 
     // Keyboard selection and double-click to open.
     g(&ui).invoke_search("".into());
@@ -379,7 +379,7 @@ fn mini_view_flows() {
     let leftovers: Vec<_> = std::fs::read_dir(dir.path())
         .unwrap()
         .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
-        .filter(|n| n.starts_with(".crate-extract-"))
+        .filter(|n| n.starts_with(".arkyv-extract-"))
         .collect();
     assert!(leftovers.is_empty(), "{leftovers:?}");
 }

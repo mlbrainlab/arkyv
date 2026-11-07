@@ -1,6 +1,6 @@
-# Crate: cross-platform archiver, design notes
+# Arkyv: cross-platform archiver, design notes
 
-Working name: **Crate**. Targets: most Linux distros, Windows 10/11, macOS 12+.
+Working name: **Arkyv**. Targets: most Linux distros, Windows 10/11, macOS 12+.
 The canvas source files are in `design/canvas/`: one `.dc.html` file per screen, plus `canvas.json`.
 
 ## Screens and the actions each one shows
@@ -19,8 +19,8 @@ The canvas source files are in `design/canvas/`: one `.dc.html` file per screen,
 | Operations | `Progress.dc.html` | Progress, pause, resume, cancel, queue, history, desktop notification |
 | Properties | `Properties.dc.html` | Size stats, breakdown by file type, integrity check, checksums, paste a checksum to verify it |
 | Preferences | `Settings.dc.html` | Theme, defaults, CPU threads, excludes, integration, file associations |
-| About & support | `About.dc.html` | Version and update status, GitHub Sponsors / Patreon / PayPal buttons, project links, "Support Crate…" in the main menu, a one-time support nudge |
-| Crate Pro | `Pro.dc.html` | Upgrade sheet, license key entry and its errors, activated, the Crate Pro group in Preferences, PRO labels on the Glass theme and app icons |
+| About & support | `About.dc.html` | Version and update status, GitHub Sponsors / Patreon / PayPal buttons, project links, "Support Arkyv…" in the main menu, a one-time support nudge |
+| Arkyv Pro | `Pro.dc.html` | Upgrade sheet, license key entry and its errors, activated, the Arkyv Pro group in Preferences, PRO labels on the Glass theme and app icons |
 
 ## Mini view rules
 
@@ -57,7 +57,7 @@ The Glass theme (Pro, archive windows) is light only and overrides these: `--bg`
 
 Dark glass (Glass follows the system's dark mode): `--bg` `rgba(28,32,41,.65)`, `--surface-2` `rgba(255,255,255,.08)`, `--line` `rgba(255,255,255,.15)`, `--ink` `#F1F4F9`, `--ink-2` `#CFD5DF`, `--ink-3` `#B4BCC8`, `--accent` `rgba(74,101,240,.9)`, `--accent-soft` `rgba(74,101,240,.22)` / `#C9D4FF`, `--selection` `rgba(74,101,240,.28)`; the window `rgba(15,17,21,.45)`, `--sheet` `#161A21`. Glass applies to every window: Home, Preferences and archive windows.
 
-Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; macOS and Windows at 0. On Windows, Mica brings its own tint, so with Mica the window tint runs from `0`, the panes from `.75` (dark `.35`) and `--surface-2` from `.25`. Acrylic is an untinted blur, so Crate's own tint applies, as in the mockup. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
+Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; macOS and Windows at 0. On Windows, Mica brings its own tint, so with Mica the window tint runs from `0`, the panes from `.75` (dark `.35`) and `--surface-2` from `.25`. Acrylic is an untinted blur, so Arkyv's own tint applies, as in the mockup. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
 
 Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (Inter 4.1, OFL). Never load fonts at runtime. Monospace text uses the system monospace font.
 
@@ -66,7 +66,7 @@ Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (In
 - **Decision (Oct 24): Slint** (Rust UI toolkit, `.slint` markup). The M0 startup spike showed the mini view in 282 ms cold with Slint against 576 ms with Tauri 2 + WebKitGTK; the budget is 500 ms (`docs/perf.md`). Cost: the HTML/CSS mockups no longer move over directly, so each screen is rebuilt in `.slint` with the mockup as the reference. Tauri was the earlier pick; GTK4/libadwaita looks wrong on Windows and macOS; Electron ships installers of roughly 100 MB or more.
 - [Likely] Archive engine: pure-Rust crates (`zip`, `tar`, `zstd`, `xz2`, `bzip2`, a 7z crate such as `sevenz-rust2`). These avoid bundling native libarchive on Windows and macOS. Use the `unrar` crate for RAR, extract only.
 - [Hypothesis] Check AES-256 *write* support in the current `zip` crate and 7z encryption support before committing to those features.
-- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three. On Linux Crate draws the whole frame (0.2.28): 12 px rounded corners (16 px on glass), a 1 px `line` rim and a soft shadow in a 12 px clear margin, which is also the resize grip; none of it while maximized. On Windows, Glass replaces the title bar with a 32 px caption strip (icon, title, 46 × 32 caption buttons), keeping the system shadow, 8 px corners and Snap Layouts (0.2.29).
+- Window frame: use the **native title bar** on Windows and macOS (macOS can use the overlay title-bar style). Draw the header bar only on Linux. The mini view board shows all three. On Linux Arkyv draws the whole frame (0.2.28): 12 px rounded corners (16 px on glass), a 1 px `line` rim and a soft shadow in a 12 px clear margin, which is also the resize grip; none of it while maximized. On Windows, Glass replaces the title bar with a 32 px caption strip (icon, title, 46 × 32 caption buttons), keeping the system shadow, 8 px corners and Snap Layouts (0.2.29).
 - Packaging:
   - Linux: AppImage + Flatpak (Flathub) + .deb/.rpm
   - Windows: MSI or NSIS installer + winget
@@ -117,15 +117,15 @@ Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (In
 - Batch: select 10 archives → extract each into its own folder
 - Nested archives (a zip inside a zip) and missing volumes in multi-part sets (".part2 missing — locate…")
 - Quick preview for text, code, images and binary (hex)
-- First run: set Crate as the default app (Windows 10/11 can only send the user to Settings), plus the auto-update prompt
+- First run: set Arkyv as the default app (Windows 10/11 can only send the user to Settings), plus the auto-update prompt
 - Keyboard shortcuts sheet; Windows taskbar and macOS Dock progress; keep the computer awake during long operations
-- Command-line companion (`crate x file.zip`)
+- Command-line companion (`arkyv x file.zip`)
 
 **Reach**
 - Arabic and other right-to-left languages: localization + mirrored layout
 - Accessibility: full keyboard navigation, screen-reader labels, high contrast
 - App icon and brand; AppStream metainfo + screenshots for Flathub; Store listings; landing page
-- Name check: "Crate" collides with Rust's word for a package, which hurts search
+- Name check: "Arkyv" collides with Rust's word for a package, which hurts search
 
 ## Glass theme (Pro)
 
@@ -157,7 +157,7 @@ All variants share the same layout and colour tokens; only the shape, chrome and
 
 ## Donations
 
-> **Decision (Oct 22):** Crate is mainly an open-source showcase, with a small optional **Pro** tier (see BACKLOG.md section 5). Donations stay low-key.
+> **Decision (Oct 22):** Arkyv is mainly an open-source showcase, with a small optional **Pro** tier (see BACKLOG.md section 5). Donations stay low-key.
 
 - [Likely] Use **GitHub Sponsors** as the main button: it sits on the repo page and charges no fees on sponsorships from personal accounts. Keep Patreon and PayPal as alternatives.
 - [Hypothesis] Check that GitHub Sponsors pays out to your country (payouts go through Stripe Connect). If it doesn't, make PayPal the main button.
@@ -165,6 +165,6 @@ All variants share the same layout and colour tokens; only the shape, chrome and
   - `.github/FUNDING.yml`
   - README badge
   - About dialog
-  - "Support Crate…" in the main menu
+  - "Support Arkyv…" in the main menu
   - At most one gentle in-app nudge, after 50 successful operations, with a "Don't show again" option
   - Never block a task with a donation prompt

@@ -17,7 +17,7 @@
 - [x] Drag files out of the archive to Files / desktop (`DragOut.dc.html`). Check first whether Slint/winit can start a drag to other apps (BACKLOG 2.1); if it needs platform code that is too large for M3, log it in the backlog and move on
 
 ## Notes
-- **One window, two densities:** `ArchiveWindow` shows the mini view or the full view (Ctrl+Enter, the expand / collapse buttons). The full view’s size is kept in `~/.config/crate/state.ini`. State lives in the `ArchiveUi` global (`app/ui/state.slint`); behavior in `app/src/view/`.
+- **One window, two densities:** `ArchiveWindow` shows the mini view or the full view (Ctrl+Enter, the expand / collapse buttons). The full view’s size is kept in `~/.config/arkyv/state.ini`. State lives in the `ArchiveUi` global (`app/ui/state.slint`); behavior in `app/src/view/`.
 - **Huge archives:** tar listings stream in batches (`Archive::open_streaming`); the list, tree and search work on what has arrived, and **Stop reading** keeps the first part (still extractable). ZIP and 7z have an index and list at once.
 - **Reading while browsing:** `Archive::try_clone` gives preview, thumbnails and Test their own handle, so the window stays usable.
 - **Extract dialog** maps to new engine options: Keep both / Keep newer / Ask (`IfExists`, with a resolver the worker calls; the UI answers “File already exists”), and extracting without folders (`keep_structure`). Browse uses the XDG portal (`rfd`), Move to Trash the freedesktop trash (`trash`).

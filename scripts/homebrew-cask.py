@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes the Homebrew cask for a published release into
-target/homebrew/Casks/c/crate-archiver.rb, ready for a tap or a pull request
+target/homebrew/Casks/c/arkyv.rb, ready for a tap or a pull request
 to Homebrew/homebrew-cask:
 
     scripts/homebrew-cask.py 0.3.0
@@ -16,8 +16,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO = "https://github.com/mlbrainlab/arkyv"
-# "crate" is taken in homebrew-cask; the Linux packages use this name too.
-TOKEN = "crate-archiver"
+# The same name as the Linux packages.
+TOKEN = "arkyv"
 
 
 def main() -> int:
@@ -25,7 +25,7 @@ def main() -> int:
         print(__doc__, file=sys.stderr)
         return 2
     version = sys.argv[1].removeprefix("v")
-    dmg = f"Crate-{version}-universal.dmg"
+    dmg = f"Arkyv-{version}-universal.dmg"
     sums = urllib.request.urlopen(f"{REPO}/releases/download/v{version}/SHA256SUMS").read().decode()
     sha = next((line.split()[0] for line in sums.splitlines() if line.endswith(dmg)), None)
     if sha is None:
@@ -35,8 +35,8 @@ def main() -> int:
   version "{version}"
   sha256 "{sha}"
 
-  url "{REPO}/releases/download/v#{{version}}/Crate-#{{version}}-universal.dmg"
-  name "Crate"
+  url "{REPO}/releases/download/v#{{version}}/Arkyv-#{{version}}-universal.dmg"
+  name "Arkyv"
   desc "Open, extract and create archives"
   homepage "{REPO}"
 
@@ -47,13 +47,13 @@ def main() -> int:
 
   depends_on macos: ">= :monterey"
 
-  app "Crate.app"
-  binary "#{{appdir}}/Crate.app/Contents/MacOS/crate"
+  app "Arkyv.app"
+  binary "#{{appdir}}/Arkyv.app/Contents/MacOS/arkyv"
 
   zap trash: [
-    "~/.cache/crate",
-    "~/.config/crate",
-    "~/.local/state/crate",
+    "~/.cache/arkyv",
+    "~/.config/arkyv",
+    "~/.local/state/arkyv",
   ]
 end
 '''

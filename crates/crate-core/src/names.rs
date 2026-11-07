@@ -20,7 +20,7 @@ pub struct NameRules {
 }
 
 impl NameRules {
-    /// The rules of the system Crate runs on.
+    /// The rules of the system Arkyv runs on.
     pub fn native() -> Self {
         Self {
             windows: cfg!(windows),

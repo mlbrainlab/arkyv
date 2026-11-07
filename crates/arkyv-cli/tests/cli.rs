@@ -6,7 +6,7 @@ use std::path::Path;
 use std::process::{Command, Output};
 
 fn crate_cmd(dir: &Path, args: &[&str]) -> Output {
-    Command::new(env!("CARGO_BIN_EXE_crate"))
+    Command::new(env!("CARGO_BIN_EXE_arkyv"))
         .current_dir(dir)
         .args(args)
         .output()
@@ -142,7 +142,7 @@ fn ctrl_c_leaves_nothing_behind() {
     use std::time::{Duration, Instant};
 
     let dir = tempfile::tempdir().unwrap();
-    // 40 × 1 MiB of zeros, stored; `CRATE_TEST_SLOW` makes extracting them
+    // 40 × 1 MiB of zeros, stored; `ARKYV_TEST_SLOW` makes extracting them
     // take at least 40 pauses, so the signal lands mid-way on any disk.
     {
         use zip::write::SimpleFileOptions;
@@ -156,11 +156,11 @@ fn ctrl_c_leaves_nothing_behind() {
         }
         zip.finish().unwrap();
     }
-    let mut child = Command::new(env!("CARGO_BIN_EXE_crate"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_arkyv"))
         .current_dir(dir.path())
         .args(["x", "big.zip"])
         // A pause at every progress step (see `show_progress`).
-        .env("CRATE_TEST_SLOW", "1")
+        .env("ARKYV_TEST_SLOW", "1")
         .spawn()
         .unwrap();
     // Wait until extraction has started writing into its staging folder.
@@ -170,7 +170,7 @@ fn ctrl_c_leaves_nothing_behind() {
             e.unwrap()
                 .file_name()
                 .to_string_lossy()
-                .starts_with(".crate-extract-")
+                .starts_with(".arkyv-extract-")
         })
     };
     while !staging_exists() {
@@ -192,7 +192,7 @@ fn ctrl_c_leaves_nothing_behind() {
     assert_eq!(left, ["big.zip"], "no partial output or staging folder");
 }
 
-/// Every regular file under `dir` with its SHA-256 (via `crate sum`'s engine).
+/// Every regular file under `dir` with its SHA-256 (via `arkyv sum`'s engine).
 fn hashes(dir: &Path) -> Vec<(String, String)> {
     fn walk(base: &Path, dir: &Path, out: &mut Vec<(String, String)>) {
         for e in fs::read_dir(dir).unwrap() {
@@ -305,7 +305,7 @@ fn killed_mid_rewrite_leaves_the_original_intact() {
     let before =
         crate_core::checksum::compute(&zip_path, &mut |_| {}, &crate_core::CancelToken::new())
             .unwrap();
-    let mut child = Command::new(env!("CARGO_BIN_EXE_crate"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_arkyv"))
         .current_dir(dir.path())
         .args(["d", "big.zip", "part00.bin"])
         .spawn()
@@ -316,7 +316,7 @@ fn killed_mid_rewrite_leaves_the_original_intact() {
         fs::read_dir(dir.path())
             .unwrap()
             .filter_map(|e| e.ok())
-            .filter(|e| e.file_name().to_string_lossy().starts_with(".crate-new-"))
+            .filter(|e| e.file_name().to_string_lossy().starts_with(".arkyv-new-"))
             .map(|e| e.metadata().map(|m| m.len()).unwrap_or(0))
             .max()
     };

@@ -1,4 +1,4 @@
-# Crate: build roadmap
+# Arkyv: build roadmap
 
 Linux (Ubuntu) first. Windows and macOS come after a working Linux release.
 Every milestone ends with something you can **run and click on Ubuntu**. No milestone is "just plumbing".
@@ -33,7 +33,7 @@ arxiv-app/
 │  └─ milestones/M0…M9     ← one file per milestone
 ├─ crates/
 │  ├─ crate-core/          ← archive engine (lib)
-│  └─ crate-cli/           ← `crate` command-line tool
+│  └─ arkyv-cli/           ← `arkyv` command-line tool
 ├─ app/                    ← Slint desktop app (src/ Rust, ui/ .slint files)
 └─ tests/fixtures/         ← sample + malicious archives
 ```
@@ -42,8 +42,8 @@ arxiv-app/
 
 | # | Milestone | You can do this on Ubuntu when it's done | Size |
 |---|---|---|---|
-| [M0](milestones/M0-setup.md) | Setup & skeleton | Run `cargo run -p crate-app` and see an empty Crate window in Inter with the design colors | S |
-| [M1](milestones/M1-core-extract.md) | Core: list & extract safely | `crate l file.zip` and `crate x file.tar.zst` work from the terminal; malicious test archives are blocked | M |
+| [M0](milestones/M0-setup.md) | Setup & skeleton | Run `cargo run -p arkyv-app` and see an empty Arkyv window in Inter with the design colors | S |
+| [M1](milestones/M1-core-extract.md) | Core: list & extract safely | `arkyv l file.zip` and `arkyv x file.tar.zst` work from the terminal; malicious test archives are blocked | M |
 | [M2](milestones/M2-mini-view.md) | Mini view | Double-click a .zip in Files → mini view opens → one click extracts with progress | M |
 | [M3](milestones/M3-full-view.md) | Full view: browse | Browse folders inside an archive, select files, extract a selection, quick preview | L |
 | [M4](milestones/M4-create-edit.md) | Create & edit | Compress a folder; add, rename and delete files inside a zip; test integrity | L |

@@ -1,8 +1,8 @@
-# Arabic translation of Crate.
+# Arabic translation of Arkyv.
 msgid ""
 msgstr ""
-"Project-Id-Version: Crate\n"
-"POT-Creation-Date: 2026-11-07 13:54+0000\n"
+"Project-Id-Version: Arkyv\n"
+"POT-Creation-Date: 2026-11-07 19:17+0000\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11,16 +11,16 @@ msgstr ""
 
 #: ui/about.slint:101 ui/archive-window.slint:24 ui/archive-window.slint:55
 #: ui/main-window.slint:73 ui/main-window.slint:98
-msgid "Crate"
-msgstr "Crate"
+msgid "Arkyv"
+msgstr "Arkyv"
 
 #: ui/about.slint:125
-msgid "Support Crate"
-msgstr "ادعم Crate"
+msgid "Support Arkyv"
+msgstr "ادعم Arkyv"
 
 #: ui/about.slint:127
-msgid "Crate is free and open source, with no ads or tracking. If it saves you time, you can help fund development."
-msgstr "تطبيق Crate مجاني ومفتوح المصدر، بلا إعلانات ولا تتبّع. إن كان يوفّر عليك الوقت، يمكنك المساهمة في تمويل تطويره."
+msgid "Arkyv is free and open source, with no ads or tracking. If it saves you time, you can help fund development."
+msgstr "تطبيق Arkyv مجاني ومفتوح المصدر، بلا إعلانات ولا تتبّع. إن كان يوفّر عليك الوقت، يمكنك المساهمة في تمويل تطويره."
 
 #: ui/about.slint:130
 msgid "Sponsor on GitHub"
@@ -55,8 +55,8 @@ msgid "Don’t show again"
 msgstr "لا تُظهر هذا مجددًا"
 
 #: ui/archive-window.slint:24
-msgid "{} — Crate"
-msgstr "⁨{}⁩ — Crate"
+msgid "{} — Arkyv"
+msgstr "⁨{}⁩ — Arkyv"
 
 #: ui/archive-window.slint:56 ui/full-view.slint:386 ui/header.slint:148
 #: ui/prefs-window.slint:268 ui/prefs-window.slint:318
@@ -589,8 +589,8 @@ msgid "Replace"
 msgstr "استبدال"
 
 #: ui/first-run.slint:98
-msgid "Welcome to Crate"
-msgstr "مرحبًا بك في Crate"
+msgid "Welcome to Arkyv"
+msgstr "مرحبًا بك في Arkyv"
 
 #: ui/first-run.slint:99
 msgid "Two choices, then you’re done. Change them anytime in Preferences."
@@ -621,28 +621,28 @@ msgid "Extract right away"
 msgstr "استخراج فوري"
 
 #: ui/first-run.slint:137
-msgid "2 · Open these with Crate"
-msgstr "٢ · فتح هذه الأنواع بـ Crate"
+msgid "2 · Open these with Arkyv"
+msgstr "٢ · فتح هذه الأنواع بـ Arkyv"
 
 #: ui/first-run.slint:167
-msgid "Crate sets this for you when you click Get started."
-msgstr "يضبط Crate ذلك عند النقر على «لنبدأ»."
+msgid "Arkyv sets this for you when you click Get started."
+msgstr "يضبط Arkyv ذلك عند النقر على «لنبدأ»."
 
 #: ui/first-run.slint:168
-msgid "Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Crate → Set as default."
-msgstr "لا تستطيع تطبيقات Flatpak تغيير التطبيقات الافتراضية بنفسها. في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Crate ← تعيين كافتراضي."
+msgid "Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default."
+msgstr "لا تستطيع تطبيقات Flatpak تغيير التطبيقات الافتراضية بنفسها. في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
 
 #: ui/first-run.slint:169
-msgid "Crate isn’t installed as an app yet, so it can’t be the default. Installing a Crate package sets this up."
-msgstr "لم يُثبَّت Crate كتطبيق بعد، لذا لا يمكن جعله افتراضيًا. تثبيت حزمة Crate يضبط ذلك."
+msgid "Arkyv isn’t installed as an app yet, so it can’t be the default. Installing a Arkyv package sets this up."
+msgstr "لم يُثبَّت Arkyv كتطبيق بعد، لذا لا يمكن جعله افتراضيًا. تثبيت حزمة Arkyv يضبط ذلك."
 
 #: ui/first-run.slint:170
-msgid "Windows lets only you choose default apps. Get started opens Settings → Default apps on Crate’s page; set the types you want there."
-msgstr "لا يسمح Windows إلا لك باختيار التطبيقات الافتراضية. يفتح «لنبدأ» الإعدادات ← التطبيقات الافتراضية على صفحة Crate؛ اختر الأنواع التي تريدها هناك."
+msgid "Windows lets only you choose default apps. Get started opens Settings → Default apps on Arkyv’s page; set the types you want there."
+msgstr "لا يسمح Windows إلا لك باختيار التطبيقات الافتراضية. يفتح «لنبدأ» الإعدادات ← التطبيقات الافتراضية على صفحة Arkyv؛ اختر الأنواع التي تريدها هناك."
 
 #: ui/first-run.slint:171
-msgid "Crate sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with."
-msgstr "يضبط Crate ذلك عند النقر على «لنبدأ». لاستخدام تطبيق آخر لاحقًا، اختره من Finder ← معلومات ← الفتح باستخدام."
+msgid "Arkyv sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with."
+msgstr "يضبط Arkyv ذلك عند النقر على «لنبدأ». لاستخدام تطبيق آخر لاحقًا، اختره من Finder ← معلومات ← الفتح باستخدام."
 
 #: ui/first-run.slint:172
 msgid "Setting the default app isn’t supported here yet."
@@ -801,8 +801,8 @@ msgid "Got it"
 msgstr "حسنًا"
 
 #: ui/header.slint:159 ui/main-window.slint:99
-msgid "About Crate"
-msgstr "حول Crate"
+msgid "About Arkyv"
+msgstr "حول Arkyv"
 
 #: ui/locale.slint:5
 msgid "default:LTR"
@@ -817,8 +817,8 @@ msgid "Compress files, or open an archive"
 msgstr "اضغط ملفات، أو افتح أرشيفًا"
 
 #: ui/main-window.slint:213
-msgid "Crate opens ZIP, 7z, RAR and TAR (gz, xz, zst, bz2), and makes ZIP, 7z and tar archives."
-msgstr "يفتح Crate أرشيفات ZIP و7z وRAR وTAR (gz وxz وzst وbz2)، وينشئ أرشيفات ZIP و7z وtar."
+msgid "Arkyv opens ZIP, 7z, RAR and TAR (gz, xz, zst, bz2), and makes ZIP, 7z and tar archives."
+msgstr "يفتح Arkyv أرشيفات ZIP و7z وRAR وTAR (gz وxz وzst وbz2)، وينشئ أرشيفات ZIP و7z وtar."
 
 #: ui/main-window.slint:225
 msgid "Compress files"
@@ -1136,8 +1136,8 @@ msgid "Close without saving"
 msgstr "الإغلاق دون حفظ"
 
 #: ui/prefs-window.slint:342 ui/pro.slint:98
-msgid "Crate Pro"
-msgstr "Crate Pro"
+msgid "Arkyv Pro"
+msgstr "Arkyv Pro"
 
 #: ui/prefs-window.slint:345
 msgid "Not activated"
@@ -1256,8 +1256,12 @@ msgid "App icon"
 msgstr "أيقونة التطبيق"
 
 #: ui/prefs-window.slint:485
-msgid "Shown in the taskbar and on Crate’s windows"
-msgstr "تظهر في شريط المهام وعلى نوافذ Crate"
+msgid "Shown in the taskbar and on Arkyv’s windows"
+msgstr "تظهر في شريط المهام وعلى نوافذ Arkyv"
+
+#: ui/prefs-window.slint:492
+msgid "Layers"
+msgstr "الطبقات"
 
 #: ui/prefs-window.slint:492
 msgid "Open Lid"
@@ -1272,10 +1276,6 @@ msgid "Zip"
 msgstr "السحّاب"
 
 #: ui/prefs-window.slint:492
-msgid "Layers"
-msgstr "الطبقات"
-
-#: ui/prefs-window.slint:492
 msgid "Squeeze"
 msgstr "الضغط"
 
@@ -1284,7 +1284,7 @@ msgid "A monogram"
 msgstr "حرف A"
 
 #: ui/prefs-window.slint:492
-msgid "Open crate"
+msgid "Open box"
 msgstr "الصندوق المفتوح"
 
 #: ui/prefs-window.slint:492
@@ -1348,28 +1348,28 @@ msgid "Only create a folder when the archive has more than one top-level item"
 msgstr "إنشاء مجلد فقط عندما يحتوي الأرشيف على أكثر من عنصر في المستوى الأعلى"
 
 #: ui/prefs-window.slint:573
-msgid "Open these with Crate"
-msgstr "فتح هذه الأنواع بـ Crate"
+msgid "Open these with Arkyv"
+msgstr "فتح هذه الأنواع بـ Arkyv"
 
 #: ui/prefs-window.slint:575
-msgid "Click a type to make Crate its default app. To use another app, pick it in Files → Open With."
-msgstr "انقر على نوع لجعل Crate تطبيقه الافتراضي. لاستخدام تطبيق آخر، اختره من «الملفات» ← الفتح باستخدام."
+msgid "Click a type to make Arkyv its default app. To use another app, pick it in Files → Open With."
+msgstr "انقر على نوع لجعل Arkyv تطبيقه الافتراضي. لاستخدام تطبيق آخر، اختره من «الملفات» ← الفتح باستخدام."
 
 #: ui/prefs-window.slint:576
-msgid "Flatpak: in Files, right-click an archive → Properties → Open With → Crate → Set as default."
-msgstr "Flatpak: في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Crate ← تعيين كافتراضي."
+msgid "Flatpak: in Files, right-click an archive → Properties → Open With → Arkyv → Set as default."
+msgstr "Flatpak: في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
 
 #: ui/prefs-window.slint:577
-msgid "Crate isn’t installed as an app yet, so it can’t be the default."
-msgstr "لم يُثبَّت Crate كتطبيق بعد، لذا لا يمكن جعله افتراضيًا."
+msgid "Arkyv isn’t installed as an app yet, so it can’t be the default."
+msgstr "لم يُثبَّت Arkyv كتطبيق بعد، لذا لا يمكن جعله افتراضيًا."
 
 #: ui/prefs-window.slint:578
-msgid "Click a type to open Settings → Default apps, where you choose Crate for it."
-msgstr "انقر نوعًا لفتح الإعدادات ← التطبيقات الافتراضية، حيث تختار Crate له."
+msgid "Click a type to open Settings → Default apps, where you choose Arkyv for it."
+msgstr "انقر نوعًا لفتح الإعدادات ← التطبيقات الافتراضية، حيث تختار Arkyv له."
 
 #: ui/prefs-window.slint:579
-msgid "Click a type to make Crate its default app. To use another app, pick it in Finder → Get Info → Open with."
-msgstr "انقر على نوع لجعل Crate تطبيقه الافتراضي. لاستخدام تطبيق آخر، اختره من Finder ← معلومات ← الفتح باستخدام."
+msgid "Click a type to make Arkyv its default app. To use another app, pick it in Finder → Get Info → Open with."
+msgstr "انقر على نوع لجعل Arkyv تطبيقه الافتراضي. لاستخدام تطبيق آخر، اختره من Finder ← معلومات ← الفتح باستخدام."
 
 #: ui/prefs-window.slint:580
 msgid "Not supported on this system yet."
@@ -1488,8 +1488,8 @@ msgid "Convert"
 msgstr "تحويل"
 
 #: ui/pro.slint:99
-msgid "New looks for Crate, and a way to support it. Everything else stays free."
-msgstr "مظاهر جديدة لـ Crate، وطريقة لدعمه. ويبقى كل ما عدا ذلك مجانيًا."
+msgid "New looks for Arkyv, and a way to support it. Everything else stays free."
+msgstr "مظاهر جديدة لـ Arkyv، وطريقة لدعمه. ويبقى كل ما عدا ذلك مجانيًا."
 
 #: ui/pro.slint:106
 msgid "Glass theme"
@@ -1508,16 +1508,16 @@ msgid "Pick the one you like for the Dock, taskbar or app menu"
 msgstr "اختر ما يعجبك منها للـ Dock أو شريط المهام أو قائمة التطبيقات"
 
 #: ui/pro.slint:108
-msgid "Keeps Crate going"
-msgstr "يُبقي Crate مستمرًا"
+msgid "Keeps Arkyv going"
+msgstr "يُبقي Arkyv مستمرًا"
 
 #: ui/pro.slint:108
-msgid "Crate is built by one developer, with no ads or tracking"
-msgstr "يطوّر Crate مطوّر واحد، بلا إعلانات ولا تتبّع"
+msgid "Arkyv is built by one developer, with no ads or tracking"
+msgstr "يطوّر Arkyv مطوّر واحد، بلا إعلانات ولا تتبّع"
 
 #: ui/pro.slint:115
-msgid "Buy Crate Pro · {}"
-msgstr "اشترِ Crate Pro · {}"
+msgid "Buy Arkyv Pro · {}"
+msgstr "اشترِ Arkyv Pro · {}"
 
 #: ui/pro.slint:116
 msgid "I have a license key"
@@ -1532,8 +1532,8 @@ msgid "Enter your license key"
 msgstr "أدخل مفتاح الترخيص"
 
 #: ui/pro.slint:145
-msgid "Paste the key from your Lemon Squeezy receipt, or a key that starts with CRATE-PRO."
-msgstr "الصق المفتاح من إيصال Lemon Squeezy، أو مفتاحًا يبدأ بـ CRATE-PRO."
+msgid "Paste the key from your Lemon Squeezy receipt, or a key that starts with ARKYV-PRO."
+msgstr "الصق المفتاح من إيصال Lemon Squeezy، أو مفتاحًا يبدأ بـ ARKYV-PRO."
 
 #: ui/pro.slint:164
 msgid "License key"
@@ -1548,16 +1548,16 @@ msgid "Activate"
 msgstr "تفعيل"
 
 #: ui/pro.slint:200
-msgid "Crate checks a Lemon Squeezy key once, online. After that the key is checked on this computer and nothing is sent."
-msgstr "يتحقق Crate من مفتاح Lemon Squeezy مرة واحدة عبر الإنترنت. بعد ذلك يُتحقق من المفتاح على هذا الجهاز ولا يُرسل أي شيء."
+msgid "Arkyv checks a Lemon Squeezy key once, online. After that the key is checked on this computer and nothing is sent."
+msgstr "يتحقق Arkyv من مفتاح Lemon Squeezy مرة واحدة عبر الإنترنت. بعد ذلك يُتحقق من المفتاح على هذا الجهاز ولا يُرسل أي شيء."
 
 #: ui/pro.slint:213
 msgid "Thank you!"
 msgstr "شكرًا لك!"
 
 #: ui/pro.slint:214
-msgid "Crate Pro is on. The Glass theme and the new icons arrive in Preferences → Appearance with the next updates."
-msgstr "تم تفعيل Crate Pro. ستصل السمة الزجاجية والأيقونات الجديدة إلى التفضيلات ← المظهر مع التحديثات القادمة."
+msgid "Arkyv Pro is on. The Glass theme and the new icons arrive in Preferences → Appearance with the next updates."
+msgstr "تم تفعيل Arkyv Pro. ستصل السمة الزجاجية والأيقونات الجديدة إلى التفضيلات ← المظهر مع التحديثات القادمة."
 
 #: ui/pro.slint:219
 msgid "Done"
@@ -1580,14 +1580,14 @@ msgid "Open this sheet anytime with"
 msgstr "افتح هذه القائمة في أي وقت بـ"
 
 #: src/about.rs:121
-msgid "Crate has handled {n} archive for you"
-msgid_plural "Crate has handled {n} archives for you"
-msgstr[0] "تعامل Crate مع ⁨{n}⁩ أرشيف من أجلك"
-msgstr[1] "تعامل Crate مع أرشيف واحد من أجلك"
-msgstr[2] "تعامل Crate مع أرشيفين من أجلك"
-msgstr[3] "تعامل Crate مع ⁨{n}⁩ أرشيفات من أجلك"
-msgstr[4] "تعامل Crate مع ⁨{n}⁩ أرشيفًا من أجلك"
-msgstr[5] "تعامل Crate مع ⁨{n}⁩ أرشيف من أجلك"
+msgid "Arkyv has handled {n} archive for you"
+msgid_plural "Arkyv has handled {n} archives for you"
+msgstr[0] "تعامل Arkyv مع ⁨{n}⁩ أرشيف من أجلك"
+msgstr[1] "تعامل Arkyv مع أرشيف واحد من أجلك"
+msgstr[2] "تعامل Arkyv مع أرشيفين من أجلك"
+msgstr[3] "تعامل Arkyv مع ⁨{n}⁩ أرشيفات من أجلك"
+msgstr[4] "تعامل Arkyv مع ⁨{n}⁩ أرشيفًا من أجلك"
+msgstr[5] "تعامل Arkyv مع ⁨{n}⁩ أرشيف من أجلك"
 
 #: src/about.rs:79
 msgid "Version {version} · {platform}"
@@ -1774,8 +1774,8 @@ msgid "About {time} left"
 msgstr "يتبقى نحو ⁨{time}⁩"
 
 #: src/first_run.rs:99
-msgid "Couldn’t make Crate the default app: {error}"
-msgstr "تعذّر جعل Crate التطبيق الافتراضي: ⁨{error}⁩"
+msgid "Couldn’t make Arkyv the default app: {error}"
+msgstr "تعذّر جعل Arkyv التطبيق الافتراضي: ⁨{error}⁩"
 
 #: src/home.rs:1005
 msgid "Created {name} in {n} volume · {size}"
@@ -1836,7 +1836,7 @@ msgid "Enter a password, or turn encryption off"
 msgstr "أدخل كلمة مرور، أو أوقف التشفير"
 
 #: src/home.rs:739
-msgid "AES-256. File names stay visible; opens in 7-Zip, WinRAR, macOS and Crate."
+msgid "AES-256. File names stay visible; opens in 7-Zip, WinRAR, macOS and Arkyv."
 msgstr "AES-256. تبقى أسماء الملفات ظاهرة؛ يُفتح في 7-Zip وWinRAR وmacOS وCrate."
 
 #: src/home.rs:741
@@ -1844,8 +1844,8 @@ msgid "AES-256. File names are hidden too."
 msgstr "AES-256. تُخفى أسماء الملفات أيضًا."
 
 #: src/home.rs:742
-msgid "Encrypted with age (scrypt). File names are hidden too. Opens in Crate and the age tool."
-msgstr "مشفّر بـ age (scrypt). تُخفى أسماء الملفات أيضًا. يُفتح في Crate وأداة age."
+msgid "Encrypted with age (scrypt). File names are hidden too. Opens in Arkyv and the age tool."
+msgstr "مشفّر بـ age (scrypt). تُخفى أسماء الملفات أيضًا. يُفتح في Arkyv وأداة age."
 
 #: src/home.rs:820
 msgid "{level} · estimating…"
@@ -2092,12 +2092,12 @@ msgid "Showing the first {shown} of {size}"
 msgstr "يُعرض أول ⁨{shown}⁩ من ⁨{size}⁩"
 
 #: src/pro.rs:107
-msgid "Since {date} · thank you for supporting Crate"
-msgstr "منذ {date} · شكرًا لدعمك Crate"
+msgid "Since {date} · thank you for supporting Arkyv"
+msgstr "منذ {date} · شكرًا لدعمك Arkyv"
 
 #: src/pro.rs:112
-msgid "Thank you for supporting Crate"
-msgstr "شكرًا لدعمك Crate"
+msgid "Thank you for supporting Arkyv"
+msgstr "شكرًا لدعمك Arkyv"
 
 #: src/pro.rs:119
 msgid "This key isn’t valid. Check that you copied all of it."
@@ -2108,16 +2108,16 @@ msgid "Lemon Squeezy doesn’t know this key. Check that you copied all of it."
 msgstr "لا يعرف Lemon Squeezy هذا المفتاح. تأكد من أنك نسخته كاملًا."
 
 #: src/pro.rs:124
-msgid "This key is already active on 5 computers. Remove the license in Crate on one of them, then try again."
-msgstr "هذا المفتاح مفعّل بالفعل على 5 أجهزة. أزِل الترخيص من Crate على أحدها، ثم حاول مجددًا."
+msgid "This key is already active on 5 computers. Remove the license in Arkyv on one of them, then try again."
+msgstr "هذا المفتاح مفعّل بالفعل على 5 أجهزة. أزِل الترخيص من Arkyv على أحدها، ثم حاول مجددًا."
 
 #: src/pro.rs:128
 msgid "Couldn’t reach the license server. Check your connection and try again."
 msgstr "تعذّر الوصول إلى خادم التراخيص. تحقق من اتصالك وحاول مجددًا."
 
 #: src/pro.rs:130
-msgid "This copy of Crate can’t activate store keys. Paste a key that starts with CRATE-PRO."
-msgstr "لا تستطيع هذه النسخة من Crate تفعيل مفاتيح المتجر. الصق مفتاحًا يبدأ بـ CRATE-PRO."
+msgid "This copy of Arkyv can’t activate store keys. Paste a key that starts with ARKYV-PRO."
+msgstr "لا تستطيع هذه النسخة من Arkyv تفعيل مفاتيح المتجر. الصق مفتاحًا يبدأ بـ ARKYV-PRO."
 
 #: src/shortcuts.rs:51
 msgid "Browse"
@@ -2502,12 +2502,12 @@ msgid "Needs {needed}, {free} free. Checked before starting, so nothing was writ
 msgstr "يحتاج ⁨{needed}⁩، والمتاح ⁨{free}⁩. تم التحقق قبل البدء، فلم يُكتب شيء."
 
 #: src/view/extract.rs:513
-msgid "Crate can’t write to {folder}"
-msgstr "لا يستطيع Crate الكتابة في ⁨{folder}⁩"
+msgid "Arkyv can’t write to {folder}"
+msgstr "لا يستطيع Arkyv الكتابة في ⁨{folder}⁩"
 
 #: src/view/extract.rs:518
-msgid "The folder is read-only or belongs to another user, or macOS hasn’t given Crate access to it: see Privacy & Security → Files and Folders."
-msgstr "المجلد للقراءة فقط أو يخص مستخدمًا آخر، أو لم يمنح macOS تطبيق Crate إذن الوصول إليه: راجع الخصوصية والأمان ← الملفات والمجلدات."
+msgid "The folder is read-only or belongs to another user, or macOS hasn’t given Arkyv access to it: see Privacy & Security → Files and Folders."
+msgstr "المجلد للقراءة فقط أو يخص مستخدمًا آخر، أو لم يمنح macOS تطبيق Arkyv إذن الوصول إليه: راجع الخصوصية والأمان ← الملفات والمجلدات."
 
 #: src/view/extract.rs:522
 msgid "The folder is read-only or belongs to another user."
@@ -2846,14 +2846,14 @@ msgid "Couldn’t convert"
 msgstr "تعذّر التحويل"
 
 #: src/view/volumes.rs:57
-msgid "{name} is split into {n} volume. Crate looked in {folder}."
-msgid_plural "{name} is split into {n} volumes. Crate looked in {folder}."
-msgstr[0] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزء. بحث Crate في ⁨{folder}⁩."
-msgstr[1] "الأرشيف ⁨{name}⁩ في جزء واحد. بحث Crate في ⁨{folder}⁩."
-msgstr[2] "الأرشيف ⁨{name}⁩ مقسّم إلى جزأين. بحث Crate في ⁨{folder}⁩."
-msgstr[3] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ أجزاء. بحث Crate في ⁨{folder}⁩."
-msgstr[4] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزءًا. بحث Crate في ⁨{folder}⁩."
-msgstr[5] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزء. بحث Crate في ⁨{folder}⁩."
+msgid "{name} is split into {n} volume. Arkyv looked in {folder}."
+msgid_plural "{name} is split into {n} volumes. Arkyv looked in {folder}."
+msgstr[0] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزء. بحث Arkyv في ⁨{folder}⁩."
+msgstr[1] "الأرشيف ⁨{name}⁩ في جزء واحد. بحث Arkyv في ⁨{folder}⁩."
+msgstr[2] "الأرشيف ⁨{name}⁩ مقسّم إلى جزأين. بحث Arkyv في ⁨{folder}⁩."
+msgstr[3] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ أجزاء. بحث Arkyv في ⁨{folder}⁩."
+msgstr[4] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزءًا. بحث Arkyv في ⁨{folder}⁩."
+msgstr[5] "الأرشيف ⁨{name}⁩ مقسّم إلى ⁨{n}⁩ جزء. بحث Arkyv في ⁨{folder}⁩."
 
 #: src/view/volumes.rs:32
 msgid "not found"
@@ -2868,12 +2868,12 @@ msgid "Part {part} is missing"
 msgstr "الجزء ⁨{part}⁩ مفقود"
 
 #: src/view/volumes.rs:64
-msgid "{name} is split into volumes. Crate looked in {folder}."
-msgstr "الأرشيف ⁨{name}⁩ مقسّم إلى أجزاء. بحث Crate في ⁨{folder}⁩."
+msgid "{name} is split into volumes. Arkyv looked in {folder}."
+msgstr "الأرشيف ⁨{name}⁩ مقسّم إلى أجزاء. بحث Arkyv في ⁨{folder}⁩."
 
 #: src/view/volumes.rs:69
-msgid "Still downloading? Crate retries automatically when {name} appears in this folder."
-msgstr "ما زال التنزيل جاريًا؟ سيعيد Crate المحاولة تلقائيًا عندما يظهر ⁨{name}⁩ في هذا المجلد."
+msgid "Still downloading? Arkyv retries automatically when {name} appears in this folder."
+msgstr "ما زال التنزيل جاريًا؟ سيعيد Arkyv المحاولة تلقائيًا عندما يظهر ⁨{name}⁩ في هذا المجلد."
 
 #: src/view/volumes.rs:73
 msgid "Locate part {part}…"
@@ -2934,8 +2934,8 @@ msgid "Couldn’t save the copy"
 msgstr "تعذّر حفظ النسخة"
 
 #: src/view/watch.rs:322
-msgid "If you close now, changes to {names} are lost. Temp copies are deleted when Crate quits."
-msgstr "إذا أغلقت الآن فستضيع التغييرات على ⁨{names}⁩. تُحذف النسخ المؤقتة عند إنهاء Crate."
+msgid "If you close now, changes to {names} are lost. Temp copies are deleted when Arkyv quits."
+msgstr "إذا أغلقت الآن فستضيع التغييرات على ⁨{names}⁩. تُحذف النسخ المؤقتة عند إنهاء Arkyv."
 
 #~ msgid "Glass theme and four more app icons, {} once"
 #~ msgstr "السمة الزجاجية وأربع أيقونات إضافية للتطبيق، {} مرة واحدة"
@@ -2946,8 +2946,8 @@ msgstr "إذا أغلقت الآن فستضيع التغييرات على ⁨{na
 #~ msgid "One payment, every computer you use. Checkout by Lemon Squeezy."
 #~ msgstr "دفعة واحدة لكل أجهزتك. يتم الدفع عبر Lemon Squeezy."
 
-#~ msgid "Get started asks macOS to make Crate the default app; macOS asks you to confirm each type."
-#~ msgstr "يطلب «لنبدأ» من macOS جعل Crate التطبيق الافتراضي؛ ويطلب منك macOS تأكيد كل نوع."
+#~ msgid "Get started asks macOS to make Arkyv the default app; macOS asks you to confirm each type."
+#~ msgstr "يطلب «لنبدأ» من macOS جعل Arkyv التطبيق الافتراضي؛ ويطلب منك macOS تأكيد كل نوع."
 
-#~ msgid "Click a type to make Crate its default app; macOS asks you to confirm. To use another app, pick it in Finder → Get Info → Open with."
-#~ msgstr "انقر على نوع لجعل Crate تطبيقه الافتراضي؛ وسيطلب منك macOS التأكيد. لاستخدام تطبيق آخر، اختره من Finder ← معلومات ← الفتح باستخدام."
+#~ msgid "Click a type to make Arkyv its default app; macOS asks you to confirm. To use another app, pick it in Finder → Get Info → Open with."
+#~ msgstr "انقر على نوع لجعل Arkyv تطبيقه الافتراضي؛ وسيطلب منك macOS التأكيد. لاستخدام تطبيق آخر، اختره من Finder ← معلومات ← الفتح باستخدام."

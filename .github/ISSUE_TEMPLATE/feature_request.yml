@@ -1,5 +1,5 @@
 name: Feature request
-description: An idea for Crate
+description: An idea for Arkyv
 labels: [enhancement]
 body:
   - type: textarea

@@ -1,6 +1,6 @@
 use std::time::SystemTime;
 
-/// Archive formats Crate can open.
+/// Archive formats Arkyv can open.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Format {
     Zip,

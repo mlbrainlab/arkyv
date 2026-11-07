@@ -1,6 +1,6 @@
-# Crate: notes for Claude Code
+# Arkyv: notes for Claude Code
 
-Crate is a cross-platform archiver (Rust, with a Slint UI). This is an open-source showcase project with a small optional Pro tier.
+Arkyv is a cross-platform archiver (Rust, with a Slint UI). This is an open-source showcase project with a small optional Pro tier.
 
 ## Where things are
 - Machines, builds and parallel sessions: `docs/WORKFLOW.md`.
@@ -24,7 +24,7 @@ Crate is a cross-platform archiver (Rust, with a Slint UI). This is an open-sour
 - If a task needs a decision listed under "Open decisions" in the ROADMAP, stop and ask.
 
 ## Commands
-- `cargo run -p crate-app -- <archive>`: open an archive in the mini view (no argument: the full window)
-- `cargo test -p crate-app --test mini_flow` / `--test full_flow`: drive the mini and full view headless and write screenshots to `target/ui-snapshots/`
+- `cargo run -p arkyv-app -- <archive>`: open an archive in the mini view (no argument: the full window)
+- `cargo test -p arkyv-app --test mini_flow` / `--test full_flow`: drive the mini and full view headless and write screenshots to `target/ui-snapshots/`
 - `cargo test --workspace`: all Rust tests
-- `cargo run -p crate-cli -- x <archive>`: CLI extract
+- `cargo run -p arkyv-cli -- x <archive>`: CLI extract

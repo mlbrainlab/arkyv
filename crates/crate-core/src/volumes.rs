@@ -1,10 +1,10 @@
 //! Archives split into volumes: 7-Zip style raw splits (`name.7z.001`,
-//! `.002`…, any format inside, which is what Crate's own "Split into
+//! `.002`…, any format inside, which is what Arkyv's own "Split into
 //! volumes" writes), RAR sets (`name.part1.rar`, `.part2.rar`…, and the old
 //! `name.rar`, `.r00`, `.r01`… naming). A split set reads as one file through
 //! [`Input`]; UnRAR reads RAR sets itself.
 //!
-//! How many parts a set has isn't written anywhere Crate can see up front,
+//! How many parts a set has isn't written anywhere Arkyv can see up front,
 //! so the count is the highest part found next to the first one. A missing
 //! last part shows up when reading: a full-size last part means more follow.
 

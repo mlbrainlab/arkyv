@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Builds this checkout and installs it as the system's Crate, replacing an
-# older crate-archiver .deb (the one a release installs). Asks for sudo for
+# Builds this checkout and installs it as the system's Arkyv, replacing an
+# older arkyv .deb (the one a release installs). Asks for sudo for
 # the install step only.
 #
 #   scripts/install-local.sh               # build release, package, install
@@ -13,22 +13,22 @@ cd "$(dirname "$0")/.."
 OUT=target/dist-local
 
 if [[ -z "${SKIP_BUILD:-}" ]]; then
-  cargo build --release -p crate-app -p crate-cli
+  cargo build --release -p arkyv-app -p arkyv-cli
 fi
-for bin in crate-app crate; do
+for bin in arkyv-app crate; do
   [[ -x target/release/$bin ]] || { echo "target/release/$bin is missing" >&2; exit 1; }
 done
 
 rm -rf "$OUT"
 mkdir -p "$OUT"
-cargo deb -p crate-app --no-build --no-strip --output "$OUT/"
+cargo deb -p arkyv-app --no-build --no-strip --output "$OUT/"
 DEB=$(ls "$OUT"/*.deb)
 
 echo "Installing $DEB"
 sudo apt-get install -y --allow-downgrades "./$DEB"
 
 # Running windows keep the old binary until they're closed.
-if pgrep -x crate-app >/dev/null; then
-  echo "Crate is running: close its windows to use the new version."
+if pgrep -x arkyv-app >/dev/null; then
+  echo "Arkyv is running: close its windows to use the new version."
 fi
-echo "Installed: $(dpkg-query -W -f='${Package} ${Version}' crate-archiver)"
+echo "Installed: $(dpkg-query -W -f='${Package} ${Version}' arkyv)"

@@ -1,4 +1,4 @@
-//! Archive engine shared by the Crate app and the `crate` CLI.
+//! Archive engine shared by the Arkyv app and the `arkyv` CLI.
 //!
 //! No UI dependencies belong here. Every file written during extraction goes
 //! through [`safety`].

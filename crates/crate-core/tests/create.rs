@@ -1,4 +1,4 @@
-//! Creating archives: every format round-trips byte for byte through Crate's
+//! Creating archives: every format round-trips byte for byte through Arkyv's
 //! own reader, with exclusions, permissions, links, passwords and volumes.
 
 mod support;
@@ -142,7 +142,7 @@ fn every_format_round_trips() {
             !e.unwrap()
                 .file_name()
                 .to_string_lossy()
-                .starts_with(".crate-new-")
+                .starts_with(".arkyv-new-")
         }));
     }
 }
@@ -240,7 +240,7 @@ fn volumes() {
 #[test]
 fn split_sets_open_from_any_part() {
     use crate_core::volumes::VolumeSet;
-    // (Crate splits 7z and ZIP; other formats are read the same way.)
+    // (Arkyv splits 7z and ZIP; other formats are read the same way.)
     for format in [OutFormat::SevenZ, OutFormat::Zip] {
         let dir = tempfile::tempdir().unwrap();
         let src = project(dir.path());
@@ -346,7 +346,7 @@ fn cancelling_leaves_nothing() {
         !e.unwrap()
             .file_name()
             .to_string_lossy()
-            .starts_with(".crate-new-")
+            .starts_with(".arkyv-new-")
     }));
 }
 

@@ -1,4 +1,4 @@
-// Crate's own window frame, where Crate draws its header (`custom-frame`,
+// Arkyv's own window frame, where Arkyv draws its header (`custom-frame`,
 // Linux): the window keeps a clear margin around its body, where a shadow
 // falls and the pointer resizes the window; the body has rounded corners
 // and a 1 px rim. Maximized or full screen, the body fills the window.
@@ -15,7 +15,7 @@ export global Frame {
     out property <length> inset: drawn ? 12px : 0;
     // Corner radius of the body: Ubuntu's 12 px, 16 px on glass.
     out property <length> radius: drawn ? (Tokens.glass ? 16px : 12px) : 0;
-    // Windows on glass: no system title bar; Crate draws a 32 px caption
+    // Windows on glass: no system title bar; Arkyv draws a 32 px caption
     // strip with 46 × 32 buttons instead (`CaptionBar`).
     in property <bool> caption;
     out property <length> caption-height: caption ? 32px : 0;

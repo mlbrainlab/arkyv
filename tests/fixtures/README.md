@@ -4,7 +4,7 @@ Sample and malicious archives. The tests don't read this folder: they build thei
 
 ```
 cargo run -p crate-core --example gen_fixtures    # regenerate everything
-cargo run -p crate-cli -- x tests/fixtures/arabic-cp1256.zip --encoding cp1256
+cargo run -p arkyv-cli -- x tests/fixtures/arabic-cp1256.zip --encoding cp1256
 ```
 
 Keep each file small (ideally < 100 KB) and add new ones to the generator rather than committing archives from elsewhere.

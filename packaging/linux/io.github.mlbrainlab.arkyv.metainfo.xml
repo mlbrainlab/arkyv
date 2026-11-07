@@ -2,24 +2,24 @@
 <!-- AppStream metadata: software centers (GNOME Software, Discover, Flathub)
      read it. Validate with `appstreamcli validate`. -->
 <component type="desktop-application">
-  <id>io.github.mlbrainlab.crate</id>
-  <name>Crate</name>
+  <id>io.github.mlbrainlab.arkyv</id>
+  <name>Arkyv</name>
   <summary>Open, extract and create archives</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <!-- Crate is MIT; RAR extraction uses the UnRAR library (freeware licence,
+  <!-- Arkyv is MIT; RAR extraction uses the UnRAR library (freeware licence,
        extraction only). -->
   <project_license>MIT AND LicenseRef-proprietary=https://www.rarlab.com/license.htm</project_license>
   <developer id="io.github.mlbrainlab">
     <name>mlbrainlab</name>
   </developer>
-  <launchable type="desktop-id">io.github.mlbrainlab.crate.desktop</launchable>
+  <launchable type="desktop-id">io.github.mlbrainlab.arkyv.desktop</launchable>
   <url type="homepage">https://github.com/mlbrainlab/arkyv</url>
   <url type="bugtracker">https://github.com/mlbrainlab/arkyv/issues</url>
   <url type="vcs-browser">https://github.com/mlbrainlab/arkyv</url>
 
   <description>
     <p>
-      Crate opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes
+      Arkyv opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes
       ZIP, 7z and tar ones. Double-click an archive and a small window shows
       what's inside, one click from extracting everything; the full view
       browses folders, previews files and edits the archive in place.
@@ -69,8 +69,8 @@
     <keyword>archive</keyword>
   </keywords>
   <provides>
-    <binary>crate-app</binary>
-    <binary>crate</binary>
+    <binary>arkyv-app</binary>
+    <binary>arkyv</binary>
     <mediatype>application/zip</mediatype>
     <mediatype>application/x-7z-compressed</mediatype>
     <mediatype>application/vnd.rar</mediatype>
@@ -93,7 +93,7 @@
   <releases>
     <release version="0.2.0" date="2026-10-29">
       <description>
-        <p>Crate for Windows, and safer extraction everywhere: names a disk won't take, or that differ only by case, are found before anything is written, and archives can be edited while their window is open.</p>
+        <p>Arkyv for Windows, and safer extraction everywhere: names a disk won't take, or that differ only by case, are found before anything is written, and archives can be edited while their window is open.</p>
       </description>
     </release>
     <release version="0.1.1" date="2026-10-28">

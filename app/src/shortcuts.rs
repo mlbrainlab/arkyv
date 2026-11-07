@@ -54,7 +54,7 @@ fn group_title(i: usize) -> String {
     }
 }
 
-/// The board's list, minus what Crate can't do yet (copy, paste into the
+/// The board's list, minus what Arkyv can't do yet (copy, paste into the
 /// archive, operations, zoom, update edited files).
 const SHORTCUTS: &[Shortcut] = &[
     s(

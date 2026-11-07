@@ -1,4 +1,4 @@
-//! First run over Home, and the "Open these with Crate" row in Preferences,
+//! First run over Home, and the "Open these with Arkyv" row in Preferences,
 //! with default apps recorded in memory instead of `mimeapps.list`.
 
 mod common;
@@ -7,10 +7,10 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicU8, Ordering};
 
+use arkyv_app::platform::{self, Defaults, MimeBackend};
+use arkyv_app::prefs::{OpenWith, Prefs};
+use arkyv_app::{FirstRunUi, PrefsUi};
 use common::Harness;
-use crate_app::platform::{self, Defaults, MimeBackend};
-use crate_app::prefs::{OpenWith, Prefs};
-use crate_app::{FirstRunUi, PrefsUi};
 use slint::{ComponentHandle, Model};
 
 /// MIME type → .desktop file, as `xdg-mime` would have set them.
@@ -44,7 +44,7 @@ fn default_for(mime: &str) -> Option<String> {
     DEFAULTS.lock().unwrap().as_ref()?.get(mime).cloned()
 }
 
-fn labels_on(types: slint::ModelRc<crate_app::TypeChoice>) -> Vec<String> {
+fn labels_on(types: slint::ModelRc<arkyv_app::TypeChoice>) -> Vec<String> {
     types
         .iter()
         .filter(|t| t.on)
@@ -56,7 +56,7 @@ fn labels_on(types: slint::ModelRc<crate_app::TypeChoice>) -> Vec<String> {
 fn first_run_flow() {
     let h = Harness::new();
     platform::set_mime_backend(FAKE);
-    let crate_desktop = Some("io.github.mlbrainlab.crate.desktop".to_owned());
+    let crate_desktop = Some("io.github.mlbrainlab.arkyv.desktop".to_owned());
 
     // The first Home shows it, every type checked.
     let home = h.home(vec![]);
@@ -109,7 +109,7 @@ fn first_run_flow() {
     MODE.store(Defaults::Flatpak as u8, Ordering::Relaxed);
     DEFAULTS.lock().unwrap().take();
     let home = h.home(vec![]);
-    crate_app::first_run::show(&home);
+    arkyv_app::first_run::show(&home);
     let f = || home.global::<FirstRunUi>();
     assert_eq!(f().get_defaults(), 1);
     h.shot("61-first-run-flatpak");
@@ -127,7 +127,7 @@ fn first_run_flow() {
     MODE.store(FAILING, Ordering::Relaxed);
     let home = h.home(vec![]);
     let f = || home.global::<FirstRunUi>();
-    crate_app::first_run::show(&home);
+    arkyv_app::first_run::show(&home);
     f().invoke_start();
     assert!(f().get_show());
     assert!(

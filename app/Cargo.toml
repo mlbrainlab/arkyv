@@ -1,5 +1,5 @@
 [package]
-name = "crate-app"
+name = "arkyv-app"
 description = "Open, extract and create archives"
 version.workspace = true
 edition.workspace = true
@@ -49,7 +49,7 @@ objc2-uniform-type-identifiers = { version = "0.3", default-features = false, fe
 
 [build-dependencies]
 slint-build = "~1.18.1"
-# The icon and version info in crate-app.exe (Windows targets only).
+# The icon and version info in arkyv-app.exe (Windows targets only).
 winresource = "0.1"
 
 [dev-dependencies]
@@ -72,60 +72,67 @@ zstd = "0.14"
 # Linux packages (scripts/package-linux.sh builds them; it writes
 # target/packaging/ first: the .desktop file with the installed Exec).
 [package.metadata.deb]
-name = "crate-archiver"
+name = "arkyv"
 maintainer = "mlbrainlab <https://github.com/mlbrainlab/arkyv>"
-copyright = "Crate contributors (MIT); UnRAR by Alexander Roshal (freeware, extraction only)"
+copyright = "Arkyv contributors (MIT); UnRAR by Alexander Roshal (freeware, extraction only)"
 license-file = ["../LICENSE", "0"]
 extended-description = """\
-Crate opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes ZIP, \
+Arkyv opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes ZIP, \
 7z and tar ones. A small window shows what is inside, one click from \
 extracting everything; the full view browses, previews and edits archives. \
 Unsafe paths, links and decompression bombs are stopped. Includes the \
-`crate` command-line tool."""
+`arkyv` command-line tool."""
 section = "utils"
 priority = "optional"
 # winit loads X11, xkbcommon, Wayland and EGL/GL at run time, so
 # dpkg-shlibdeps can't see them.
 depends = "$auto, libx11-6, libx11-xcb1, libxcursor1, libxrandr2, libxi6, libxkbcommon0, libxkbcommon-x11-0, libwayland-client0, libwayland-cursor0, libwayland-egl1, libegl1, libgl1"
 recommends = "xdg-utils"
+# The package was called crate-archiver before 0.2.36: installing this one
+# replaces it.
+conflicts = "crate-archiver"
+replaces = "crate-archiver"
+provides = "crate-archiver"
 assets = [
-    ["target/release/crate-app", "usr/bin/", "755"],
-    ["target/release/crate", "usr/bin/", "755"],
-    ["../target/packaging/io.github.mlbrainlab.crate.desktop", "usr/share/applications/", "644"],
-    ["../packaging/linux/io.github.mlbrainlab.crate.metainfo.xml", "usr/share/metainfo/", "644"],
-    ["../assets/icons/png/crate-16.png", "usr/share/icons/hicolor/16x16/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-24.png", "usr/share/icons/hicolor/24x24/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-32.png", "usr/share/icons/hicolor/32x32/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-48.png", "usr/share/icons/hicolor/48x48/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-64.png", "usr/share/icons/hicolor/64x64/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-128.png", "usr/share/icons/hicolor/128x128/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-256.png", "usr/share/icons/hicolor/256x256/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/png/crate-512.png", "usr/share/icons/hicolor/512x512/apps/io.github.mlbrainlab.crate.png", "644"],
-    ["../assets/icons/crate-icon.svg", "usr/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.crate.svg", "644"],
-    ["../README.md", "usr/share/doc/crate-archiver/", "644"],
+    ["target/release/arkyv-app", "usr/bin/", "755"],
+    ["target/release/arkyv", "usr/bin/", "755"],
+    ["../target/packaging/io.github.mlbrainlab.arkyv.desktop", "usr/share/applications/", "644"],
+    ["../packaging/linux/io.github.mlbrainlab.arkyv.metainfo.xml", "usr/share/metainfo/", "644"],
+    ["../assets/icons/png/arkyv-16.png", "usr/share/icons/hicolor/16x16/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-24.png", "usr/share/icons/hicolor/24x24/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-32.png", "usr/share/icons/hicolor/32x32/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-48.png", "usr/share/icons/hicolor/48x48/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-64.png", "usr/share/icons/hicolor/64x64/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-128.png", "usr/share/icons/hicolor/128x128/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-256.png", "usr/share/icons/hicolor/256x256/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/png/arkyv-512.png", "usr/share/icons/hicolor/512x512/apps/io.github.mlbrainlab.arkyv.png", "644"],
+    ["../assets/icons/arkyv-icon.svg", "usr/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.arkyv.svg", "644"],
+    ["../README.md", "usr/share/doc/arkyv/", "644"],
 ]
 
 [package.metadata.generate-rpm]
-name = "crate-archiver"
+name = "arkyv"
 summary = "Open, extract and create archives"
 license = "MIT AND LicenseRef-UnRAR"
 url = "https://github.com/mlbrainlab/arkyv"
 auto-req = "no"
+# Replaces crate-archiver, the package's name before 0.2.36.
+obsoletes = { crate-archiver = "*" }
 assets = [
-    { source = "target/release/crate-app", dest = "/usr/bin/crate-app", mode = "755" },
-    { source = "target/release/crate", dest = "/usr/bin/crate", mode = "755" },
-    { source = "../target/packaging/io.github.mlbrainlab.crate.desktop", dest = "/usr/share/applications/io.github.mlbrainlab.crate.desktop", mode = "644" },
-    { source = "../packaging/linux/io.github.mlbrainlab.crate.metainfo.xml", dest = "/usr/share/metainfo/io.github.mlbrainlab.crate.metainfo.xml", mode = "644" },
-    { source = "../assets/icons/png/crate-16.png", dest = "/usr/share/icons/hicolor/16x16/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-24.png", dest = "/usr/share/icons/hicolor/24x24/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-32.png", dest = "/usr/share/icons/hicolor/32x32/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-48.png", dest = "/usr/share/icons/hicolor/48x48/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-64.png", dest = "/usr/share/icons/hicolor/64x64/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-128.png", dest = "/usr/share/icons/hicolor/128x128/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-256.png", dest = "/usr/share/icons/hicolor/256x256/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/png/crate-512.png", dest = "/usr/share/icons/hicolor/512x512/apps/io.github.mlbrainlab.crate.png", mode = "644" },
-    { source = "../assets/icons/crate-icon.svg", dest = "/usr/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.crate.svg", mode = "644" },
-    { source = "../LICENSE", dest = "/usr/share/licenses/crate-archiver/LICENSE", mode = "644", doc = true },
+    { source = "target/release/arkyv-app", dest = "/usr/bin/arkyv-app", mode = "755" },
+    { source = "target/release/arkyv", dest = "/usr/bin/arkyv", mode = "755" },
+    { source = "../target/packaging/io.github.mlbrainlab.arkyv.desktop", dest = "/usr/share/applications/io.github.mlbrainlab.arkyv.desktop", mode = "644" },
+    { source = "../packaging/linux/io.github.mlbrainlab.arkyv.metainfo.xml", dest = "/usr/share/metainfo/io.github.mlbrainlab.arkyv.metainfo.xml", mode = "644" },
+    { source = "../assets/icons/png/arkyv-16.png", dest = "/usr/share/icons/hicolor/16x16/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-24.png", dest = "/usr/share/icons/hicolor/24x24/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-32.png", dest = "/usr/share/icons/hicolor/32x32/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-48.png", dest = "/usr/share/icons/hicolor/48x48/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-64.png", dest = "/usr/share/icons/hicolor/64x64/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-128.png", dest = "/usr/share/icons/hicolor/128x128/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-256.png", dest = "/usr/share/icons/hicolor/256x256/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/png/arkyv-512.png", dest = "/usr/share/icons/hicolor/512x512/apps/io.github.mlbrainlab.arkyv.png", mode = "644" },
+    { source = "../assets/icons/arkyv-icon.svg", dest = "/usr/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.arkyv.svg", mode = "644" },
+    { source = "../LICENSE", dest = "/usr/share/licenses/arkyv/LICENSE", mode = "644", doc = true },
 ]
 
 [package.metadata.generate-rpm.requires]

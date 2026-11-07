@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- Crate.app's Info.plist; scripts/package-macos.sh fills in @VERSION@.
+<!-- Arkyv.app's Info.plist; scripts/package-macos.sh fills in @VERSION@.
      Document types: the same extensions as the Windows installer
-     (packaging/windows/crate.iss). Types macOS already knows (zip, tar, gz,
-     bz2) rank "Alternate", so Crate shows in Open With without taking them
+     (packaging/windows/arkyv.iss). Types macOS already knows (zip, tar, gz,
+     bz2) rank "Alternate", so Arkyv shows in Open With without taking them
      from Archive Utility; the rest rank "Default" and are declared below. -->
 <plist version="1.0">
 <dict>
@@ -15,15 +15,15 @@
 		<string>ar</string>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Crate</string>
+	<string>Arkyv</string>
 	<key>CFBundleName</key>
-	<string>Crate</string>
+	<string>Arkyv</string>
 	<key>CFBundleExecutable</key>
-	<string>crate-app</string>
+	<string>arkyv-app</string>
 	<key>CFBundleIconFile</key>
-	<string>crate</string>
+	<string>arkyv</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.github.mlbrainlab.crate</string>
+	<string>io.github.mlbrainlab.arkyv</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
@@ -41,20 +41,20 @@
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Crate contributors (MIT); UnRAR by Alexander Roshal (freeware, extraction only)</string>
-	<!-- What macOS's "Crate would like to access…" prompts say: extracting
+	<string>Arkyv contributors (MIT); UnRAR by Alexander Roshal (freeware, extraction only)</string>
+	<!-- What macOS's "Arkyv would like to access…" prompts say: extracting
 	     writes to these places (Privacy & Security → Files and Folders). The
 	     Arabic is in packaging/macos/ar.lproj/InfoPlist.strings. -->
 	<key>NSDesktopFolderUsageDescription</key>
-	<string>Crate extracts archives to the folder you choose, and opens archives you keep there.</string>
+	<string>Arkyv extracts archives to the folder you choose, and opens archives you keep there.</string>
 	<key>NSDocumentsFolderUsageDescription</key>
-	<string>Crate extracts archives to the folder you choose, and opens archives you keep there.</string>
+	<string>Arkyv extracts archives to the folder you choose, and opens archives you keep there.</string>
 	<key>NSDownloadsFolderUsageDescription</key>
-	<string>Crate extracts archives to the folder you choose, and opens archives you keep there.</string>
+	<string>Arkyv extracts archives to the folder you choose, and opens archives you keep there.</string>
 	<key>NSRemovableVolumesUsageDescription</key>
-	<string>Crate extracts archives to the folder you choose, and opens archives you keep there.</string>
+	<string>Arkyv extracts archives to the folder you choose, and opens archives you keep there.</string>
 	<key>NSNetworkVolumesUsageDescription</key>
-	<string>Crate extracts archives to the folder you choose, and opens archives you keep there.</string>
+	<string>Arkyv extracts archives to the folder you choose, and opens archives you keep there.</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -174,7 +174,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>io.github.mlbrainlab.crate.tar-zst-archive</string>
+				<string>io.github.mlbrainlab.arkyv.tar-zst-archive</string>
 			</array>
 		</dict>
 		<dict>
@@ -198,7 +198,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>io.github.mlbrainlab.crate.tar-bz2-archive</string>
+				<string>io.github.mlbrainlab.arkyv.tar-bz2-archive</string>
 			</array>
 		</dict>
 		<dict>
@@ -210,7 +210,7 @@
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>io.github.mlbrainlab.crate.split-archive</string>
+				<string>io.github.mlbrainlab.arkyv.split-archive</string>
 			</array>
 		</dict>
 	</array>
@@ -308,7 +308,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>io.github.mlbrainlab.crate.tar-zst-archive</string>
+			<string>io.github.mlbrainlab.arkyv.tar-zst-archive</string>
 			<key>UTTypeDescription</key>
 			<string>Zstandard tar archive</string>
 			<key>UTTypeConformsTo</key>
@@ -326,7 +326,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>io.github.mlbrainlab.crate.tar-bz2-archive</string>
+			<string>io.github.mlbrainlab.arkyv.tar-bz2-archive</string>
 			<key>UTTypeDescription</key>
 			<string>bzip2 tar archive</string>
 			<key>UTTypeConformsTo</key>
@@ -344,7 +344,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>io.github.mlbrainlab.crate.split-archive</string>
+			<string>io.github.mlbrainlab.arkyv.split-archive</string>
 			<key>UTTypeDescription</key>
 			<string>Split archive, first part</string>
 			<key>UTTypeConformsTo</key>

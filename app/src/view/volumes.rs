@@ -55,19 +55,19 @@ impl View {
         let text = match total {
             Some(t) => trf(
                 &trn(
-                    "{name} is split into {n} volume. Crate looked in {folder}.",
-                    "{name} is split into {n} volumes. Crate looked in {folder}.",
+                    "{name} is split into {n} volume. Arkyv looked in {folder}.",
+                    "{name} is split into {n} volumes. Arkyv looked in {folder}.",
                     t as u64,
                 ),
                 &[("name", &base), ("folder", &folder)],
             ),
             None => trf(
-                "{name} is split into volumes. Crate looked in {folder}.",
+                "{name} is split into volumes. Arkyv looked in {folder}.",
                 &[("name", &base), ("folder", &folder)],
             ),
         };
         let hint = trf(
-            "Still downloading? Crate retries automatically when {name} appears in this folder.",
+            "Still downloading? Arkyv retries automatically when {name} appears in this folder.",
             &[("name", name)],
         );
         let locate = trf("Locate part {part}…", &[("part", &part.to_string())]);

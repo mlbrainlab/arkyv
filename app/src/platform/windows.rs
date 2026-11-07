@@ -20,7 +20,7 @@ thread_local! {
 }
 
 /// Acrylic or Mica behind the window (winit has no blur here). The frame is
-/// extended over the whole window, so Crate's see-through pixels show what's
+/// extended over the whole window, so Arkyv's see-through pixels show what's
 /// under them. Mica is Windows 11's backdrop. Acrylic is the older blur
 /// ([`acrylic`]): Windows 11's own Acrylic has a fixed tint and turns into a
 /// flat color whenever the window isn't the active one. Without either
@@ -47,7 +47,7 @@ pub(super) fn blur(w: &slint::winit_030::winit::window::Window, on: bool, mica: 
 
 /// The blur behind the window through `SetWindowCompositionAttribute`
 /// (Windows 10 1803 and later; undocumented, but what Windows' own shell
-/// used). It takes no tint here: Crate's window color is the tint, as in the
+/// used). It takes no tint here: Arkyv's window color is the tint, as in the
 /// mockups (GlassMiniWin.dc.html), and it stays when the window is inactive.
 fn acrylic(hwnd: ::windows::Win32::Foundation::HWND, on: bool) {
     use ::windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress};
@@ -129,7 +129,7 @@ pub fn select_backend() -> Result<(), slint::PlatformError> {
 pub const GLASS_CAPTION: bool = true;
 
 /// Glass without the system title bar: the window keeps the system's
-/// shadow and rounded corners (Windows 11), and Crate answers the system's
+/// shadow and rounded corners (Windows 11), and Arkyv answers the system's
 /// hit-testing for the window's edges (resizing) and for its own maximize
 /// button, so Windows 11 shows Snap Layouts when the pointer rests on it.
 /// Windows then sends the pointer's moves over that button to the frame,
@@ -272,7 +272,7 @@ mod caption {
     }
 
     /// With the frame over the whole window, Windows would draw its own
-    /// caption buttons under Crate's see-through strip; it draws them only
+    /// caption buttons under Arkyv's see-through strip; it draws them only
     /// for a window with a system menu.
     fn set_system_menu(hwnd: HWND, keep: bool) {
         let menu = WS_SYSMENU.0 as isize;
@@ -419,8 +419,8 @@ pub fn monospace_family() -> Option<String> {
 }
 
 /// Default apps: Windows doesn't let apps choose themselves, so "making
-/// Crate the default" opens Settings → Default apps on Crate's page (the
-/// installer registers it as "Crate", see packaging/windows/crate.iss).
+/// Arkyv the default" opens Settings → Default apps on Arkyv's page (the
+/// installer registers it as "Arkyv", see packaging/windows/arkyv.iss).
 pub const SYSTEM_MIME: MimeBackend = MimeBackend {
     support: || {
         if installed() {
@@ -437,19 +437,19 @@ pub const SYSTEM_MIME: MimeBackend = MimeBackend {
         let prog_id = reg_string(HKEY_CURRENT_USER, &key, "ProgId")?;
         (prog_id == PROG_ID).then(|| format!("{}.desktop", super::APP_ID))
     },
-    set: |_, _| open::that_detached("ms-settings:defaultapps?registeredAppUser=Crate"),
+    set: |_, _| open::that_detached("ms-settings:defaultapps?registeredAppUser=Arkyv"),
 };
 
 use ::windows::Win32::System::Registry::{HKEY, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE};
 
 /// The installer's ProgID for archives.
-const PROG_ID: &str = "Crate.Archive";
+const PROG_ID: &str = "Arkyv.Archive";
 
 /// Installed for this user or for everyone.
 fn installed() -> bool {
     [HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE]
         .into_iter()
-        .any(|root| reg_string(root, r"Software\RegisteredApplications", "Crate").is_some())
+        .any(|root| reg_string(root, r"Software\RegisteredApplications", "Arkyv").is_some())
 }
 
 /// The extension Explorer keys the choice by, for a type's main MIME type.

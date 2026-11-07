@@ -196,7 +196,7 @@ component Sidebar inherits Rectangle {
     // Glass: a pane floating in the window (GlassBrowse.dc.html).
     background: Tokens.glass ? Tokens.bg : Tokens.surface-2;
     border-radius: Tokens.glass ? 22px : 0;
-    // Crate's own frame rounds the window's bottom corner beside it.
+    // Arkyv's own frame rounds the window's bottom corner beside it.
     border-bottom-left-radius: Tokens.glass ? 22px : Locale.rtl ? 0 : Frame.radius;
     border-bottom-right-radius: Tokens.glass ? 22px : Locale.rtl ? Frame.radius : 0;
     border-width: Tokens.glass ? 1px : 0;
@@ -332,7 +332,7 @@ export component FullBody inherits Rectangle {
         Rectangle {
             height: root.titlebar-height > 0 ? root.titlebar-height : 56px;
             background: Tokens.chrome;
-            // Crate's own frame rounds the window's corners (frame.slint).
+            // Arkyv's own frame rounds the window's corners (frame.slint).
             border-top-left-radius: Frame.radius;
             border-top-right-radius: Frame.radius;
             WindowDragArea {

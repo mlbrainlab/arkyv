@@ -3,11 +3,11 @@
 //! so Home's Operations panel can show them all, although every archive
 //! window is its own process.
 //!
-//! - A running job writes its state to `<runtime dir>/crate-ops/<id>.op`
+//! - A running job writes its state to `<runtime dir>/arkyv-ops/<id>.op`
 //!   (key=value lines, at most every 250 ms) and removes it when it ends.
 //! - The panel asks for Pause, Resume or Cancel by writing `<id>.ctl`; the
 //!   job reads it from its progress callback (and blocks there while paused).
-//! - Finished jobs go to `~/.local/state/crate/history` (the last 200).
+//! - Finished jobs go to `~/.local/state/arkyv/history` (the last 200).
 //! - When a job ends while its window isn't in front, a desktop notification
 //!   says so.
 
@@ -141,7 +141,7 @@ fn now_secs() -> u64 {
         .map_or(0, |d| d.as_secs())
 }
 
-/// `<runtime dir>/crate-ops`, made if needed. Under Flatpak every `flatpak
+/// `<runtime dir>/arkyv-ops`, made if needed. Under Flatpak every `flatpak
 /// run` has its own runtime dir; `app/<app id>` inside it is the part they
 /// share.
 pub fn ops_dir() -> PathBuf {
@@ -150,10 +150,10 @@ pub fn ops_dir() -> PathBuf {
         (Some(r), Some(app)) => Some(r.join("app").join(app)),
         (r, _) => r,
     };
-    let base = std::env::var_os("CRATE_OPS_DIR")
+    let base = std::env::var_os("ARKYV_OPS_DIR")
         .map(PathBuf::from)
-        .or_else(|| shared.map(|d| d.join("crate-ops")))
-        .unwrap_or_else(|| std::env::temp_dir().join(format!("crate-ops-{}", user_id())));
+        .or_else(|| shared.map(|d| d.join("arkyv-ops")))
+        .unwrap_or_else(|| std::env::temp_dir().join(format!("arkyv-ops-{}", user_id())));
     let _ = std::fs::create_dir_all(&base);
     base
 }
@@ -165,7 +165,7 @@ fn user_id() -> String {
 }
 
 fn history_file() -> Option<PathBuf> {
-    Some(crate::dirs::state()?.join("crate").join("history"))
+    Some(crate::dirs::app(crate::dirs::state()?).join("history"))
 }
 
 /// A running (or queued) job of this process.
@@ -464,7 +464,7 @@ pub fn clear_history() {
     }
 }
 
-/// Every registered job of every Crate process. Entries of processes that
+/// Every registered job of every Arkyv process. Entries of processes that
 /// are gone are removed.
 pub fn running() -> Vec<Snapshot> {
     let Ok(dir) = std::fs::read_dir(ops_dir()) else {
@@ -580,9 +580,9 @@ fn send_notification(summary: &str, body: &str) -> zbus::Result<()> {
         Some("org.freedesktop.Notifications"),
         "Notify",
         &(
-            "Crate",
+            "Arkyv",
             0u32,
-            "io.github.mlbrainlab.crate",
+            "io.github.mlbrainlab.arkyv",
             summary,
             body,
             Vec::<&str>::new(),
@@ -602,7 +602,7 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         // SAFETY: this test alone changes these variables in this binary.
         unsafe {
-            std::env::set_var("CRATE_OPS_DIR", dir.path().join("ops"));
+            std::env::set_var("ARKYV_OPS_DIR", dir.path().join("ops"));
             std::env::set_var("XDG_STATE_HOME", dir.path().join("state"));
         }
         let cancel = CancelToken::new();

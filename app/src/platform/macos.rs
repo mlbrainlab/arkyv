@@ -100,7 +100,7 @@ fn set_overlay(ns: &objc2_app_kit::NSWindow, on: bool) {
     if on {
         ns.setToolbar(Some(&NSToolbar::new(mtm)));
         ns.setToolbarStyle(NSWindowToolbarStyle::Unified);
-        // Crate's header draws its own line.
+        // Arkyv's header draws its own line.
         ns.setTitlebarSeparatorStyle(NSTitlebarSeparatorStyle::None);
     } else {
         ns.setToolbar(None);
@@ -280,7 +280,7 @@ pub const SYSTEM_MIME: MimeBackend = MimeBackend {
         use objc2_foundation::NSBundle;
 
         if !in_bundle() {
-            return Err(std::io::Error::other("Crate isn’t running from Crate.app"));
+            return Err(std::io::Error::other("Arkyv isn’t running from Arkyv.app"));
         }
         let app = NSBundle::mainBundle().bundleURL();
         let workspace = NSWorkspace::sharedWorkspace();
@@ -320,7 +320,7 @@ pub const SYSTEM_MIME: MimeBackend = MimeBackend {
     },
 };
 
-/// Running from Crate.app (not `cargo run`): only the bundle has the
+/// Running from Arkyv.app (not `cargo run`): only the bundle has the
 /// identifier, and only the bundle can be a default app.
 fn in_bundle() -> bool {
     objc2_foundation::NSBundle::mainBundle()
@@ -340,9 +340,9 @@ fn content_type(mime: &str) -> Option<objc2::rc::Retained<objc2_uniform_type_ide
         "application/x-compressed-tar" => "org.gnu.gnu-zip-tar-archive",
         "application/x-tar" | "application/x-gtar" => "public.tar-archive",
         "application/x-xz-compressed-tar" => "org.tukaani.tar-xz-archive",
-        "application/x-zstd-compressed-tar" => "io.github.mlbrainlab.crate.tar-zst-archive",
+        "application/x-zstd-compressed-tar" => "io.github.mlbrainlab.arkyv.tar-zst-archive",
         "application/x-bzip2-compressed-tar" | "application/x-bzip-compressed-tar" => {
-            "io.github.mlbrainlab.crate.tar-bz2-archive"
+            "io.github.mlbrainlab.arkyv.tar-bz2-archive"
         }
         _ => return None,
     };
@@ -352,7 +352,7 @@ fn content_type(mime: &str) -> Option<objc2::rc::Retained<objc2_uniform_type_ide
 }
 
 /// Progress on the Dock icon: a fraction from 0 to 1, or `None` to clear
-/// it. Each Crate window is its own process, so the icon is this window's.
+/// it. Each Arkyv window is its own process, so the icon is this window's.
 /// The tile shows the app icon with a progress bar along its bottom.
 pub fn taskbar_progress(_window: &slint::Window, fraction: Option<f32>) {
     use objc2::MainThreadOnly;

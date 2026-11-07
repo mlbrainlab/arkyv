@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Writes the winget manifests for a published release into
-target/winget/manifests/m/mlbrainlab/Crate/<version>/, ready to copy into a
+target/winget/manifests/m/mlbrainlab/Arkyv/<version>/, ready to copy into a
 fork of microsoft/winget-pkgs (docs/winget.md):
 
     scripts/winget-manifest.py 0.2.0
@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 REPO = "https://github.com/mlbrainlab/arkyv"
-ID = "mlbrainlab.Crate"
+ID = "mlbrainlab.Arkyv"
 SCHEMA = "1.10.0"
 
 
@@ -24,7 +24,7 @@ def main() -> int:
         print(__doc__, file=sys.stderr)
         return 2
     version = sys.argv[1].removeprefix("v")
-    setup = f"Crate-{version}-x64-setup.exe"
+    setup = f"Arkyv-{version}-x64-setup.exe"
     url = f"{REPO}/releases/download/v{version}/{setup}"
     sums = urllib.request.urlopen(f"{REPO}/releases/download/v{version}/SHA256SUMS").read().decode()
     sha = next((line.split()[0] for line in sums.splitlines() if line.endswith(setup)), None)
@@ -49,7 +49,7 @@ InstallerType: inno
 MinimumOSVersion: 10.0.0.0
 UpgradeBehavior: install
 FileExtensions: [zip, 7z, rar, tar, tgz, gz, txz, xz, tzst, zst, tbz2, bz2, "001"]
-Commands: [crate]
+Commands: [arkyv]
 Installers:
   - Architecture: x64
     Scope: user
@@ -74,23 +74,23 @@ PackageLocale: en-US
 Publisher: mlbrainlab
 PublisherUrl: https://github.com/mlbrainlab
 PublisherSupportUrl: {REPO}/issues
-PackageName: Crate
+PackageName: Arkyv
 PackageUrl: {REPO}
 License: MIT (RAR extraction uses the freeware UnRAR library)
 LicenseUrl: {REPO}/blob/v{version}/LICENSE
 ShortDescription: Open, extract and create archives
 Description: |-
-  Crate opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes ZIP, 7z and tar ones.
+  Arkyv opens ZIP, 7z, RAR and tar archives (gz, xz, zst, bz2) and makes ZIP, 7z and tar ones.
   A small window shows what is inside, one click from extracting everything; the full view browses, previews and edits archives.
-  Unsafe paths, links and decompression bombs are stopped. Includes the `crate` command-line tool.
-Moniker: crate
+  Unsafe paths, links and decompression bombs are stopped. Includes the `arkyv` command-line tool.
+Moniker: arkyv
 Tags: [archive, archiver, zip, unzip, 7z, rar, tar, extract, compress]
 ReleaseNotesUrl: {REPO}/releases/tag/v{version}
 ManifestType: defaultLocale
 ManifestVersion: {SCHEMA}
 """,
     }
-    out = ROOT / "target/winget/manifests/m/mlbrainlab/Crate" / version
+    out = ROOT / "target/winget/manifests/m/mlbrainlab/Arkyv" / version
     out.mkdir(parents=True, exist_ok=True)
     for name, text in files.items():
         (out / name).write_text(text)

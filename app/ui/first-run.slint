@@ -18,9 +18,9 @@ export global FirstRunUi {
     in property <string> system-language;
     in property <int> open-with; // 0 mini view, 1 full view, 2 extract right away
     in property <[TypeChoice]> types;
-    // 0: Crate sets the defaults; 1: Flatpak, the user does it in Files;
+    // 0: Arkyv sets the defaults; 1: Flatpak, the user does it in Files;
     // 2: no installed .desktop file; 3: not supported on this system yet;
-    // 4: Windows, the user picks Crate in Settings → Default apps.
+    // 4: Windows, the user picks Arkyv in Settings → Default apps.
     in property <int> defaults;
     in property <string> error;
     callback set-language(int);
@@ -95,7 +95,7 @@ export component FirstRun inherits Scrim {
                     alignment: center;
                     spacing: 3px;
                     horizontal-stretch: 1;
-                    Text { horizontal-alignment: Locale.start; text: @tr("Welcome to Crate"); color: Tokens.ink; font-size: 22px; font-weight: 700; }
+                    Text { horizontal-alignment: Locale.start; text: @tr("Welcome to Arkyv"); color: Tokens.ink; font-size: 22px; font-weight: 700; }
                     Text { horizontal-alignment: Locale.start; text: @tr("Two choices, then you’re done. Change them anytime in Preferences."); color: Tokens.ink-2; font-size: 13px; wrap: word-wrap; }
                 }
                 VerticalLayout { col: Locale.rtl ? 0 : 2; row: 0;
@@ -134,7 +134,7 @@ export component FirstRun inherits Scrim {
 
                 VerticalLayout {
                     spacing: 8px;
-                    Label { text: @tr("2 · Open these with Crate"); }
+                    Label { text: @tr("2 · Open these with Arkyv"); }
                     if FirstRunUi.defaults == 0: HorizontalLayout {
                         alignment: Locale.rtl ? LayoutAlignment.end : LayoutAlignment.start;
                         GridLayout {
@@ -164,11 +164,11 @@ export component FirstRun inherits Scrim {
                                 wrap: word-wrap;
                                 font-size: 12px;
                                 color: FirstRunUi.defaults == 0 ? Tokens.ink-2 : Tokens.ink;
-                                text: FirstRunUi.defaults == 0 ? @tr("Crate sets this for you when you click Get started.")
-                                    : FirstRunUi.defaults == 1 ? @tr("Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Crate → Set as default.")
-                                    : FirstRunUi.defaults == 2 ? @tr("Crate isn’t installed as an app yet, so it can’t be the default. Installing a Crate package sets this up.")
-                                    : FirstRunUi.defaults == 4 ? @tr("Windows lets only you choose default apps. Get started opens Settings → Default apps on Crate’s page; set the types you want there.")
-                                    : FirstRunUi.defaults == 5 ? @tr("Crate sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with.")
+                                text: FirstRunUi.defaults == 0 ? @tr("Arkyv sets this for you when you click Get started.")
+                                    : FirstRunUi.defaults == 1 ? @tr("Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
+                                    : FirstRunUi.defaults == 2 ? @tr("Arkyv isn’t installed as an app yet, so it can’t be the default. Installing a Arkyv package sets this up.")
+                                    : FirstRunUi.defaults == 4 ? @tr("Windows lets only you choose default apps. Get started opens Settings → Default apps on Arkyv’s page; set the types you want there.")
+                                    : FirstRunUi.defaults == 5 ? @tr("Arkyv sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with.")
                                     : @tr("Setting the default app isn’t supported here yet.");
                             }
                         }

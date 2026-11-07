@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024">
-  <title>Crate — app icon (Vault)</title>
+  <title>Arkyv — app icon (Vault)</title>
   <rect width="100" height="100" rx="22.5" fill="#3352E0"/>
   <circle cx="50" cy="50" r="30" fill="#FFFFFF"/><circle cx="50" cy="50" r="20" fill="none" stroke="#DDE4FF" stroke-width="4"/><g fill="#C7D0F8"><circle cx="50" cy="25" r="2.5"/><circle cx="75" cy="50" r="2.5"/><circle cx="50" cy="75" r="2.5"/><circle cx="25" cy="50" r="2.5"/></g><g stroke="#3352E0" stroke-width="5" stroke-linecap="round"><line x1="50" y1="50" x2="50" y2="37"/><line x1="50" y1="50" x2="38.7" y2="56.5"/><line x1="50" y1="50" x2="61.3" y2="56.5"/></g><circle cx="50" cy="50" r="6" fill="#FFD27A"/>
 </svg>

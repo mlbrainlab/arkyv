@@ -1,4 +1,4 @@
-//! `crate`: the command-line companion. Everything archive-related happens in
+//! `arkyv`: the command-line companion. Everything archive-related happens in
 //! `crate-core`; this file only parses arguments and prints.
 
 use std::io::{IsTerminal, Write};
@@ -14,7 +14,7 @@ use crate_core::{
 };
 
 const USAGE: &str = "\
-Usage: crate <command> <archive> [arguments] [options]
+Usage: arkyv <command> <archive> [arguments] [options]
 
 Commands:
   l <archive>                    list the contents
@@ -185,7 +185,7 @@ fn main() -> ExitCode {
     let args = match parse(&args) {
         Ok(a) => a,
         Err(msg) => {
-            eprintln!("crate: {msg}\n\n{USAGE}");
+            eprintln!("arkyv: {msg}\n\n{USAGE}");
             return ExitCode::from(2);
         }
     };
@@ -216,12 +216,12 @@ fn main() -> ExitCode {
         Ok(code) => code,
         Err(Error::Cancelled) => {
             clear_progress();
-            eprintln!("crate: cancelled; nothing was written");
+            eprintln!("arkyv: cancelled; nothing was written");
             ExitCode::from(CANCELLED)
         }
         Err(e) => {
             clear_progress();
-            eprintln!("crate: {}: {e}", args.archive.display());
+            eprintln!("arkyv: {}: {e}", args.archive.display());
             ExitCode::FAILURE
         }
     }
@@ -230,15 +230,15 @@ fn main() -> ExitCode {
 fn create_archive(args: &Args, cancel: &CancelToken) -> crate_core::Result<ExitCode> {
     let name = args.archive.to_string_lossy();
     let Some((format, age)) = OutFormat::from_file_name(&name) else {
-        eprintln!("crate: {name}: can't tell the format from the name (use .zip, .7z, .tar.zst…)");
+        eprintln!("arkyv: {name}: can't tell the format from the name (use .zip, .7z, .tar.zst…)");
         return Ok(ExitCode::from(2));
     };
     if age && args.password.is_none() {
-        eprintln!("crate: {name}: .age archives need a password (-p)");
+        eprintln!("arkyv: {name}: .age archives need a password (-p)");
         return Ok(ExitCode::from(2));
     }
     if args.archive.exists() && !args.overwrite {
-        eprintln!("crate: {name} already exists (use --overwrite to replace it)");
+        eprintln!("arkyv: {name} already exists (use --overwrite to replace it)");
         return Ok(ExitCode::FAILURE);
     }
     let (min, max, default) = format.levels();
@@ -258,7 +258,7 @@ fn create_archive(args: &Args, cancel: &CancelToken) -> crate_core::Result<ExitC
         Some(&args.archive),
     );
     for (path, why) in &collected.unreadable {
-        eprintln!("crate: {}: {why} (left out)", path.display());
+        eprintln!("arkyv: {}: {why} (left out)", path.display());
     }
     let report = create::create(
         &collected,
@@ -351,15 +351,15 @@ fn convert_archive(args: &Args, cancel: &CancelToken) -> crate_core::Result<Exit
     let out = PathBuf::from(&args.rest[0]);
     let name = out.to_string_lossy();
     let Some((format, age)) = OutFormat::from_file_name(&name) else {
-        eprintln!("crate: {name}: can't tell the format from the name (use .zip, .7z, .tar.zst…)");
+        eprintln!("arkyv: {name}: can't tell the format from the name (use .zip, .7z, .tar.zst…)");
         return Ok(ExitCode::from(2));
     };
     if age && args.password.is_none() {
-        eprintln!("crate: {name}: .age archives need a password (-p)");
+        eprintln!("arkyv: {name}: .age archives need a password (-p)");
         return Ok(ExitCode::from(2));
     }
     if out.exists() && !args.overwrite {
-        eprintln!("crate: {name} already exists (use --overwrite to replace it)");
+        eprintln!("arkyv: {name} already exists (use --overwrite to replace it)");
         return Ok(ExitCode::FAILURE);
     }
     let (min, max, default) = format.levels();
@@ -379,7 +379,7 @@ fn convert_archive(args: &Args, cancel: &CancelToken) -> crate_core::Result<Exit
     )?;
     clear_progress();
     for s in &report.skipped {
-        eprintln!("crate: {}: {} (left out)", s.path, s.reason);
+        eprintln!("arkyv: {}: {} (left out)", s.path, s.reason);
     }
     println!(
         "Converted to {} ({} files)",
@@ -394,7 +394,7 @@ fn note_encoding(archive: &Archive) {
         && enc.guessed
     {
         eprintln!(
-            "crate: file names are not UTF-8; decoded as {} (use --encoding to change)",
+            "arkyv: file names are not UTF-8; decoded as {} (use --encoding to change)",
             enc.codec.name()
         );
     }
@@ -515,7 +515,7 @@ fn show_progress(p: &Progress) {
     // Tests only: a pause at every step, so the Ctrl+C test's signal always
     // arrives before a fast disk has finished.
     static SLOW: std::sync::LazyLock<bool> =
-        std::sync::LazyLock::new(|| std::env::var_os("CRATE_TEST_SLOW").is_some());
+        std::sync::LazyLock::new(|| std::env::var_os("ARKYV_TEST_SLOW").is_some());
     if *SLOW {
         std::thread::sleep(std::time::Duration::from_millis(5));
     }

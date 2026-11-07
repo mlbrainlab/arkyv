@@ -6,8 +6,8 @@ mod support;
 
 use std::fs;
 
+use arkyv_app::CreateUi;
 use common::Harness;
-use crate_app::CreateUi;
 use crate_core::{Archive, OpenOptions};
 use slint::{ComponentHandle, Model};
 
@@ -63,7 +63,7 @@ fn new_archive_flow() {
     let presets: Vec<String> = g().get_presets().iter().map(|p| p.to_string()).collect();
     assert_eq!(presets.last().unwrap(), "Trips");
     assert_eq!(g().get_preset() as usize, presets.len() - 1);
-    let state = fs::read_to_string(config.join("crate/state.ini")).unwrap();
+    let state = fs::read_to_string(config.join("arkyv/state.ini")).unwrap();
     assert!(state.contains("preset.0.name=Trips"), "{state}");
 
     g().invoke_create();

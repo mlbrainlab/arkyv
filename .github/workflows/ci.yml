@@ -36,7 +36,7 @@ jobs:
       - run: cargo clippy --workspace --all-targets -- -D warnings
       - run: cargo test --workspace
       - name: Build without UnRAR (free-software-only builds)
-        run: cargo check -p crate-core -p crate-cli --no-default-features
+        run: cargo check -p crate-core -p arkyv-cli --no-default-features
 
   windows:
     name: Windows (clippy, test)

@@ -70,7 +70,7 @@ export component WindowButton inherits Rectangle {
 }
 
 export component Header inherits Rectangle {
-    in property <string> title: @tr("Crate");
+    in property <string> title: @tr("Arkyv");
     in property <bool> custom-frame;
     // macOS: the traffic lights' width at the left edge.
     in property <length> titlebar-inset;
@@ -88,7 +88,7 @@ export component Header inherits Rectangle {
 
     height: root.titlebar-height > 0 ? root.titlebar-height : 56px;
     background: Tokens.chrome;
-    // Crate's own frame rounds the window's corners (frame.slint).
+    // Arkyv's own frame rounds the window's corners (frame.slint).
     border-top-left-radius: Frame.radius;
     border-top-right-radius: Frame.radius;
 
@@ -156,7 +156,7 @@ export component Header inherits Rectangle {
                     width: 32px;
                     height: 32px;
                     icon: Icons.info;
-                    label: @tr("About Crate");
+                    label: @tr("About Arkyv");
                     clicked => { root.about(); }
                 }
             }

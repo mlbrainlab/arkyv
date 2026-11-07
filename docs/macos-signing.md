@@ -1,6 +1,6 @@
 # Signing and notarizing the macOS .dmg
 
-`release.yml`'s `macos` job signs `Crate.app` and the `.dmg` with the Developer ID certificate (hardened runtime, timestamp), sends the `.dmg` to Apple's notary service and staples the ticket to it. Then it checks what Gatekeeper says (`spctl`) before the `.dmg` goes into the release. A tag push fails if the secrets are missing; a dry run without them builds an ad hoc signed `.dmg`.
+`release.yml`'s `macos` job signs `Arkyv.app` and the `.dmg` with the Developer ID certificate (hardened runtime, timestamp), sends the `.dmg` to Apple's notary service and staples the ticket to it. Then it checks what Gatekeeper says (`spctl`) before the `.dmg` goes into the release. A tag push fails if the secrets are missing; a dry run without them builds an ad hoc signed `.dmg`.
 
 ## The secrets
 

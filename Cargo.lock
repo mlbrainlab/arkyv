@@ -336,6 +336,65 @@ dependencies = [
 ]
 
 [[package]]
+name = "arkyv-app"
+version = "0.2.36"
+dependencies = [
+ "base64 0.22.1",
+ "block2 0.6.2",
+ "bzip2",
+ "crate-core",
+ "crc32fast",
+ "ed25519-dalek",
+ "encoding_rs",
+ "flate2",
+ "fs4",
+ "i-slint-backend-testing",
+ "image",
+ "liblzma",
+ "objc2 0.6.5",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
+ "objc2-uniform-type-identifiers 0.3.2",
+ "open",
+ "png",
+ "rfd",
+ "serde_json",
+ "sevenz-rust2",
+ "slint",
+ "slint-build",
+ "sys-locale",
+ "tar",
+ "tempfile",
+ "trash",
+ "ureq",
+ "window-vibrancy",
+ "windows",
+ "winresource",
+ "zbus",
+ "zip",
+ "zstd",
+]
+
+[[package]]
+name = "arkyv-cli"
+version = "0.2.36"
+dependencies = [
+ "bzip2",
+ "crate-core",
+ "crc32fast",
+ "ctrlc",
+ "encoding_rs",
+ "flate2",
+ "libc",
+ "liblzma",
+ "sevenz-rust2",
+ "tar",
+ "tempfile",
+ "zip",
+ "zstd",
+]
+
+[[package]]
 name = "arrayref"
 version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1175,67 +1234,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "crate-app"
-version = "0.2.35"
-dependencies = [
- "base64 0.22.1",
- "block2 0.6.2",
- "bzip2",
- "crate-core",
- "crc32fast",
- "ed25519-dalek",
- "encoding_rs",
- "flate2",
- "fs4",
- "i-slint-backend-testing",
- "image",
- "liblzma",
- "objc2 0.6.5",
- "objc2-app-kit 0.3.2",
- "objc2-foundation 0.3.2",
- "objc2-uniform-type-identifiers 0.3.2",
- "open",
- "png",
- "rfd",
- "serde_json",
- "sevenz-rust2",
- "slint",
- "slint-build",
- "sys-locale",
- "tar",
- "tempfile",
- "trash",
- "ureq",
- "window-vibrancy",
- "windows",
- "winresource",
- "zbus",
- "zip",
- "zstd",
-]
-
-[[package]]
-name = "crate-cli"
-version = "0.2.35"
-dependencies = [
- "bzip2",
- "crate-core",
- "crc32fast",
- "ctrlc",
- "encoding_rs",
- "flate2",
- "libc",
- "liblzma",
- "sevenz-rust2",
- "tar",
- "tempfile",
- "zip",
- "zstd",
-]
-
-[[package]]
 name = "crate-core"
-version = "0.2.35"
+version = "0.2.36"
 dependencies = [
  "age",
  "blake3",

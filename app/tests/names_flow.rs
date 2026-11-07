@@ -1,6 +1,6 @@
 //! Names a Windows disk won't take and names that differ only by case
 //! (FileIssues.dc.html), asked before extracting. Runs with Windows' naming
-//! rules on any system (`CRATE_NAME_RULES=windows`). Screenshots 13x-*.png.
+//! rules on any system (`ARKYV_NAME_RULES=windows`). Screenshots 13x-*.png.
 
 mod common;
 
@@ -36,7 +36,7 @@ fn awkward(path: &Path) {
 fn names_flow() {
     let h = Harness::new();
     // SAFETY: set before the window starts any threads.
-    unsafe { std::env::set_var("CRATE_NAME_RULES", "windows") };
+    unsafe { std::env::set_var("ARKYV_NAME_RULES", "windows") };
     let dir = tempfile::tempdir().unwrap();
     let archive = dir.path().join("awkward.tar");
     awkward(&archive);
@@ -124,7 +124,7 @@ fn names_flow() {
     assert!(!out.exists());
 
     // In Arabic: the rows and buttons mirror.
-    crate_app::i18n::set(crate_app::i18n::Language::Arabic);
+    arkyv_app::i18n::set(arkyv_app::i18n::Language::Arabic);
     g(&ui).invoke_extract();
     h.until("names", || g(&ui).get_nf_show());
     assert!(
@@ -137,5 +137,5 @@ fn names_flow() {
     h.until("case clash", || g(&ui).get_cc_show());
     h.shot("134-case-clash-arabic");
     g(&ui).invoke_cc_answer(3, false);
-    crate_app::i18n::set(crate_app::i18n::Language::English);
+    arkyv_app::i18n::set(arkyv_app::i18n::Language::English);
 }

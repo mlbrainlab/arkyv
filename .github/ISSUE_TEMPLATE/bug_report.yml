@@ -5,12 +5,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting. For security problems (an archive writing outside its folder, following a link out, or crashing Crate in a way that looks exploitable), please use **Security → Report a vulnerability** instead of a public issue.
+        Thanks for reporting. For security problems (an archive writing outside its folder, following a link out, or crashing Arkyv in a way that looks exploitable), please use **Security → Report a vulnerability** instead of a public issue.
   - type: input
     id: version
     attributes:
-      label: Crate version
-      description: From About, or `crate-app --version`
+      label: Arkyv version
+      description: From About, or `arkyv-app --version`
       placeholder: "0.1.0"
     validations:
       required: true
@@ -18,7 +18,7 @@ body:
     id: system
     attributes:
       label: System
-      description: Distribution, desktop, X11 or Wayland, and how you installed Crate
+      description: Distribution, desktop, X11 or Wayland, and how you installed Arkyv
       placeholder: "Ubuntu 24.04, GNOME, Wayland, .deb"
     validations:
       required: true
@@ -33,10 +33,10 @@ body:
     id: archive
     attributes:
       label: The archive
-      description: Format and size; attach it if you can share it. Otherwise the output of `crate l <archive>` and `crate t <archive>` helps.
+      description: Format and size; attach it if you can share it. Otherwise the output of `arkyv l <archive>` and `arkyv t <archive>` helps.
   - type: textarea
     id: logs
     attributes:
       label: Messages
-      description: Anything Crate printed when started from a terminal
+      description: Anything Arkyv printed when started from a terminal
       render: text

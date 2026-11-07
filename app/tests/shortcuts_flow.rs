@@ -5,8 +5,8 @@ mod common;
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
 mod support;
 
+use arkyv_app::ShortcutsUi;
 use common::{Harness, g};
-use crate_app::ShortcutsUi;
 use slint::platform::Key;
 use slint::{ComponentHandle, Model};
 
@@ -35,7 +35,7 @@ fn shortcuts_flow() {
 
     // Home: Ctrl+? opens the sheet with what works there.
     let home = h.home(vec![]);
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     h.key_with(Key::Control, "?");
     assert!(home.global::<ShortcutsUi>().get_show());
     let l = labels(&home);
@@ -124,7 +124,7 @@ fn shortcuts_flow() {
     h.until("tested", || g(&ui).get_test_state() == 2);
 
     // Arabic: mirrored, keys still read left to right.
-    let mut st = crate_app::settings::Settings::load();
+    let mut st = arkyv_app::settings::Settings::load();
     st.set("pref.language", "ar");
     st.save();
     let ui = h.open(&path("project-assets.zip"));

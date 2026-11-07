@@ -111,7 +111,7 @@ fn full_view_flows() {
     g(&ui).invoke_toggle_full();
     assert!(!g(&ui).get_full());
     assert_eq!(common::rows(&ui), ["project"]);
-    let state = std::fs::read_to_string(config.join("crate/state.ini")).unwrap();
+    let state = std::fs::read_to_string(config.join("arkyv/state.ini")).unwrap();
     assert!(state.contains("full_width=1180"), "{state}");
 
     // The Extract dialog: a pattern, into a chosen folder.
@@ -175,7 +175,7 @@ fn full_view_flows() {
     );
     g(&ui).invoke_back_to_archive();
 
-    // A folder Crate can't write to.
+    // A folder Arkyv can't write to.
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -188,7 +188,7 @@ fn full_view_flows() {
         g(&ui).invoke_ex_confirm("".into());
         h.until("error", || g(&ui).get_show_error());
         assert_eq!(g(&ui).get_error_kind(), 3, "{}", g(&ui).get_error_message());
-        assert!(g(&ui).get_error_title().starts_with("Crate can’t write to"));
+        assert!(g(&ui).get_error_title().starts_with("Arkyv can’t write to"));
         h.shot("26-permission");
         g(&ui).invoke_error_to_downloads();
         h.until("done", || g(&ui).get_show_done());
@@ -211,7 +211,7 @@ fn full_view_flows() {
         g(&ui).get_pv_info(),
         format!(
             "640 × 400 · {}",
-            crate_app::model::size_text(png_size(&path("preview.zip")))
+            arkyv_app::model::size_text(png_size(&path("preview.zip")))
         )
     );
     assert!(!g(&ui).get_pv_can_prev() && g(&ui).get_pv_can_next());
@@ -245,7 +245,7 @@ fn full_view_flows() {
             .unwrap()
             .file_name()
             .to_string_lossy()
-            .starts_with(".crate")),
+            .starts_with(".arkyv")),
         "nothing written"
     );
 
@@ -319,7 +319,7 @@ fn full_view_flows() {
     h.until("renamed", || files(&ui).contains(&"INDEX.md".to_string()));
     let extra = path("extra.txt");
     std::fs::write(&extra, "extra").unwrap();
-    crate_app::view::post(move |v| v.confirm_add(vec![extra], "project".into()));
+    arkyv_app::view::post(move |v| v.confirm_add(vec![extra], "project".into()));
     h.until("add prompt", || g(&ui).get_add_show());
     assert_eq!(g(&ui).get_add_title(), "Add 1 item to project/");
     h.shot("31-add-confirm");
@@ -428,7 +428,7 @@ fn full_view_flows() {
     });
     assert!(!g(&ui).get_can_edit());
     let (src, out) = (path("solid.rar"), path("solid-copy.zip"));
-    crate_app::view::post(move |v| v.convert_copy(src, None, out));
+    arkyv_app::view::post(move |v| v.convert_copy(src, None, out));
     h.until("copied", || {
         g(&ui)
             .get_toast()

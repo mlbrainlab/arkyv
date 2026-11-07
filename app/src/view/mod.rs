@@ -596,7 +596,7 @@ pub type Opener = fn(&Path) -> std::io::Result<()>;
 
 thread_local! {
     static OPENER: std::cell::Cell<Opener> = std::cell::Cell::new(|p| open::that_detached(p));
-    /// Archives inside the archive open in Crate (a new window on the copy).
+    /// Archives inside the archive open in Arkyv (a new window on the copy).
     static ARCHIVE_OPENER: std::cell::Cell<Opener> = std::cell::Cell::new(open_in_crate);
 }
 
@@ -617,7 +617,7 @@ fn open_in_crate(path: &Path) -> std::io::Result<()> {
         .map(|_| ())
 }
 
-/// An entry opened from the archive: an archive opens in Crate, anything
+/// An entry opened from the archive: an archive opens in Arkyv, anything
 /// else in its default app.
 fn open_extracted(path: &Path) -> std::io::Result<()> {
     let inner = path

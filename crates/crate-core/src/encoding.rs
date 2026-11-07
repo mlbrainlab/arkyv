@@ -126,7 +126,7 @@ impl NameCodec {
     }
 }
 
-/// How an archive's non-UTF-8 names were decoded. `guessed` is true when Crate
+/// How an archive's non-UTF-8 names were decoded. `guessed` is true when Arkyv
 /// picked the encoding itself, so the UI can offer "Fix names"
 /// (`MiniViewRTL.dc.html`).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

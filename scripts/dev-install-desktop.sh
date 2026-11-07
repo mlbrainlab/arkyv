@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Installs Crate's .desktop file and icons for the current user, so Ubuntu
-# Files offers "Open With → Crate" for zip, 7z, rar and tar archives. The
-# entry runs this checkout's release build. Crate does not become the default
+# Installs Arkyv's .desktop file and icons for the current user, so Ubuntu
+# Files offers "Open With → Arkyv" for zip, 7z, rar and tar archives. The
+# entry runs this checkout's release build. Arkyv does not become the default
 # app for anything; pick it in Open With, or set it as default there yourself.
 #
 #   scripts/dev-install-desktop.sh              # build release, install
@@ -10,7 +10,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-APP_ID=io.github.mlbrainlab.crate
+APP_ID=io.github.mlbrainlab.arkyv
 DATA=${XDG_DATA_HOME:-$HOME/.local/share}
 APPS=$DATA/applications
 ICONS=$DATA/icons/hicolor
@@ -34,9 +34,9 @@ if [[ "${1:-}" == "--uninstall" ]]; then
 fi
 
 if [[ -z "${SKIP_BUILD:-}" ]]; then
-  cargo build --release -p crate-app
+  cargo build --release -p arkyv-app
 fi
-BIN=$(realpath target/release/crate-app)
+BIN=$(realpath target/release/arkyv-app)
 [[ -x $BIN ]] || { echo "$BIN is missing: build it first" >&2; exit 1; }
 
 mkdir -p "$APPS"
@@ -46,9 +46,9 @@ if command -v desktop-file-validate >/dev/null; then
   desktop-file-validate "$APPS/$APP_ID.desktop"
 fi
 for s in "${SIZES[@]}"; do
-  install -Dm644 "assets/icons/png/crate-$s.png" "$ICONS/${s}x${s}/apps/$APP_ID.png"
+  install -Dm644 "assets/icons/png/arkyv-$s.png" "$ICONS/${s}x${s}/apps/$APP_ID.png"
 done
 refresh
 
 echo "Installed $APPS/$APP_ID.desktop -> $BIN"
-echo "In Files: right-click an archive → Open With… → Crate."
+echo "In Files: right-click an archive → Open With… → Arkyv."

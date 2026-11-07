@@ -38,7 +38,7 @@ fn make(root: &Path, format: OutFormat, password: Option<&str>) -> PathBuf {
     out
 }
 
-/// Path → contents of every file, read back through Crate.
+/// Path → contents of every file, read back through Arkyv.
 fn contents(archive: &Path, password: Option<&str>) -> BTreeMap<String, String> {
     let dir = tempfile::tempdir().unwrap();
     let mut a = Archive::open_with(
@@ -156,7 +156,7 @@ fn every_writable_format() {
             !e.unwrap()
                 .file_name()
                 .to_string_lossy()
-                .starts_with(".crate-new-")
+                .starts_with(".arkyv-new-")
         }));
     }
 }
@@ -320,7 +320,7 @@ fn cancelling_leaves_the_original_intact() {
             !e.unwrap()
                 .file_name()
                 .to_string_lossy()
-                .starts_with(".crate-new-")
+                .starts_with(".arkyv-new-")
         }));
         fs::remove_dir_all(dir.path().join("project")).unwrap();
     }

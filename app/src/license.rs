@@ -1,5 +1,5 @@
-//! Crate Pro license (M9). Honor system: all code is public, and the key
-//! only says who paid. A key is a payload signed with Crate's Ed25519
+//! Arkyv Pro license (M9). Honor system: all code is public, and the key
+//! only says who paid. A key is a payload signed with Arkyv's Ed25519
 //! private key (kept offline and in the signer, never in this repository);
 //! the app checks it with the public key below, offline.
 //!
@@ -8,7 +8,7 @@
 //! network. A signed key can also be pasted directly (sponsors, keys made
 //! with `signer/sign.mjs`).
 //!
-//! Key: `CRATE-PRO-` + base64url (no padding) of the payload followed by the
+//! Key: `ARKYV-PRO-` + base64url (no padding) of the payload followed by the
 //! 64-byte signature. Payload: `1|<id>|<issued, YYYY-MM-DD>`, where the id
 //! names the purchase (`ls:<order>`, `gh:<sponsor>`) and nothing else.
 
@@ -18,7 +18,16 @@ use ed25519_dalek::{Signature, VerifyingKey};
 
 use crate::settings::Settings;
 
-pub const PREFIX: &str = "CRATE-PRO-";
+pub const PREFIX: &str = "ARKYV-PRO-";
+/// Keys signed while the app was called Crate (before 0.2.36): the same
+/// signature, an older prefix. They keep working.
+const OLD_PREFIX: &str = "CRATE-PRO-";
+
+/// Whether `key` looks like a signed key (either prefix), not a store key.
+pub fn is_signed_key(key: &str) -> bool {
+    let key = key.trim();
+    key.starts_with(PREFIX) || key.starts_with(OLD_PREFIX)
+}
 const SETTING: &str = "pro.key";
 
 /// The public half of ~/crate-license/license-ed25519.pem.
@@ -30,7 +39,7 @@ const PUBLIC_KEY: [u8; 32] = [
 /// The signer's address, set at build time by the release workflow (a
 /// repository variable). Builds without it can't activate a store key, but
 /// still take signed keys.
-const ACTIVATE_URL: Option<&str> = option_env!("CRATE_LICENSE_URL");
+const ACTIVATE_URL: Option<&str> = option_env!("ARKYV_LICENSE_URL");
 
 /// A valid key's contents.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -64,14 +73,19 @@ impl License {
     }
 }
 
-/// Checks a signed key. `None` for anything that isn't one Crate signed.
+/// Checks a signed key. `None` for anything that isn't one Arkyv signed.
 pub fn verify(key: &str) -> Option<License> {
     verify_with(key, &PUBLIC_KEY)
 }
 
 fn verify_with(key: &str, public: &[u8; 32]) -> Option<License> {
     let key = key.trim();
-    let bytes = URL_SAFE_NO_PAD.decode(key.strip_prefix(PREFIX)?).ok()?;
+    let bytes = URL_SAFE_NO_PAD
+        .decode(
+            key.strip_prefix(PREFIX)
+                .or_else(|| key.strip_prefix(OLD_PREFIX))?,
+        )
+        .ok()?;
     let split = bytes.len().checked_sub(Signature::BYTE_SIZE)?;
     let (payload, sig) = bytes.split_at(split);
     let sig = Signature::from_slice(sig).ok()?;
@@ -186,7 +200,7 @@ fn signer_url() -> Option<&'static str> {
 /// thread. Saves the license on success.
 pub fn activate(entered: &str) -> Result<License, ActivateError> {
     let entered = entered.trim();
-    if entered.starts_with(PREFIX) {
+    if is_signed_key(entered) {
         let license = verify(entered).ok_or(ActivateError::Rejected)?;
         save(&license);
         return Ok(license);
@@ -232,7 +246,7 @@ fn agent() -> ureq::Agent {
 /// What Lemon Squeezy shows for an activation: no name, host or user, only
 /// the system.
 fn instance_name() -> String {
-    format!("Crate on {}", std::env::consts::OS)
+    format!("Arkyv on {}", std::env::consts::OS)
 }
 
 /// POST {license_key, instance_id?, instance_name} → 200 {key, instance_id};
@@ -336,7 +350,11 @@ mod tests {
         // Unknown version, wrong shape, garbage.
         assert!(verify_with(&sign(&signing, "2|ls:1|2026-10-31"), &public).is_none());
         assert!(verify_with(&sign(&signing, "1|ls:1"), &public).is_none());
-        assert!(verify_with("CRATE-PRO-", &public).is_none());
+        assert!(verify_with("ARKYV-PRO-", &public).is_none());
+        // A key from before the rename: the same signature, the old prefix.
+        let old = good.replacen(PREFIX, OLD_PREFIX, 1);
+        assert!(verify_with(&old, &public).is_some());
+        assert!(is_signed_key(&old) && is_signed_key(&good) && !is_signed_key("ABCD-1234"));
         assert!(verify_with("ABCD-1234", &public).is_none());
         // The real public key doesn't take a test key.
         assert!(verify(&good).is_none());

@@ -1,4 +1,4 @@
-// Crate Pro (design/canvas/Pro.dc.html): the upgrade sheet, entering a
+// Arkyv Pro (design/canvas/Pro.dc.html): the upgrade sheet, entering a
 // license key and the thank-you page, over Preferences. Rust fills it and
 // does the activation off the UI thread (`app/src/prefs.rs`, `license.rs`).
 import { Tokens } from "tokens.slint";
@@ -10,7 +10,7 @@ export global ProUi {
     in-out property <bool> show;
     in-out property <int> page; // 0 upgrade, 1 enter a key, 2 thank you
     in property <bool> active; // a valid key is saved
-    in property <string> since; // "Since Oct 31, 2026 · thank you for supporting Crate"
+    in property <string> since; // "Since Oct 31, 2026 · thank you for supporting Arkyv"
     in property <bool> can-buy; // this build knows the checkout link
     in property <string> price; // "$9"
     in-out property <string> key;
@@ -95,8 +95,8 @@ export component ProSheet inherits Scrim {
                     padding-right: 28px;
                     spacing: 8px;
                     Badge { icon: ProIcons.sparkle; fill: Tokens.accent; tint: white; }
-                    Text { text: @tr("Crate Pro"); color: Tokens.ink; font-size: 22px; font-weight: 700; horizontal-alignment: center; }
-                    Text { text: @tr("New looks for Crate, and a way to support it. Everything else stays free."); color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; wrap: word-wrap; width: root.card-width - 56px; }
+                    Text { text: @tr("Arkyv Pro"); color: Tokens.ink; font-size: 22px; font-weight: 700; horizontal-alignment: center; }
+                    Text { text: @tr("New looks for Arkyv, and a way to support it. Everything else stays free."); color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; wrap: word-wrap; width: root.card-width - 56px; }
                 }
                 VerticalLayout {
                     padding-left: 24px;
@@ -105,14 +105,14 @@ export component ProSheet inherits Scrim {
                     spacing: 14px;
                     Feature { icon: ProIcons.window; title: @tr("Glass theme"); note: @tr("See-through windows that pick up your wallpaper, on Linux, Windows and macOS"); text-width: root.inner - 46px; }
                     Feature { icon: ProIcons.tiles; title: @tr("Seven more app icons"); note: @tr("Pick the one you like for the Dock, taskbar or app menu"); text-width: root.inner - 46px; }
-                    Feature { icon: ProIcons.heart; tint: Tokens.danger; fill: Tokens.danger.mix(Tokens.bg, 0.12); title: @tr("Keeps Crate going"); note: @tr("Crate is built by one developer, with no ads or tracking"); text-width: root.inner - 46px; }
+                    Feature { icon: ProIcons.heart; tint: Tokens.danger; fill: Tokens.danger.mix(Tokens.bg, 0.12); title: @tr("Keeps Arkyv going"); note: @tr("Arkyv is built by one developer, with no ads or tracking"); text-width: root.inner - 46px; }
                 }
                 VerticalLayout {
                     padding-left: 24px;
                     padding-right: 24px;
                     padding-bottom: 20px;
                     spacing: 8px;
-                    if ProUi.can-buy: Button { text: @tr("Buy Crate Pro · {}", ProUi.price); primary: true; min-height: 38px; clicked => { ProUi.buy(); } }
+                    if ProUi.can-buy: Button { text: @tr("Buy Arkyv Pro · {}", ProUi.price); primary: true; min-height: 38px; clicked => { ProUi.buy(); } }
                     Button { text: @tr("I have a license key"); primary: !ProUi.can-buy; min-height: 38px; clicked => { ProUi.open(1); } }
                 }
                 Rectangle { height: 1px; background: Tokens.line.mix(Tokens.bg, 0.6); }
@@ -142,7 +142,7 @@ export component ProSheet inherits Scrim {
                     padding-left: 24px;
                     padding-right: 24px;
                     spacing: 10px;
-                    Text { text: @tr("Paste the key from your Lemon Squeezy receipt, or a key that starts with CRATE-PRO."); color: Tokens.ink-2; font-size: 13px; wrap: word-wrap; horizontal-alignment: Locale.start; width: root.inner; }
+                    Text { text: @tr("Paste the key from your Lemon Squeezy receipt, or a key that starts with ARKYV-PRO."); color: Tokens.ink-2; font-size: 13px; wrap: word-wrap; horizontal-alignment: Locale.start; width: root.inner; }
                     Rectangle {
                         height: 38px;
                         border-radius: 9px;
@@ -197,7 +197,7 @@ export component ProSheet inherits Scrim {
                     padding-bottom: 16px;
                     padding-left: 24px;
                     padding-right: 24px;
-                    Text { text: @tr("Crate checks a Lemon Squeezy key once, online. After that the key is checked on this computer and nothing is sent."); color: Tokens.ink-3; font-size: 12px; wrap: word-wrap; horizontal-alignment: Locale.start; width: root.inner; }
+                    Text { text: @tr("Arkyv checks a Lemon Squeezy key once, online. After that the key is checked on this computer and nothing is sent."); color: Tokens.ink-3; font-size: 12px; wrap: word-wrap; horizontal-alignment: Locale.start; width: root.inner; }
                 }
             }
 
@@ -211,7 +211,7 @@ export component ProSheet inherits Scrim {
                     spacing: 8px;
                     Badge { icon: ProIcons.check; fill: Tokens.success.mix(Tokens.bg, 0.12); tint: Tokens.success; }
                     Text { text: @tr("Thank you!"); color: Tokens.ink; font-size: 22px; font-weight: 700; horizontal-alignment: center; }
-                    Text { text: @tr("Crate Pro is on. The Glass theme and the new icons arrive in Preferences → Appearance with the next updates."); color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; wrap: word-wrap; width: root.card-width - 56px; }
+                    Text { text: @tr("Arkyv Pro is on. The Glass theme and the new icons arrive in Preferences → Appearance with the next updates."); color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; wrap: word-wrap; width: root.card-width - 56px; }
                 }
                 HorizontalLayout {
                     alignment: center;

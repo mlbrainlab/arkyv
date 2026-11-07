@@ -1,4 +1,4 @@
-# Contributing to Crate
+# Contributing to Arkyv
 
 Thanks for helping. Bug reports, translations and pull requests are all welcome.
 
@@ -6,18 +6,18 @@ Thanks for helping. Bug reports, translations and pull requests are all welcome.
 
 Open an issue with the **Bug report** template. The most useful things to include:
 
-- Crate's version (About, or `crate-app --version`), your distribution and desktop (GNOME, KDE…), X11 or Wayland.
+- Arkyv's version (About, or `arkyv-app --version`), your distribution and desktop (GNOME, KDE…), X11 or Wayland.
 - What you did, what you expected, what happened.
-- If an archive misbehaves and you can share it, attach it (or a small one that shows the same problem). If you can't share it, `crate l <archive>` and `crate t <archive>` output often helps.
+- If an archive misbehaves and you can share it, attach it (or a small one that shows the same problem). If you can't share it, `arkyv l <archive>` and `arkyv t <archive>` output often helps.
 
-**Security problems** (an archive that writes outside its folder, follows a link out, or crashes Crate in a way that looks exploitable): please don't open a public issue. Use GitHub's private vulnerability reporting (Security → Report a vulnerability).
+**Security problems** (an archive that writes outside its folder, follows a link out, or crashes Arkyv in a way that looks exploitable): please don't open a public issue. Use GitHub's private vulnerability reporting (Security → Report a vulnerability).
 
 ## How the project is organised
 
 | Where | What |
 |---|---|
 | `crates/crate-core` | The archive engine: no UI code. Every file written during extraction goes through `crate_core::safety` |
-| `crates/crate-cli` | The `crate` command-line tool |
+| `crates/arkyv-cli` | The `arkyv` command-line tool |
 | `app/` | The desktop app: `app/ui/*.slint` (UI), `app/src/` (controllers), `app/tests/` (headless UI flows) |
 | `docs/` | `ROADMAP.md`, one file per milestone in `docs/milestones/`, `perf.md` |
 | `design/` | `DESIGN.md` (colors, rules), `BACKLOG.md`, the mockups in `design/canvas/*.dc.html` |
@@ -33,7 +33,7 @@ cargo test --workspace
 cargo fmt --all && cargo clippy --workspace --all-targets -- -D warnings
 ```
 
-CI runs the same three. UI flows (`cargo test -p crate-app --test mini_flow`, `full_flow`, …) render with Slint's software renderer and save screenshots to `target/ui-snapshots/`; `CRATE_UI_DARK=1` runs them in dark mode.
+CI runs the same three. UI flows (`cargo test -p arkyv-app --test mini_flow`, `full_flow`, …) render with Slint's software renderer and save screenshots to `target/ui-snapshots/`; `ARKYV_UI_DARK=1` runs them in dark mode.
 
 ## Pull requests
 
@@ -49,7 +49,7 @@ CI runs the same three. UI flows (`cargo test -p crate-app --test mini_flow`, `f
 
 ## Translations
 
-Translations live in `app/translations/<language>/LC_MESSAGES/crate-app.po` (gettext). To add a language, copy `app/translations/crate-app.pot` there, translate, and open a pull request; for a right-to-left language, say so, since the layout direction comes from the catalog.
+Translations live in `app/translations/<language>/LC_MESSAGES/arkyv-app.po` (gettext). To add a language, copy `app/translations/arkyv-app.pot` there, translate, and open a pull request; for a right-to-left language, say so, since the layout direction comes from the catalog.
 
 ## License
 

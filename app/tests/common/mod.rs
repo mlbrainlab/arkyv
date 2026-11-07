@@ -10,8 +10,8 @@ use std::rc::Rc;
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
-use crate_app::view::View;
-use crate_app::{ArchiveUi, ArchiveWindow};
+use arkyv_app::view::View;
+use arkyv_app::{ArchiveUi, ArchiveWindow};
 use slint::platform::software_renderer::{
     MinimalSoftwareWindow, PremultipliedRgbaColor, RepaintBufferType,
 };
@@ -62,7 +62,7 @@ const HEIGHT: f32 = 620.0;
 pub struct Harness {
     /// XDG_CONFIG_HOME for this test: a fresh temp folder.
     pub config: PathBuf,
-    /// Running with CRATE_UI_DARK: the Theme preference starts at Dark.
+    /// Running with ARKYV_UI_DARK: the Theme preference starts at Dark.
     pub dark: bool,
     queue: Queue,
     current: Current,
@@ -78,26 +78,26 @@ impl Harness {
             current: current.clone(),
         }))
         .unwrap();
-        // Never read or write the real ~/.config/crate (Preferences live there).
+        // Never read or write the real ~/.config/arkyv (Preferences live there).
         let config = tempfile::tempdir().unwrap().keep();
         // SAFETY: the harness is created first, before any other thread.
         unsafe {
             std::env::set_var("XDG_CONFIG_HOME", &config);
             // Operations and their history: never the real ones either.
-            std::env::set_var("CRATE_OPS_DIR", config.join("ops"));
+            std::env::set_var("ARKYV_OPS_DIR", config.join("ops"));
             std::env::set_var("XDG_STATE_HOME", config.join("state"));
             // "System" language is English here, whatever the machine uses.
             std::env::set_var("LANG", "en_US.UTF-8");
             std::env::remove_var("LC_ALL");
             std::env::remove_var("LC_MESSAGES");
         }
-        // CRATE_UI_DARK=1: every flow in dark mode (the Theme preference set
+        // ARKYV_UI_DARK=1: every flow in dark mode (the Theme preference set
         // to Dark), screenshots in target/ui-snapshots/dark/. For reviewing
         // dark mode; tests that check the theme themselves may fail.
-        let dark = std::env::var_os("CRATE_UI_DARK").is_some();
+        let dark = std::env::var_os("ARKYV_UI_DARK").is_some();
         if dark {
-            std::fs::create_dir_all(config.join("crate")).unwrap();
-            std::fs::write(config.join("crate/state.ini"), "pref.theme=2\n").unwrap();
+            std::fs::create_dir_all(config.join("arkyv")).unwrap();
+            std::fs::write(config.join("arkyv/state.ini"), "pref.theme=2\n").unwrap();
         }
         let shots = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../target/ui-snapshots")
@@ -126,27 +126,27 @@ impl Harness {
     }
 
     /// Opens Home with the New archive dialog for `sources` (empty: just Home).
-    pub fn home(&self, sources: Vec<PathBuf>) -> crate_app::MainWindow {
-        let ui = crate_app::MainWindow::new().unwrap();
+    pub fn home(&self, sources: Vec<PathBuf>) -> arkyv_app::MainWindow {
+        let ui = arkyv_app::MainWindow::new().unwrap();
         self.window()
             .dispatch_event(WindowEvent::ScaleFactorChanged {
                 scale_factor: SCALE,
             });
         ui.window().set_size(slint::LogicalSize::new(1000.0, 720.0));
-        crate_app::home::Home::start(&ui, sources);
+        arkyv_app::home::Home::start(&ui, sources);
         ui.show().unwrap();
         ui
     }
 
     /// Opens a Preferences window (its own, not the process-wide one).
-    pub fn prefs(&self) -> crate_app::PrefsWindow {
-        let ui = crate_app::PrefsWindow::new().unwrap();
+    pub fn prefs(&self) -> arkyv_app::PrefsWindow {
+        let ui = arkyv_app::PrefsWindow::new().unwrap();
         self.window()
             .dispatch_event(WindowEvent::ScaleFactorChanged {
                 scale_factor: SCALE,
             });
         ui.window().set_size(slint::LogicalSize::new(760.0, 760.0));
-        crate_app::prefs::start(&ui, |_| {});
+        arkyv_app::prefs::start(&ui, |_| {});
         ui.show().unwrap();
         ui
     }
@@ -290,7 +290,7 @@ pub fn record_opens(cache: &Path) {
     // SAFETY: set before any other thread starts; each test file is its own
     // process with a single test.
     unsafe { std::env::set_var("XDG_CACHE_HOME", cache) };
-    crate_app::view::set_opener(|p| {
+    arkyv_app::view::set_opener(|p| {
         OPENED.lock().unwrap().push(p.to_owned());
         Ok(())
     });

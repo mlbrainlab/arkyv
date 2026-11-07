@@ -70,7 +70,7 @@ pub struct Batch {
     timer: slint::Timer,
 }
 
-/// True for the files Crate can open, judging by the name.
+/// True for the files Arkyv can open, judging by the name.
 pub fn is_archive(path: &Path) -> bool {
     path.file_name()
         .is_some_and(|n| crate_core::nested::is_archive_name(&n.to_string_lossy()))

@@ -4,8 +4,8 @@
 # real structure. Run once; the files are committed.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-cargo build -q --release -p crate-cli
-CRATE=$(realpath target/release/crate)
+cargo build -q --release -p arkyv-cli
+ARKYV=$(realpath target/release/arkyv)
 F=crates/crate-core/fuzz/corpus
 src=$(mktemp -d)
 trap 'rm -rf "$src"' EXIT
@@ -14,8 +14,8 @@ echo "hello" > "$src/seed/a.txt"
 printf 'x%.0s' {1..300} > "$src/seed/docs/b.md"
 ln -s a.txt "$src/seed/link"
 mkdir -p $F/zip $F/tar $F/tar_gz $F/sevenz
-(cd "$src" && "$CRATE" c seed.zip seed >/dev/null && "$CRATE" c seed.tar seed >/dev/null \
-  && "$CRATE" c seed.tar.gz seed >/dev/null && "$CRATE" c seed.7z seed >/dev/null)
+(cd "$src" && "$ARKYV" c seed.zip seed >/dev/null && "$ARKYV" c seed.tar seed >/dev/null \
+  && "$ARKYV" c seed.tar.gz seed >/dev/null && "$ARKYV" c seed.7z seed >/dev/null)
 cp "$src/seed.zip" $F/zip/
 cp "$src/seed.tar" $F/tar/
 cp "$src/seed.tar.gz" $F/tar_gz/

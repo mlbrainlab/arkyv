@@ -1,4 +1,4 @@
-// Signs a Crate Pro key by hand (GitHub sponsors, support cases):
+// Signs a Arkyv Pro key by hand (GitHub sponsors, support cases):
 //   node signer/sign.mjs gh:<sponsor> [~/crate-license/license-ed25519.pem]
 // Prints the key to give to the person.
 

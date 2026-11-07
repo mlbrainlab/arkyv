@@ -3,15 +3,15 @@
 # Cargo.lock changes). Local build:
 #
 #   flatpak run org.flatpak.Builder --user --install --force-clean --disable-rofiles-fuse \
-#     target/flatpak packaging/flatpak/io.github.mlbrainlab.crate.yml
-#   flatpak run io.github.mlbrainlab.crate
-id: io.github.mlbrainlab.crate
+#     target/flatpak packaging/flatpak/io.github.mlbrainlab.arkyv.yml
+#   flatpak run io.github.mlbrainlab.arkyv
+id: io.github.mlbrainlab.arkyv
 runtime: org.freedesktop.Platform
 runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
-command: crate-app
+command: arkyv-app
 finish-args:
   - --share=ipc
   - --socket=wayland
@@ -26,27 +26,27 @@ finish-args:
 build-options:
   append-path: /usr/lib/sdk/rust-stable/bin
   env:
-    CARGO_HOME: /run/build/crate/cargo
+    CARGO_HOME: /run/build/arkyv/cargo
     CARGO_NET_OFFLINE: "true"
 modules:
-  - name: crate
+  - name: arkyv
     buildsystem: simple
     build-commands:
       - cargo --offline fetch --manifest-path Cargo.toml --verbose
-      - cargo --offline build --release -p crate-app -p crate-cli
-      - install -Dm755 target/release/crate-app -t /app/bin/
-      - install -Dm755 target/release/crate -t /app/bin/
-      - sed 's|@EXEC@|crate-app|' packaging/linux/io.github.mlbrainlab.crate.desktop >
-        io.github.mlbrainlab.crate.desktop
-      - install -Dm644 io.github.mlbrainlab.crate.desktop -t /app/share/applications/
-      - install -Dm644 packaging/linux/io.github.mlbrainlab.crate.metainfo.xml -t /app/share/metainfo/
+      - cargo --offline build --release -p arkyv-app -p arkyv-cli
+      - install -Dm755 target/release/arkyv-app -t /app/bin/
+      - install -Dm755 target/release/arkyv -t /app/bin/
+      - sed 's|@EXEC@|arkyv-app|' packaging/linux/io.github.mlbrainlab.arkyv.desktop >
+        io.github.mlbrainlab.arkyv.desktop
+      - install -Dm644 io.github.mlbrainlab.arkyv.desktop -t /app/share/applications/
+      - install -Dm644 packaging/linux/io.github.mlbrainlab.arkyv.metainfo.xml -t /app/share/metainfo/
       - |
         for s in 16 24 32 48 64 128 256 512; do
-          install -Dm644 assets/icons/png/crate-$s.png \
-            /app/share/icons/hicolor/${s}x${s}/apps/io.github.mlbrainlab.crate.png
+          install -Dm644 assets/icons/png/arkyv-$s.png \
+            /app/share/icons/hicolor/${s}x${s}/apps/io.github.mlbrainlab.arkyv.png
         done
-      - install -Dm644 assets/icons/crate-icon.svg
-        /app/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.crate.svg
+      - install -Dm644 assets/icons/arkyv-icon.svg
+        /app/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.arkyv.svg
     sources:
       # For Flathub, a git source with the release tag and commit instead:
       #   - type: git

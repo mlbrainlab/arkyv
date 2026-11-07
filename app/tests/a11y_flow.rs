@@ -7,8 +7,8 @@ mod common;
 #[path = "../../crates/crate-core/tests/support/mod.rs"]
 mod support;
 
+use arkyv_app::{AboutUi, ShortcutsUi};
 use common::{Harness, g};
-use crate_app::{AboutUi, ShortcutsUi};
 use i_slint_backend_testing::{AccessibleRole, ElementHandle, ElementRoot};
 use slint::ComponentHandle;
 use slint::platform::Key;
@@ -55,13 +55,13 @@ fn accessibility_flow() {
 
     // Home: Tab reaches the header buttons; Space presses them.
     let home = h.home(vec![]);
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     missing.extend(unnamed(&home, "Home", 5));
     h.key(Key::Tab);
     h.shot("95-focus-ring");
     h.key(" ");
     assert!(
-        home.global::<crate_app::OpsUi>().get_show(),
+        home.global::<arkyv_app::OpsUi>().get_show(),
         "Tab, Space: Operations"
     );
     h.key(Key::Escape);
@@ -74,7 +74,7 @@ fn accessibility_flow() {
     missing.extend(unnamed(&home, "Shortcuts", 6));
     h.key(Key::Escape);
     // A screen reader's "press" (the default action) works like a click.
-    let about = ElementHandle::find_by_accessible_label(&home, "About Crate")
+    let about = ElementHandle::find_by_accessible_label(&home, "About Arkyv")
         .next()
         .expect("About button");
     about.invoke_accessible_default_action();
@@ -83,18 +83,18 @@ fn accessibility_flow() {
     h.key(Key::Escape);
 
     // Operations (with a finished job in the history).
-    crate_app::ops::Op::start(
-        crate_app::ops::Kind::Extract,
+    arkyv_app::ops::Op::start(
+        arkyv_app::ops::Kind::Extract,
         "Extracting a.zip".into(),
         String::new(),
         crate_core::CancelToken::new(),
     )
     .finish(
-        crate_app::ops::Outcome::Done,
+        arkyv_app::ops::Outcome::Done,
         "Extracted a.zip → ~/a/",
         Some(std::path::Path::new("/tmp")),
     );
-    home.global::<crate_app::OpsUi>().invoke_open();
+    home.global::<arkyv_app::OpsUi>().invoke_open();
     missing.extend(unnamed(&home, "Operations", 7));
     h.key(Key::Escape);
 

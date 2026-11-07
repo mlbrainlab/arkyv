@@ -15,7 +15,7 @@ use crate::progress::CancelToken;
 /// How deep "archives inside archives inside archives" goes.
 pub const MAX_DEPTH: u32 = 3;
 
-/// True for names Crate opens as archives (by extension; split parts and
+/// True for names Arkyv opens as archives (by extension; split parts and
 /// RAR volumes after the first don't count).
 pub fn is_archive_name(name: &str) -> bool {
     let name = name.to_ascii_lowercase();

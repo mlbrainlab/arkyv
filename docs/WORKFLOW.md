@@ -1,4 +1,4 @@
-# Crate: dev workflow
+# Arkyv: dev workflow
 
 ## One codebase
 - One repo, one codebase for all platforms. Platform-only code (about 5–10%) lives behind `#[cfg(...)]` in `app/src/platform/{linux,windows,macos}.rs`.

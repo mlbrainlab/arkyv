@@ -1,6 +1,6 @@
 //! First run (`design/canvas/FirstRun.dc.html`): once, over Home, the
-//! double-click choice and which file types Crate should open. Get started
-//! saves both and makes Crate the default app (on Linux with `xdg-mime`;
+//! double-click choice and which file types Arkyv should open. Get started
+//! saves both and makes Arkyv the default app (on Linux with `xdg-mime`;
 //! Flatpak can't, so it shows the steps instead; on Windows only the user
 //! can, so it opens Settings → Default apps).
 
@@ -29,7 +29,7 @@ pub fn maybe_show(ui: &MainWindow) {
 /// Shows First run over Home.
 pub fn show(ui: &MainWindow) {
     let defaults = platform::defaults_support();
-    // Checked by default as in the mockup: every type Crate opens.
+    // Checked by default as in the mockup: every type Arkyv opens.
     let chosen = Rc::new(RefCell::new(vec![true; FILE_TYPES.len()]));
     let open_with = Rc::new(RefCell::new(Prefs::load().open_with as i32));
     let g = ui.global::<FirstRunUi>();
@@ -82,7 +82,7 @@ pub fn show(ui: &MainWindow) {
     let weak = ui.as_weak();
     g.on_start(move || {
         let Some(ui) = weak.upgrade() else { return };
-        // Windows: opens Settings → Default apps, where people pick Crate.
+        // Windows: opens Settings → Default apps, where people pick Arkyv.
         if matches!(
             defaults,
             Defaults::Direct | Defaults::SettingsPage | Defaults::Confirm
@@ -97,7 +97,7 @@ pub fn show(ui: &MainWindow) {
                 // Stay open: Get started tries again, Skip leaves.
                 ui.global::<FirstRunUi>().set_error(
                     i18n::trf(
-                        "Couldn’t make Crate the default app: {error}",
+                        "Couldn’t make Arkyv the default app: {error}",
                         &[("error", &e.to_string())],
                     )
                     .into(),

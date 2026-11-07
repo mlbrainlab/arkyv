@@ -1,4 +1,4 @@
-//! One window per archive. The first Crate process that opens an archive
+//! One window per archive. The first Arkyv process that opens an archive
 //! listens on a socket named after it; opening the same archive again asks
 //! that process to raise its window, then exits.
 
@@ -10,7 +10,7 @@ pub enum Claim {
     /// This process owns the archive. Keep the guard alive; `raise` is called
     /// (on a background thread) whenever the archive is opened again.
     Owner(Guard),
-    /// Another Crate window already shows this archive and was asked to come
+    /// Another Arkyv window already shows this archive and was asked to come
     /// to the front.
     AlreadyOpen,
 }
@@ -29,7 +29,7 @@ fn socket_path(archive: &Path) -> Option<PathBuf> {
     let canonical = archive.canonicalize().ok()?;
     let mut h = std::collections::hash_map::DefaultHasher::new();
     canonical.hash(&mut h);
-    let dir = runtime_dir()?.join("crate");
+    let dir = runtime_dir()?.join(crate::dirs::APP);
     Some(dir.join(format!("{:016x}.sock", h.finish())))
 }
 

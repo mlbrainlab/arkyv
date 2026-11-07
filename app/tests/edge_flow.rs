@@ -1,7 +1,7 @@
 //! Nested archives and missing volumes (EdgeCases.dc.html): a split set
 //! opens from any part; a missing part shows which, and the window reopens
 //! by itself when it appears; Batch extract can locate it; an archive inside
-//! the archive opens in Crate; "Also unpack archives found inside".
+//! the archive opens in Arkyv; "Also unpack archives found inside".
 //! Screenshots 11x-*.png.
 
 mod common;
@@ -13,8 +13,8 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
+use arkyv_app::{BatchState, BatchUi};
 use common::{Harness, g};
-use crate_app::{BatchState, BatchUi};
 use slint::{ComponentHandle, Model};
 
 static OPENED: Mutex<Vec<PathBuf>> = Mutex::new(Vec::new());
@@ -43,7 +43,7 @@ fn split(archive: &Path, size: usize) -> Vec<PathBuf> {
 #[test]
 fn edge_cases_flow() {
     let h = Harness::new();
-    crate_app::view::set_archive_opener(record);
+    arkyv_app::view::set_archive_opener(record);
     let dir = tempfile::tempdir().unwrap();
     let path = |name: &str| dir.path().join(name);
 
@@ -79,9 +79,9 @@ fn edge_cases_flow() {
     // Batch extract: the same, located through the row.
     fs::rename(&parts[1], away.join("set.zip.002")).unwrap();
     let home = h.home(vec![]);
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     let b = || home.global::<BatchUi>();
-    crate_app::batch::start(&home, vec![parts[0].clone()], true);
+    arkyv_app::batch::start(&home, vec![parts[0].clone()], true);
     h.until("failed", || {
         b().get_items().row_data(0).unwrap().state == BatchState::Failed
     });
@@ -89,12 +89,12 @@ fn edge_cases_flow() {
     assert_eq!(row.status, "Missing set.zip.002");
     assert!(row.locate);
     h.shot("111-batch-missing-volume");
-    crate_app::batch::located(0, away.join("set.zip.002"));
+    arkyv_app::batch::located(0, away.join("set.zip.002"));
     h.until("done", || b().get_finished());
     assert!(path("project/README.md").is_file());
     b().invoke_close();
 
-    // An archive inside: opens in Crate (from a temp copy).
+    // An archive inside: opens in Arkyv (from a temp copy).
     support::sample_zip(&path("inner.zip"));
     let mut zip = zip::ZipWriter::new(fs::File::create(path("outer.zip")).unwrap());
     zip.start_file("vendor/inner.zip", zip::write::SimpleFileOptions::default())
@@ -120,7 +120,7 @@ fn edge_cases_flow() {
         .position(|r| r == "inner.zip")
         .expect("inner.zip listed");
     g(&ui).invoke_row_activated(inner as i32);
-    h.until("opened in Crate", || !OPENED.lock().unwrap().is_empty());
+    h.until("opened in Arkyv", || !OPENED.lock().unwrap().is_empty());
     assert!(OPENED.lock().unwrap()[0].ends_with("vendor/inner.zip"));
 
     // Extract with "Also unpack archives found inside".

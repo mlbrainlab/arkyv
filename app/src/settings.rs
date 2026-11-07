@@ -1,4 +1,4 @@
-//! What Crate remembers between runs, in `~/.config/crate/state.ini` as
+//! What Arkyv remembers between runs, in `~/.config/arkyv/state.ini` as
 //! `key=value` lines: window sizes, presets, and the Preferences
 //! (`crate::prefs`).
 
@@ -86,7 +86,7 @@ pub fn archive_key(archive: &Path, what: &str) -> String {
 }
 
 fn file() -> Option<PathBuf> {
-    Some(crate::dirs::config()?.join("crate").join("state.ini"))
+    Some(crate::dirs::app(crate::dirs::config()?).join("state.ini"))
 }
 
 /// The user's Downloads folder (XDG user dirs on Linux, the known folder on

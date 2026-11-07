@@ -83,7 +83,7 @@ fn readme_screenshots() {
     shot("full");
 
     // Dark.
-    ui.global::<crate_app::Palette>()
+    ui.global::<arkyv_app::Palette>()
         .set_color_scheme(slint::language::ColorScheme::Dark);
     shot("dark");
 
@@ -96,7 +96,7 @@ fn readme_screenshots() {
     let main = h.home(vec![project.clone()]);
     h.until("estimated", || {
         let level = main
-            .global::<crate_app::CreateUi>()
+            .global::<arkyv_app::CreateUi>()
             .get_level_text()
             .to_string();
         level.contains('≈')
@@ -104,7 +104,7 @@ fn readme_screenshots() {
     shot("create");
 
     // Arabic.
-    let mut s = crate_app::settings::Settings::load();
+    let mut s = arkyv_app::settings::Settings::load();
     s.set("pref.language", "ar");
     s.save();
     let ui = h.open(&archive);

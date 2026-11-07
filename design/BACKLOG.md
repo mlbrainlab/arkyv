@@ -1,4 +1,4 @@
-# Crate: design & product backlog
+# Arkyv: design & product backlog
 
 The single list of everything that is designed, still to design, or still to decide.
 Status: ✅ designed (board name) · 🎨 to design · 🛠 engineering only (no new screen) · ❓ decision needed · ✔ decided
@@ -9,7 +9,7 @@ Last updated: 2026-10-24
 
 | Decision | Status |
 |---|---|
-| App name: **Crate** | ✔ |
+| App name: **Arkyv** | ✔ |
 | Stack: Rust — Slint UI + pure-Rust archive crates (Tauri 2 dropped after the M0 startup spike, Oct 24) | ✔ |
 | Goal: open-source showcase on GitHub, **not** a money-maker | ✔ |
 | Windows: ship **unsigned** (no certificate, no Store for now); README explains SmartScreen | ✔ |
@@ -38,14 +38,14 @@ Last updated: 2026-10-24
 | 1.8 | Disk-full and permission-denied errors | ✅ FileIssues | |
 | 1.9 | Never touch the original archive until a rewrite succeeds (write to temp, then swap) | 🛠 | |
 | 1.10 | Verify the `zip` crate can *write* AES-256 and that a 7z crate can encrypt | ✔ verified | Decides which formats get the password toggle. 2026-10-24: `zip` 9 writes AES-256 (legacy ZipCrypto writing isn't public API); `sevenz-rust2` 0.24 writes AES-256 7z, encrypted file lists included. Both are used to build the M2 test archives |
-| 1.11 | tar.* encryption: age, or no password for tar | ✔ decided: age | 2026-10-25: tar.* gets passwords through age (passphrase, scrypt), as `name.tar.zst.age`. Verified with `age` 0.12: streaming encrypt and decrypt of a tar.zst, wrong passphrase fails cleanly, unlocking takes ~0.2 s. Only Crate and the age CLI open these; the Create dialog says so |
+| 1.11 | tar.* encryption: age, or no password for tar | ✔ decided: age | 2026-10-25: tar.* gets passwords through age (passphrase, scrypt), as `name.tar.zst.age`. Verified with `age` 0.12: streaming encrypt and decrypt of a tar.zst, wrong passphrase fails cleanly, unlocking takes ~0.2 s. Only Arkyv and the age CLI open these; the Create dialog says so |
 | 1.12 | "Repair" scope: ZIP index rebuild + RAR recovery records only | ❓ | |
 
 ## 2. Workflows
 
 | # | Item | Status | Notes |
 |---|---|---|---|
-| 2.1 | Drag files out of the archive | ✅ DragOut · 🛠 blocked | Checked in M3 (2026-10-25): Slint 1.18’s `DragArea` only drops inside the same window, and winit 0.30 can only *receive* drops (X11, Windows, macOS; not Wayland). On Wayland a drag must start with the serial of the pointer press, which winit keeps internal, so it needs a winit/Slint patch or upstream support (winit issue “drag and drop source”). X11 alone could use a hand-written XDND source, but GNOME defaults to Wayland. Meanwhile: double-click opens an item, and Extract / Extract to Downloads cover the rest. Revisit when winit or Slint gains a drag source. **M4 (2026-10-25): dropping files *into* Crate is blocked too**: Slint’s winit backend ignores `DroppedFile`, and winit has no drop support on Wayland. Compress files / Add files use the XDG file chooser instead |
+| 2.1 | Drag files out of the archive | ✅ DragOut · 🛠 blocked | Checked in M3 (2026-10-25): Slint 1.18’s `DragArea` only drops inside the same window, and winit 0.30 can only *receive* drops (X11, Windows, macOS; not Wayland). On Wayland a drag must start with the serial of the pointer press, which winit keeps internal, so it needs a winit/Slint patch or upstream support (winit issue “drag and drop source”). X11 alone could use a hand-written XDND source, but GNOME defaults to Wayland. Meanwhile: double-click opens an item, and Extract / Extract to Downloads cover the rest. Revisit when winit or Slint gains a drag source. **M4 (2026-10-25): dropping files *into* Arkyv is blocked too**: Slint’s winit backend ignores `DroppedFile`, and winit has no drop support on Wayland. Compress files / Add files use the XDG file chooser instead |
 | 2.2 | Open → edit → update archive | ✅ EditUpdate | |
 | 2.3 | Batch extract | ✅ Batch | |
 | 2.4 | Nested archives | ✅ EdgeCases | |
@@ -57,7 +57,7 @@ Last updated: 2026-10-24
 | 2.10 | Grid view with thumbnails + auto-switch | ✅ Grid · Settings | |
 | 2.11 | Keyboard shortcuts sheet (Linux/Windows + macOS keys) | ✅ Shortcuts | |
 | 2.12 | Windows taskbar / macOS Dock progress; keep the computer awake | 🛠 | |
-| 2.13 | Command-line companion (`crate x file.zip`) | 🛠 | Shown in README |
+| 2.13 | Command-line companion (`arkyv x file.zip`) | 🛠 | Shown in README |
 | 2.14 | "When opening an archive" preference | ✅ Settings | |
 | 2.15 | Huge archives: loading state, search while loading, draw only visible rows | ✅ HugeArchive | |
 | 2.16 | Full-view window frames for Windows & macOS | ✅ PlatformFull | |
@@ -74,14 +74,14 @@ Last updated: 2026-10-24
 | 3.4 | App icon | ✅ Icons (4 concepts) · ❓ pick one | Then export .icns / .ico / Linux PNG sizes |
 | 3.5 | Flathub AppStream metainfo + screenshots | 🛠 | Store listings dropped |
 | 3.6 | README / landing page | ✅ Readme | GitHub Pages optional |
-| 3.7 | Name check | ✔ keep "Crate" | |
+| 3.7 | Name check | ✔ keep "Arkyv" | |
 | 3.8 | File-manager menus per OS | 🛠 | v1 = file associations only |
 
 ## 4. GitHub showcase (engineering)
 
 | # | Item | Status |
 |---|---|---|
-| 4.1 | Workspace split: `crate-core` library + `crate-cli` + Slint app | 🛠 |
+| 4.1 | Workspace split: `crate-core` library + `arkyv-cli` + Slint app | 🛠 |
 | 4.2 | CI on Linux/Windows/macOS; release builds and packages (tool chosen in M6) | 🛠 |
 | 4.3 | Fuzz the archive parsers (cargo-fuzz) in CI | 🛠 |
 | 4.4 | Reproducible benchmarks (`cargo bench`) against a reference tool | 🛠 |
@@ -101,6 +101,6 @@ Last updated: 2026-10-24
 | 5.6 | Liquid Glass theme: mini view + full view | ✅ macOS: GlassMini · GlassBrowse · Ubuntu: GlassMiniUbuntu · GlassBrowseUbuntu · Windows 11: GlassMiniWin · GlassBrowseWin | Ubuntu: Frosted / Blur toggle · Windows: Acrylic / Mica toggle |
 | 5.7 | Glass on the remaining screens + a dark glass variant | 🎨 | Only if the theme ships |
 | 5.8 | Native window blur per OS (macOS vibrancy, Windows Mica/Acrylic, Linux fallback) | 🛠 Built in 0.2.27, Windows redone in 0.2.30 with an Acrylic / Mica choice; macOS seen working; Windows and KDE to check | See DESIGN.md "Glass theme". README tells Linux users to enable blur via a GNOME blur extension (verify name/setting) or KDE |
-| 5.11 | Glass looks identical on all OSes: Crate draws its own frame, corners and buttons | ✔ decided | Build plan: docs/milestones/M9-pro-glass.md |
+| 5.11 | Glass looks identical on all OSes: Arkyv draws its own frame, corners and buttons | ✔ decided | Build plan: docs/milestones/M9-pro-glass.md |
 | 5.9 | "Reduce transparency" fallback: solid panes when the OS setting is on | 🛠 | |
 | 5.10 | Alternate app icons picker (7 alternates, Arkyv icon sheet) inside Pro | ✅ GlassBrowse (sidebar card) · 🛠 Preferences row in 0.2.34; shortcuts / Dock still to do | macOS can change the Dock icon at runtime; Windows/Linux need a restart or a new shortcut |

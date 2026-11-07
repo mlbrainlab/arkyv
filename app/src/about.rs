@@ -119,8 +119,8 @@ pub fn connect(ui: &MainWindow) {
     if let Some(ops) = nudge_due(&Settings::load()) {
         g.set_nudge_title(
             trn(
-                "Crate has handled {n} archive for you",
-                "Crate has handled {n} archives for you",
+                "Arkyv has handled {n} archive for you",
+                "Arkyv has handled {n} archives for you",
                 ops,
             )
             .into(),

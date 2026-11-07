@@ -511,12 +511,12 @@ impl View {
             Error::Io(io) if is_permission(io) => (
                 3,
                 trf(
-                    "Crate can’t write to {folder}",
+                    "Arkyv can’t write to {folder}",
                     &[("folder", &model::display_folder(&target))],
                 ),
                 if cfg!(target_os = "macos") {
                     tr(
-                        "The folder is read-only or belongs to another user, or macOS hasn’t given Crate access to it: see Privacy & Security → Files and Folders.",
+                        "The folder is read-only or belongs to another user, or macOS hasn’t given Arkyv access to it: see Privacy & Security → Files and Folders.",
                     )
                 } else {
                     tr("The folder is read-only or belongs to another user.")
@@ -603,11 +603,11 @@ impl View {
         });
     }
 
-    /// A new, empty folder under `~/.cache/crate/` for one opened item.
+    /// A new, empty folder under `~/.cache/arkyv/` for one opened item.
     fn new_open_folder(&self) -> std::io::Result<PathBuf> {
         let mut s = self.state.borrow_mut();
         if s.open_dir.is_none() {
-            let root = cache_dir().join("crate");
+            let root = cache_dir().join(crate::dirs::APP);
             std::fs::create_dir_all(&root)?;
             s.open_dir = Some(tempfile::Builder::new().prefix("open-").tempdir_in(root)?);
         }

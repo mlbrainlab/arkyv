@@ -8,10 +8,10 @@ use std::io::{BufRead, BufReader, Read, Write};
 use std::net::TcpListener;
 use std::sync::{Arc, Mutex};
 
+use arkyv_app::license::{self, ActivateError};
 use base64::Engine;
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use common::Harness;
-use crate_app::license::{self, ActivateError};
 use ed25519_dalek::{Signer, SigningKey};
 
 /// The requests the stand-in signer saw: (path, body).
@@ -61,7 +61,7 @@ fn signer(answers: Vec<(u16, String)>) -> (String, Seen) {
 fn signed(key: &SigningKey, payload: &str) -> String {
     let mut bytes = payload.as_bytes().to_vec();
     bytes.extend_from_slice(&key.sign(payload.as_bytes()).to_bytes());
-    format!("CRATE-PRO-{}", URL_SAFE_NO_PAD.encode(bytes))
+    format!("ARKYV-PRO-{}", URL_SAFE_NO_PAD.encode(bytes))
 }
 
 #[test]
@@ -95,7 +95,7 @@ fn license_flow() {
         body(0)["instance_name"]
             .as_str()
             .unwrap()
-            .starts_with("Crate on ")
+            .starts_with("Arkyv on ")
     );
 
     // The same key again on this computer reuses its activation.

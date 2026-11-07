@@ -45,7 +45,7 @@ fn check_contained(root: &Path, dest: &Path) {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         assert!(
-            path == dest || name.ends_with(".input") || name.starts_with(".crate-"),
+            path == dest || name.ends_with(".input") || name.starts_with(".arkyv-"),
             "something was written outside the destination: {path:?}"
         );
     }

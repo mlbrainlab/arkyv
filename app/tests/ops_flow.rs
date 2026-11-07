@@ -9,9 +9,9 @@ mod support;
 use std::sync::Arc;
 use std::time::Duration;
 
+use arkyv_app::OpsUi;
+use arkyv_app::ops::{Kind, Op, Outcome};
 use common::{Harness, g};
-use crate_app::OpsUi;
-use crate_app::ops::{Kind, Op, Outcome};
 use crate_core::{CancelToken, Progress};
 use slint::{ComponentHandle, Model};
 
@@ -84,7 +84,7 @@ fn operations_flow() {
     );
 
     let home = h.home(vec![]);
-    home.global::<crate_app::FirstRunUi>().invoke_skip();
+    home.global::<arkyv_app::FirstRunUi>().invoke_skip();
     let o = || home.global::<OpsUi>();
     o().invoke_open();
     // (The job writes its progress at most every 250 ms.)
@@ -132,7 +132,7 @@ fn operations_flow() {
     });
 
     // A history row opens what it made.
-    crate_app::home::set_opener(record);
+    arkyv_app::home::set_opener(record);
     let created = o()
         .get_rows()
         .iter()
@@ -157,12 +157,12 @@ fn operations_flow() {
     });
     g(&ui).invoke_extract();
     h.until("done", || g(&ui).get_show_done());
-    let history = crate_app::ops::history();
+    let history = arkyv_app::ops::history();
     assert!(
         history[0]
             .text
             .starts_with("Extracted project-assets.zip → "),
         "{history:?}"
     );
-    assert!(crate_app::ops::running().is_empty());
+    assert!(arkyv_app::ops::running().is_empty());
 }

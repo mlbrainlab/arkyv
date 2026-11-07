@@ -74,7 +74,7 @@ fn extracts_a_normal_zip() {
     assert!(
         case.written()
             .iter()
-            .all(|p| !p.contains(".crate-extract-"))
+            .all(|p| !p.contains(".arkyv-extract-"))
     );
 }
 
@@ -250,7 +250,7 @@ fn existing_files_are_kept_or_replaced() {
         !e.unwrap()
             .file_name()
             .to_string_lossy()
-            .starts_with(".crate")
+            .starts_with(".arkyv")
     }));
 }
 

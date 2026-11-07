@@ -21,7 +21,7 @@ export component ArchiveWindow inherits Window {
     // macOS: the menus in the screen's menu bar.
     in property <bool> native-menu;
 
-    title: ArchiveUi.archive-name == "" ? @tr("Crate") : @tr("{} — Crate", ArchiveUi.archive-name);
+    title: ArchiveUi.archive-name == "" ? @tr("Arkyv") : @tr("{} — Arkyv", ArchiveUi.archive-name);
     icon: Tokens.app-image;
     preferred-width: 520px;
     preferred-height: 620px;
@@ -34,7 +34,7 @@ export component ArchiveWindow inherits Window {
     default-font-weight: 500;
     forward-focus: keys;
 
-    // Glass, or Crate's own frame: the window is cleared to transparent and
+    // Glass, or Arkyv's own frame: the window is cleared to transparent and
     // its body drawn here. A translucent Window.background is the GL clear
     // color, which isn't premultiplied, and the compositor then shows it as
     // solid white.
@@ -52,7 +52,7 @@ export component ArchiveWindow inherits Window {
     // handler and their items have none.
     if native-menu: MenuBar {
         Menu {
-            title: @tr("Crate");
+            title: @tr("Arkyv");
             MenuItem { title: @tr("Preferences"); shortcut: @keys(Control + ","); enabled: idle; activated => { ArchiveUi.open-prefs(); } }
             MenuSeparator {}
             MenuItem { title: @tr("Quit"); shortcut: @keys(Control + Q); enabled: !overlay; activated => { ArchiveUi.close-window(); } }
@@ -219,7 +219,7 @@ export component ArchiveWindow inherits Window {
                 if event.text == " " && ArchiveUi.preview-enabled { ArchiveUi.preview-current(); return accept; }
                 if event.text == Key.Backspace { ArchiveUi.go-up(); return accept; }
                 // macOS: Return renames, as in Finder (⌘↓ opens); it still
-                // opens in an archive Crate can't edit.
+                // opens in an archive Arkyv can't edit.
                 if event.text == Key.Return && root.native-menu && ArchiveUi.cursor >= 0 && ArchiveUi.can-edit && !ArchiveUi.busy { ArchiveUi.rename-current(); return accept; }
                 if event.text == Key.Return && ArchiveUi.cursor >= 0 { ArchiveUi.row-activated(ArchiveUi.cursor); return accept; }
             } else {

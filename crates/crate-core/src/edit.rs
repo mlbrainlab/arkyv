@@ -88,7 +88,7 @@ enum Fate {
     Replace(Item),
 }
 
-/// Whether Crate can change archives of this format (RAR is read-only).
+/// Whether Arkyv can change archives of this format (RAR is read-only).
 pub fn can_edit(format: Format) -> bool {
     !matches!(format, Format::Rar)
 }

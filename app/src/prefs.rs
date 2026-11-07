@@ -198,7 +198,7 @@ impl Prefs {
     }
 
     /// What Glass asks of the window itself: the system's blur behind it,
-    /// and on Windows Crate's caption strip in place of the title bar.
+    /// and on Windows Arkyv's caption strip in place of the title bar.
     pub fn apply_window<C>(&self, ui: &C)
     where
         C: slint::ComponentHandle + 'static,
@@ -343,7 +343,7 @@ pub fn start(ui: &PrefsWindow, on_theme: impl Fn(&Prefs) + 'static) {
         let error = match platform::make_default(&[t]) {
             Ok(()) => String::new(),
             Err(e) => i18n::trf(
-                "Couldn’t make Crate the default app: {error}",
+                "Couldn’t make Arkyv the default app: {error}",
                 &[("error", &e.to_string())],
             ),
         };
@@ -359,7 +359,7 @@ pub fn start(ui: &PrefsWindow, on_theme: impl Fn(&Prefs) + 'static) {
     });
 }
 
-/// Which types Crate opens now, as the system reports it.
+/// Which types Arkyv opens now, as the system reports it.
 fn show_defaults(ui: &PrefsWindow) {
     let support = platform::defaults_support();
     let types: Vec<TypeChoice> = FILE_TYPES

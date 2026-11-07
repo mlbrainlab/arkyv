@@ -1,9 +1,9 @@
 [workspace]
 resolver = "2"
-members = ["crates/crate-core", "crates/crate-cli", "app"]
+members = ["crates/crate-core", "crates/arkyv-cli", "app"]
 
 [workspace.package]
-version = "0.2.35"
+version = "0.2.36"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/mlbrainlab/arkyv"
@@ -20,7 +20,7 @@ panic = "abort"
 
 # Dependencies are optimized even in dev and test builds: age's scrypt,
 # the compressors and Slint's software renderer are far too slow without.
-# Crate's own crates stay unoptimized for debugging.
+# Arkyv's own crates stay unoptimized for debugging.
 [profile.dev.package."*"]
 opt-level = 2
 # No debug info for dependencies: it filled CI's disk, and isn't needed.
