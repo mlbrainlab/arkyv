@@ -13,7 +13,7 @@ pub fn home() -> Option<PathBuf> {
         .map(PathBuf::from)
 }
 
-fn xdg(var: &str) -> Option<PathBuf> {
+pub fn xdg(var: &str) -> Option<PathBuf> {
     std::env::var_os(var)
         .filter(|v| !v.is_empty())
         .map(PathBuf::from)

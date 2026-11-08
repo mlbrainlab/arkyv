@@ -614,3 +614,145 @@ pub fn known_folder(key: &str) -> Option<std::path::PathBuf> {
         text.map(std::path::PathBuf::from)
     }
 }
+
+/// The app icon is files on the system ([`crate::app_icon`]).
+pub const APP_ICON_FILES: bool = true;
+
+/// Points Arkyv's shortcuts at the icon: the Start menu entry (the
+/// installer's, per user or for everyone) and any taskbar pin. The icon is
+/// an .ico written to `%LOCALAPPDATA%\arkyv\icons`; Layers clears the
+/// shortcuts' icon, so they show the executable's own again. Explorer may
+/// keep the old one in its icon cache until it restarts. Returns whether
+/// any shortcut changed, or there was none to change.
+pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
+    use ::windows::Win32::System::Com::{
+        CLSCTX_INPROC_SERVER, COINIT_APARTMENTTHREADED, CoCreateInstance, CoInitializeEx,
+        CoUninitialize, IPersistFile, STGM_READWRITE,
+    };
+    use ::windows::Win32::UI::Shell::{
+        IShellLinkW, SHCNE_ASSOCCHANGED, SHCNF_IDLIST, SHChangeNotify, ShellLink,
+    };
+    use ::windows::core::{HSTRING, Interface};
+
+    let ico = if icon.index == 0 {
+        String::new()
+    } else {
+        let Some(path) = write_ico(icon) else {
+            return false;
+        };
+        path.to_string_lossy().into_owned()
+    };
+    let env = |v: &str| std::env::var_os(v).map(std::path::PathBuf::from);
+    let start = "Microsoft\\Windows\\Start Menu\\Programs\\Arkyv.lnk";
+    let mut links: Vec<std::path::PathBuf> = [env("APPDATA"), env("PROGRAMDATA")]
+        .into_iter()
+        .flatten()
+        .map(|d| d.join(start))
+        .filter(|p| p.is_file())
+        .collect();
+    if let Some(pins) = env("APPDATA")
+        .map(|d| d.join("Microsoft\\Internet Explorer\\Quick Launch\\User Pinned\\TaskBar"))
+        && let Ok(dir) = std::fs::read_dir(pins)
+    {
+        links.extend(
+            dir.flatten()
+                .map(|e| e.path())
+                .filter(|p| p.extension().is_some_and(|x| x.eq_ignore_ascii_case("lnk"))),
+        );
+    }
+    if links.is_empty() {
+        return true;
+    }
+    let mut changed = false;
+    // SAFETY: COM on this (worker) thread, set up and torn down here; each
+    // shortcut is loaded, changed and saved through its own objects.
+    unsafe {
+        let init = CoInitializeEx(None, COINIT_APARTMENTTHREADED).is_ok();
+        for path in &links {
+            let Ok(link) =
+                CoCreateInstance::<_, IShellLinkW>(&ShellLink, None, CLSCTX_INPROC_SERVER)
+            else {
+                continue;
+            };
+            let Ok(file) = link.cast::<IPersistFile>() else {
+                continue;
+            };
+            if file
+                .Load(&HSTRING::from(path.as_os_str()), STGM_READWRITE)
+                .is_err()
+            {
+                continue;
+            }
+            // Only Arkyv's own shortcuts (a pin's file name is up to Windows).
+            let mut target = [0u16; 1024];
+            if link.GetPath(&mut target, std::ptr::null_mut(), 0).is_err() {
+                continue;
+            }
+            let target = String::from_utf16_lossy(&target);
+            if !target
+                .trim_end_matches('\0')
+                .to_ascii_lowercase()
+                .ends_with("arkyv-app.exe")
+            {
+                continue;
+            }
+            if link
+                .SetIconLocation(&HSTRING::from(ico.as_str()), 0)
+                .is_ok()
+                && file.Save(::windows::core::PCWSTR::null(), true).is_ok()
+            {
+                changed = true;
+            }
+        }
+        if changed {
+            SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, None, None);
+        }
+        if init {
+            CoUninitialize();
+        }
+    }
+    changed
+}
+
+/// The icon as an .ico (16 to 256 px), for shortcuts to point at.
+fn write_ico(icon: &crate::app_icon::AppIcon) -> Option<std::path::PathBuf> {
+    use image::codecs::ico::{IcoEncoder, IcoFrame};
+
+    let frames = [16, 24, 32, 48, 64, 256]
+        .into_iter()
+        .map(|s| {
+            let img = icon.rgba(s)?;
+            IcoFrame::as_png(img.as_raw(), s, s, image::ExtendedColorType::Rgba8).ok()
+        })
+        .collect::<Option<Vec<_>>>()?;
+    let dir = crate::dirs::app(crate::dirs::state()?).join("icons");
+    std::fs::create_dir_all(&dir).ok()?;
+    let path = dir.join(format!("{}.ico", icon.name));
+    let file = std::fs::File::create(&path).ok()?;
+    IcoEncoder::new(file).encode_images(&frames).ok()?;
+    Some(path)
+}
+
+/// Settings → Personalization → Colors → Transparency effects is off: Glass
+/// draws solid panes and asks for no material.
+pub fn reduce_transparency() -> bool {
+    use ::windows::Win32::Foundation::ERROR_SUCCESS;
+    use ::windows::Win32::System::Registry::{RRF_RT_REG_DWORD, RegGetValueW};
+    use ::windows::core::w;
+
+    let mut on = 1u32;
+    let mut size = std::mem::size_of::<u32>() as u32;
+    // SAFETY: a DWORD value into a u32 of the stated size.
+    let result = unsafe {
+        RegGetValueW(
+            HKEY_CURRENT_USER,
+            w!("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize"),
+            w!("EnableTransparency"),
+            RRF_RT_REG_DWORD,
+            None,
+            Some((&raw mut on).cast()),
+            Some(&raw mut size),
+        )
+    };
+    result == ERROR_SUCCESS && on == 0
+}

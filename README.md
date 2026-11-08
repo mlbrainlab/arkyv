@@ -40,9 +40,10 @@ Linux and Windows today; macOS is next on the [roadmap](docs/ROADMAP.md).
 
 | Platform | Get it | Notes |
 |---|---|---|
-| Linux | `.deb`, `.rpm` or AppImage from [Releases](https://github.com/mlbrainlab/arkyv/releases) | Built on Ubuntu 22.04: runs on Ubuntu 22.04+, Debian 12+, Fedora 38+ and most others. Flathub: coming |
+| Linux | [Snap Store](https://snapcraft.io/arkyv): `sudo snap install arkyv` | amd64 and arm64; `arkyv.app` is the app, `arkyv` the command-line tool |
+| Linux | `.deb`, `.rpm` or AppImage from [Releases](https://github.com/mlbrainlab/arkyv/releases) | Built on Ubuntu 22.04: runs on Ubuntu 22.04+, Debian 12+, Fedora 38+ and most others |
 | Windows | `Arkyv-…-x64-setup.exe` from [Releases](https://github.com/mlbrainlab/arkyv/releases), from 0.2.0 ([M7](docs/milestones/M7-windows.md)) | Windows 10 and 11. Unsigned: see [below](#windows) |
-| macOS | — | Planned ([M8](docs/milestones/M8-macos.md)) |
+| macOS | `Arkyv-…-universal.dmg` from [Releases](https://github.com/mlbrainlab/arkyv/releases), from 0.3.0 | macOS 12 and later, Apple Silicon and Intel; signed and notarized |
 
 ```bash
 sudo apt install ./arkyv_*_amd64.deb      # Ubuntu, Debian
@@ -57,6 +58,8 @@ sha256sum -c SHA256SUMS --ignore-missing
 ```
 
 To make Arkyv the default for archives, use the First run screen, or Preferences → "Open these with Arkyv".
+
+**Glass on Linux:** KDE Plasma blurs what's behind a Glass window by itself. GNOME doesn't blur other apps' windows, so there Glass starts well frosted; for the see-through blur, install a blur extension such as [Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/) and turn on its blur for applications (Arkyv's windows are `io.github.mlbrainlab.arkyv`). Then move Preferences → Appearance → Glass toward Clear.
 
 ### Windows
 

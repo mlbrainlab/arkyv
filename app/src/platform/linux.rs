@@ -189,6 +189,74 @@ pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
     None
 }
 
+/// The app icon is files on the system ([`crate::app_icon`]).
+pub const APP_ICON_FILES: bool = true;
+
+/// Every size of the icon, and the SVG, in the user's icon theme
+/// (`~/.local/share/icons/hicolor`) under Arkyv's app id: the theme lookup
+/// searches the user's folder before `/usr/share`, size by size, so the
+/// `.desktop` entry's icon (and GNOME's dock and app grid) shows it. Layers
+/// removes them, which brings back the installed icon. Flatpak and snap
+/// can't write there. Returns whether the icon is now in place.
+pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
+    if std::env::var_os("FLATPAK_ID").is_some() || std::env::var_os("SNAP_NAME").is_some() {
+        return false;
+    }
+    let Some(data) = crate::dirs::xdg("XDG_DATA_HOME")
+        .or_else(|| crate::dirs::home().map(|h| h.join(".local/share")))
+    else {
+        return false;
+    };
+    icon_theme(&data.join("icons/hicolor"), icon)
+}
+
+/// [`set_app_icon`] in the hicolor theme at `theme`.
+pub(crate) fn icon_theme(theme: &std::path::Path, icon: &crate::app_icon::AppIcon) -> bool {
+    const SIZES: [u32; 8] = [16, 24, 32, 48, 64, 128, 256, 512];
+    let theme = theme.to_path_buf();
+    let png = |s: u32| theme.join(format!("{s}x{s}/apps/{}.png", super::APP_ID));
+    let svg = theme.join(format!("scalable/apps/{}.svg", super::APP_ID));
+    let ok = if icon.index == 0 {
+        for s in SIZES {
+            let _ = std::fs::remove_file(png(s));
+        }
+        let _ = std::fs::remove_file(&svg);
+        true
+    } else {
+        let write = |path: &std::path::Path, bytes: &[u8]| -> std::io::Result<()> {
+            std::fs::create_dir_all(path.parent().unwrap_or(&theme))?;
+            std::fs::write(path, bytes)
+        };
+        SIZES.iter().all(|&s| {
+            let Some(img) = icon.rgba(s) else {
+                return false;
+            };
+            let mut bytes = Vec::new();
+            img.write_to(
+                &mut std::io::Cursor::new(&mut bytes),
+                image::ImageFormat::Png,
+            )
+            .is_ok()
+                && write(&png(s), &bytes).is_ok()
+        }) && write(&svg, icon.svg.as_bytes()).is_ok()
+    };
+    // A user icon cache hides new files until it's rebuilt (never make one:
+    // a stale cache would hide icons other apps add later).
+    if theme.join("icon-theme.cache").exists() {
+        let _ = Command::new("gtk-update-icon-cache")
+            .args(["-q", "-t"])
+            .arg(&theme)
+            .status();
+    }
+    ok
+}
+
+/// No desktop setting for less transparency here (GNOME's high contrast
+/// is a different theme): Glass stays as chosen.
+pub fn reduce_transparency() -> bool {
+    false
+}
+
 #[cfg(test)]
 mod tests {
     #[test]

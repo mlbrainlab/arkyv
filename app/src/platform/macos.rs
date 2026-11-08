@@ -442,3 +442,74 @@ pub fn taskbar_progress(_window: &slint::Window, fraction: Option<f32>) {
 pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
     None
 }
+
+/// The app icon is the running app's Dock icon only ([`crate::app_icon`]):
+/// changing the bundle's own icon would break its signature.
+pub const APP_ICON_FILES: bool = false;
+
+/// Sets the Dock icon of this process (each Arkyv window is one), or gives
+/// the bundle's back for Layers. The 256 px tile is shrunk onto macOS's
+/// icon grid (an 824 px tile on 1024), so it sits like other Dock icons.
+pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
+    use objc2::AllocAnyThread;
+    use objc2_app_kit::{NSApplication, NSImage};
+    use objc2_foundation::{MainThreadMarker, NSData};
+
+    thread_local! {
+        static SHOWN: std::cell::Cell<Option<usize>> = const { std::cell::Cell::new(None) };
+    }
+    let Some(mtm) = MainThreadMarker::new() else {
+        return false;
+    };
+    // The first call with Layers needs nothing: it's the bundle's icon.
+    let before = SHOWN.with(|s| s.replace(Some(icon.index)));
+    if before == Some(icon.index) || (before.is_none() && icon.index == 0) {
+        return true;
+    }
+    let app = NSApplication::sharedApplication(mtm);
+    if icon.index == 0 {
+        // SAFETY: nil restores the bundle's icon (documented).
+        unsafe { app.setApplicationIconImage(None) };
+        return true;
+    }
+    let Some(png) = dock_png(icon) else {
+        return false;
+    };
+    let data = NSData::with_bytes(&png);
+    let Some(image) = NSImage::initWithData(NSImage::alloc(), &data) else {
+        return false;
+    };
+    // SAFETY: a valid image, on the main thread.
+    unsafe { app.setApplicationIconImage(Some(&image)) };
+    true
+}
+
+/// The icon on a transparent 512 px canvas with macOS's margins.
+fn dock_png(icon: &crate::app_icon::AppIcon) -> Option<Vec<u8>> {
+    const CANVAS: u32 = 512;
+    const TILE: u32 = CANVAS * 824 / 1024;
+    let tile = image::load_from_memory_with_format(icon.png, image::ImageFormat::Png).ok()?;
+    let tile = image::imageops::resize(
+        &tile.to_rgba8(),
+        TILE,
+        TILE,
+        image::imageops::FilterType::Lanczos3,
+    );
+    let mut canvas = image::RgbaImage::new(CANVAS, CANVAS);
+    let at = i64::from((CANVAS - TILE) / 2);
+    image::imageops::overlay(&mut canvas, &tile, at, at);
+    let mut bytes = Vec::new();
+    canvas
+        .write_to(
+            &mut std::io::Cursor::new(&mut bytes),
+            image::ImageFormat::Png,
+        )
+        .ok()?;
+    Some(bytes)
+}
+
+/// System Settings → Accessibility → Display → Reduce transparency: Glass
+/// draws solid panes and asks for no blur.
+pub fn reduce_transparency() -> bool {
+    objc2_app_kit::NSWorkspace::sharedWorkspace().accessibilityDisplayShouldReduceTransparency()
+}

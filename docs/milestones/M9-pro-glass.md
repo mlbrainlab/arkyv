@@ -12,15 +12,15 @@
 ## Tasks
 - [x] License check: signed key verified offline with a public key in the app; no account, one call at activation (0.2.18)
 - [x] Upgrade sheet and license entry (designed in `Pro.dc.html`, built in 0.2.19); the "PRO" labels come with the Glass theme and the icons, the items they mark
-- [ ] Glass theme, the same window on every platform (`GlassMini*.dc.html`, `GlassBrowse*.dc.html`):
+- [x] Glass theme, the same window on every platform (`GlassMini*.dc.html`, `GlassBrowse*.dc.html`):
   - Arkyv draws its own frame (`no-frame`, transparent window background), with rounded corners and a shadow drawn in Slint
   - Its own resize handles + header drag region (Linux 0.2.28, Windows 0.2.29)
   - Windows: keep Snap Layouts. Windows shows them only when `WM_NCHITTEST` answers `HTMAXBUTTON` over the maximize button; winit has no hook for that, so hook the window procedure and hit-test Arkyv's own maximize button. Caption buttons 46 × 32, Close red on hover (DESIGN.md). Kept the native frame in M7 for this reason (2026-10-29)
   - Material: macOS vibrancy, Windows Acrylic (`window-vibrancy` crate on the winit window handle), Linux Frosted fallback (true blur only through the compositor / a blur extension). Slint can't blur inside the window, so panes are translucent fills over the OS material
-  - Respect "Reduce transparency" → solid panes
-- [ ] Alternate app icons (seven, from the Arkyv icon sheet, 2026-11-07): macOS can switch the Dock icon live; Windows/Linux update the shortcut/desktop icon (may need a restart)
+  - Respect "Reduce transparency" → solid panes (0.3.2)
+- [x] Alternate app icons (seven, from the Arkyv icon sheet, 2026-11-07): macOS can switch the Dock icon live; Windows/Linux update the shortcut/desktop icon (may need a restart)
   - [x] The App icon row in Preferences → Appearance, with PRO, and every window's icon following it (0.2.34)
-  - [ ] The taskbar pin / Start menu shortcut on Windows, the `.desktop` icon on Linux (GNOME on Wayland shows that one, not the window's), the Dock on macOS (M8)
+  - [x] The taskbar pin / Start menu shortcut on Windows, the `.desktop` icon on Linux (GNOME on Wayland shows that one, not the window's), the Dock on macOS (M8)
 - [ ] Give GitHub sponsors a free key (manual at first)
 - [ ] README note for blur on Linux: "For the Glass theme's see-through blur on GNOME, install a blur extension such as Blur my Shell; KDE Plasma blurs natively." Test the exact extension name and setting yourself before publishing (moved from M6, 2026-10-28: the note ships with the theme)
 
@@ -143,6 +143,15 @@ Tested in a Windows 11 VM: the software renderer does keep alpha (Home's pixels 
 - A third Material, **Clear**: no system material, only the extended frame, so the software renderer's see-through pixels show the windows and wallpaper behind as they are. Tokens treat it like Mica (`Tokens.material`): no window tint at frost 0, panes from 30% white. No blur: Windows offers none that can be turned down.
 - `platform::Material` (Acrylic 0, Mica 1, Clear 2) replaces the `glass_mica` flag; `pref.glass_material` keeps its numbers.
 - 0.2.37 on the PC: Clear worked in Preferences only; Home and archive windows were solid white. Reproduced in the VM (every pixel 255). Clearing Acrylic and Mica (`window_vibrancy::clear_*`, the accent off) also drops the "blur behind" that winit sets on transparent windows, and without it DWM ignores the window's alpha. Setting it again over an empty region (`see_through`) made the archive window see-through at once in the VM, Notepad and the wallpaper sharp behind it (0.2.38). Preferences had kept it by chance, switching materials while open.
+
+### The app icon beyond Arkyv's windows, and Reduce transparency (2026-11-08, 0.3.2)
+- `app/src/app_icon.rs` holds the eight icons (256 px PNGs and the SVGs, in `Tokens.app-icons`' order). `Prefs::apply_theme` calls `app_icon::sync`, so a change in Preferences, a removed license (back to Layers) or a fresh install catches up wherever a window applies the preferences. On Linux and Windows the file work runs once per change on its own thread; `~/.local/state/arkyv/app-icon` keeps which icon the system files show.
+- **Linux:** every size (16–512) and the SVG go into the user's icon theme (`~/.local/share/icons/hicolor/<size>/apps/io.github.mlbrainlab.arkyv.png`). The theme lookup searches the user's folder before `/usr/share` size by size, so the `.desktop` entry's icon name finds it: GNOME's dock and app grid, the app menu. Layers deletes them, which brings back the installed icon (it also deletes the dev install's copies of Layers; `scripts/dev-install-desktop.sh` puts them back). A user icon cache, if there is one, is rebuilt. Not in the Flatpak or the snap: their sandboxes can't write there. Tested: `app_icon::tests` writes and removes the files in a temp theme.
+- **Windows:** an .ico (16–256 px) in `%LOCALAPPDATA%\arkyv\icons`; the Start menu shortcut (the installer's, per user or for everyone) and every taskbar pin whose target is `arkyv-app.exe` get it as their icon (`IShellLinkW::SetIconLocation`), and the shell is told (`SHChangeNotify`). Layers clears the shortcuts' icon so they show the executable's again. Shortcuts for everyone need administrator rights; without them only the user's change. Explorer may show the old icon until it restarts.
+- **macOS:** the running process's Dock icon (`setApplicationIconImage`), the tile shrunk onto macOS's icon grid (824 on 1024); Layers gives the bundle's back. Each window is a process, so each sets it as it opens. Finder and the Dock show the bundle's icon while Arkyv isn't running: changing the bundle would break its signature.
+- **Reduce transparency:** `platform::reduce_transparency` (macOS: Accessibility → Display; Windows: Transparency effects off; nothing on Linux). With it, Glass keeps its layout and controls but its panes are solid (frost 1, no material) and no blur is asked for. Read when a window applies the preferences, not watched live.
+- README: Snap and the macOS .dmg in the install table, and the note on blur for Glass on GNOME (Blur my Shell's application blur) and KDE.
+- **To check:** each system shows the picked icon in the places above (log out and in on GNOME if the dock keeps the old one); Layers brings the original back; with Reduce transparency on, Glass is solid; the README's Blur my Shell steps work as written.
 
 ## Acceptance
 - [ ] Glass looks the same on all 3 OSes (shape, layout, controls); only the blur strength differs

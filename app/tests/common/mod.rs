@@ -86,6 +86,8 @@ impl Harness {
             // Operations and their history: never the real ones either.
             std::env::set_var("ARKYV_OPS_DIR", config.join("ops"));
             std::env::set_var("XDG_STATE_HOME", config.join("state"));
+            // The Pro app icon writes the user's icon theme (app_icon.rs).
+            std::env::set_var("XDG_DATA_HOME", config.join("data"));
             // "System" language is English here, whatever the machine uses.
             std::env::set_var("LANG", "en_US.UTF-8");
             std::env::remove_var("LC_ALL");

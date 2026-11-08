@@ -195,17 +195,27 @@ impl Prefs {
             Theme::Dark => slint::language::ColorScheme::Dark,
         });
         tokens.set_glass(self.theme == Theme::Glass);
-        tokens.set_frost(f32::from(self.glass_frost) / 100.0);
-        tokens.set_blur_frost(crate::platform::FROST_IS_BLUR);
+        // "Reduce transparency" in the system's settings: Glass keeps its
+        // shape and controls but its panes go solid, as at full frost.
+        let solid = self.theme == Theme::Glass && crate::platform::reduce_transparency();
+        tokens.set_frost(if solid {
+            1.0
+        } else {
+            f32::from(self.glass_frost) / 100.0
+        });
+        tokens.set_blur_frost(crate::platform::FROST_IS_BLUR && !solid);
         // Mica brings its own tint, and Clear wants as little as can be read:
         // both start the window's tint at none and keep panes light.
         let m = crate::platform::GLASS_MATERIALS.then_some(self.glass_material);
+        let m = m.filter(|_| !solid);
         tokens.set_mica(m == Some(crate::platform::Material::Mica));
         tokens.set_material(matches!(
             m,
             Some(crate::platform::Material::Mica | crate::platform::Material::Clear)
         ));
         tokens.set_app_icon(i32::from(self.app_icon));
+        // And beyond Arkyv's windows: the Dock, shortcuts, the icon theme.
+        crate::app_icon::sync(self.app_icon);
     }
 
     /// What Glass asks of the window itself: the system's blur behind it,
@@ -216,7 +226,9 @@ impl Prefs {
         for<'a> crate::Frame<'a>: slint::Global<'a, C>,
     {
         let glass = self.theme == Theme::Glass;
-        crate::platform::set_blur(ui, glass, self.glass_material, self.glass_frost);
+        // No blur behind solid panes ("Reduce transparency").
+        let blur = glass && !crate::platform::reduce_transparency();
+        crate::platform::set_blur(ui, blur, self.glass_material, self.glass_frost);
         let caption = glass && crate::platform::GLASS_CAPTION;
         let frame = ui.global::<crate::Frame>();
         if frame.get_caption() != caption {

@@ -2,6 +2,7 @@
 //! lives in `crate-core`; `main.rs` only parses the command line.
 
 pub mod about;
+pub mod app_icon;
 pub mod batch;
 pub mod dirs;
 pub mod first_run;

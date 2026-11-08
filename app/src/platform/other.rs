@@ -51,3 +51,13 @@ pub fn taskbar_progress(_window: &slint::Window, _fraction: Option<f32>) {}
 pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
     None
 }
+
+/// No system app icon to change here.
+pub const APP_ICON_FILES: bool = false;
+pub fn set_app_icon(_icon: &crate::app_icon::AppIcon) -> bool {
+    false
+}
+
+pub fn reduce_transparency() -> bool {
+    false
+}

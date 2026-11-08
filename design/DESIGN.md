@@ -59,6 +59,8 @@ Dark glass (Glass follows the system's dark mode): `--bg` `rgba(28,32,41,.65)`, 
 
 Frost (Preferences → Appearance → Glass slider, 0–1): the window tint runs from `.40` to solid (dark `.45` to solid), the panes from `.55` to solid (dark `.65`), `--surface-2` from `.45` to `.85`. Linux starts at 0.6, as GNOME doesn't blur; Windows at 0. On macOS the slider sets the window server's blur radius instead (6 at Clear to 80 at Frosted, starting at 0.5) and the tint stays light at every setting: window `.18`–`.38` (dark `.30`–`.50`), panes `.42`–`.62` (dark `.50`–`.70`), `--surface-2` `.32`–`.52`; so Frosted is frosted, not white. On Windows, Mica brings its own tint, so with Mica the window tint runs from `0`, the panes from `.75` (dark `.35`) and `--surface-2` from `.25`. Acrylic is an untinted blur, so Arkyv's own tint applies, as in the mockup. Clear has no material: what's behind shows sharp, so like Mica the window tint runs from `0` and the panes from `.3` (`--surface-2` `.25`), just enough to read text. Buttons on glass: fill `rgba(255,255,255,.6)` (hover `.85`) / `rgba(255,255,255,.1)` (hover `.18`), a 1 px rim `rgba(255,255,255,.9)` / `rgba(255,255,255,.25)`, and a soft shadow; icon buttons are circles.
 
+Reduce transparency (macOS Accessibility → Display; Windows Transparency effects off): Glass keeps its layout and controls, but the panes and the window are solid (frost 1) and no material or blur is used.
+
 Font: Inter 400/500/600/700, compiled into the app from `assets/fonts/inter` (Inter 4.1, OFL). Never load fonts at runtime. Monospace text uses the system monospace font.
 
 ## Cross-platform implementation (revised)
