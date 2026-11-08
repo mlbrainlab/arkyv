@@ -59,7 +59,8 @@ jobs:
       - name: Packaging tools
         run: |
           cargo install --locked cargo-deb cargo-generate-rpm
-          sudo curl -sSfL -o /usr/local/bin/appimagetool \
+          # GitHub's release downloads sometimes answer 503/504 for minutes.
+          sudo curl -sSfL --retry 20 --retry-all-errors --retry-delay 15 -o /usr/local/bin/appimagetool \
             https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
           sudo chmod 755 /usr/local/bin/appimagetool
 
