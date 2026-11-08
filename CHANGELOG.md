@@ -4,6 +4,7 @@ Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the
 
 ## 0.2.41 — 2026-11-08
 - Snap Store listing artwork in `assets/store/`: a dark version of the icon and a 1920×640 banner.
+- Releases: a "Snap release" workflow moves an uploaded version to a Snap Store channel (back to edge, or on to stable) for every architecture.
 
 ## 0.2.40 — 2026-11-08
 - Linux: Arkyv is on the Snap Store (`sudo snap install arkyv --edge` for now). Each release uploads it for amd64 and arm64; `arkyv` is the command-line tool and `arkyv.app` the app.

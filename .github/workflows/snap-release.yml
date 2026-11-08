@@ -1,0 +1,46 @@
+# Moves an already uploaded Arkyv version to a Snap Store channel, for every
+# architecture: putting a version back on edge, or promoting it to beta,
+# candidate or stable. Run it from the Actions tab (or `gh workflow run
+# snap-release.yml -f version=0.2.40 -f channel=stable`).
+name: Snap release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Arkyv version already uploaded to the store (e.g. 0.2.40)
+        required: true
+      channel:
+        description: Channel to release it to
+        required: true
+        default: edge
+        type: choice
+        options: [edge, beta, candidate, stable]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+      VERSION: ${{ inputs.version }}
+      CHANNEL: ${{ inputs.channel }}
+    steps:
+      - run: sudo snap install snapcraft --classic
+
+      - name: Release every revision of the version
+        run: |
+          snapcraft revisions arkyv | tee revisions.txt
+          # Columns: Rev., Uploaded, Arches, Version, Channels. The newest
+          # revision of the version for each architecture.
+          revs=$(awk -v v="$VERSION" 'NR > 1 && $4 == v && !seen[$3]++ {print $1}' revisions.txt)
+          if [ -z "$revs" ]; then
+            echo "::error::No revisions of $VERSION in the store"
+            exit 1
+          fi
+          for r in $revs; do
+            snapcraft release arkyv "$r" "$CHANNEL"
+          done
+          snapcraft status arkyv
