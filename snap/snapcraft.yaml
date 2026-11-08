@@ -14,7 +14,7 @@ grade: stable
 confinement: strict
 # Arkyv is MIT; RAR extraction uses the UnRAR library (freeware licence,
 # extraction only).
-license: MIT AND Proprietary
+license: MIT AND LicenseRef-UnRAR
 icon: assets/icons/png/arkyv-512.png
 website: https://github.com/mlbrainlab/arkyv
 source-code: https://github.com/mlbrainlab/arkyv
@@ -51,6 +51,8 @@ parts:
     plugin: rust
     source: .
     rust-path: [app, crates/arkyv-cli]
+    rust-channel: stable
+    build-snaps: [rustup]
     build-packages:
       - g++
       - pkg-config
