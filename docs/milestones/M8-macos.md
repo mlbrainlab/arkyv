@@ -102,7 +102,7 @@
 - The mini view kept the plain title bar, and with Glass on (a transparent window) the bar showed the desktop through it, with the white title over it. It now uses the overlay title bar too (`view::View::new` turns it on once for both views): the header takes the lights' height, less the glass padding, keeps the name centred with the same room on both sides, and drops its Close button, which the red light replaces.
 - Glass: winit's `set_blur` always blurs with radius 80, so even Clear looked frosted white, and Frosted ended solid white (the tint ran to opaque, as on GNOME). `platform::blur` on macOS now calls `CGSSetWindowBackgroundBlurRadius` itself with a radius from the slider (6 to 80, `FROST_IS_BLUR`), and the tokens keep the tint light (`Tokens.blur-frost`, DESIGN.md). The slider starts at 50.
 - Home, About and the first-run screen drew a generic box on an accent tile, left over from before the Layers icon; they show `Tokens.app-image` now.
-- **To check on the Mac:** the mini view's lights on its header's centre line, with and without Glass; dragging the header moves the window; the slider from Clear (desktop recognisable behind) to Frosted (blurred, not white), in light and dark.
+- Confirmed on the Mac with the 0.2.42 release: the mini view's header and lights, the Glass slider from Clear to Frosted, and the app icon in Home, About and the first-run screen.
 
 ## Prompt for Claude Code
 > Read CLAUDE.md and docs/milestones/M8-macos.md. Keep macOS-only code behind `#[cfg(target_os = "macos")]`.
