@@ -56,7 +56,7 @@
 - `v0.1.0` tagged on `6f32092` and published by the workflow: https://github.com/mlbrainlab/arkyv/releases/tag/v0.1.0 with the .deb, .rpm, AppImage, `SHA256SUMS` and the CHANGELOG notes. Downloaded from the public URLs, the checksums match, and the .deb installs on a fresh Ubuntu 24.04 and opens an archive in a real window.
 - Left: the user's hand checks on real desktops (Acceptance below, and "Test on a clean Ubuntu VM + Fedora"), and the Flathub submission (optional for the release; `docs/flathub.md`).
 
-### Snap Store (2026-11-08, 0.2.39)
+### Snap Store (2026-11-08, 0.2.40)
 - `snap/snapcraft.yaml`: core24, strict confinement, the `rust` plugin, the `gnome` extension (Wayland/X11, GL, fonts, portals, notifications). Plugs: `home`, `removable-media` (not auto-connected: users run `snap connect arkyv:removable-media`, or ask the store for auto-connection on the forum), `network` for Pro activation. Name, summary and description come from the metainfo; the version from Cargo.toml.
 - Apps: `arkyv` is the CLI (as in the .deb), `arkyv.app` the app that the .desktop entry runs. `common-id` ties it to the AppStream ID.
 - Inside a snap (`SNAP_NAME` set) default apps can't be changed by the app: `Defaults::Snap` shows the steps in Files, as for Flatpak.

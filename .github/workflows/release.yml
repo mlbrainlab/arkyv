@@ -303,7 +303,9 @@ jobs:
   snap-store:
     name: Upload to the Snap Store (edge)
     if: github.event_name == 'push'
-    needs: [publish, snap]
+    # Only the snaps: a failed GitHub release (flaky downloads) must not
+    # hold back the store upload.
+    needs: [snap]
     runs-on: ubuntu-latest
     strategy:
       matrix:

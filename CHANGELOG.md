@@ -2,10 +2,11 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
-## 0.2.39 — 2026-11-08
+## 0.2.40 — 2026-11-08
 - Linux: Arkyv is on the Snap Store (`sudo snap install arkyv --edge` for now). Each release uploads it for amd64 and arm64; `arkyv` is the command-line tool and `arkyv.app` the app.
 - In the snap, "Open these with Arkyv" explains how to make Arkyv the default in Files, as in the Flatpak: confinement keeps snaps from changing default apps themselves.
 - Store screenshots taken from the app on Ubuntu, in `docs/store-screenshots/` (`scripts/store-screenshots.sh` makes them again).
+- Releases: the release workflow retries downloads when GitHub answers 503/504, and the Snap Store upload no longer waits for the GitHub release. (0.2.39 was tagged but never published.)
 - `arkyv --version` says arkyv, not crate.
 
 ## 0.2.38 — 2026-11-08
