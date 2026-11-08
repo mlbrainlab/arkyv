@@ -85,13 +85,7 @@ export component FirstRun inherits Scrim {
                 padding: 28px;
                 padding-bottom: 8px;
                 spacing: 16px;
-                Rectangle { col: Locale.rtl ? 2 : 0; row: 0;
-                    width: 56px;
-                    height: 56px;
-                    border-radius: 15px;
-                    background: Tokens.accent;
-                    Icon { size: 28; stroke: white; commands: Icons.archive; }
-                }
+                Image { col: Locale.rtl ? 2 : 0; row: 0; width: 56px; height: 56px; source: Tokens.app-image; image-rendering: smooth; }
                 VerticalLayout { col: Locale.rtl ? 1 : 1; row: 0;
                     alignment: center;
                     spacing: 3px;

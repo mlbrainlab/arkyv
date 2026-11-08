@@ -98,5 +98,11 @@
 - `SYSTEM_MIME.set` passes a completion handler and waits up to 3 s for macOS's answers: an error comes back as the error line in Preferences or on the first-run screen, and Preferences refreshes its chips after the answer instead of before it.
 - **To check on the Mac:** in Preferences → Open these with Arkyv, click a type that isn't Arkyv's: the chip turns on at once, and Finder → Get Info on such a file shows Arkyv under Open with.
 
+### Mac findings with Glass (2026-11-08, 0.2.42)
+- The mini view kept the plain title bar, and with Glass on (a transparent window) the bar showed the desktop through it, with the white title over it. It now uses the overlay title bar too (`view::View::new` turns it on once for both views): the header takes the lights' height, less the glass padding, keeps the name centred with the same room on both sides, and drops its Close button, which the red light replaces.
+- Glass: winit's `set_blur` always blurs with radius 80, so even Clear looked frosted white, and Frosted ended solid white (the tint ran to opaque, as on GNOME). `platform::blur` on macOS now calls `CGSSetWindowBackgroundBlurRadius` itself with a radius from the slider (6 to 80, `FROST_IS_BLUR`), and the tokens keep the tint light (`Tokens.blur-frost`, DESIGN.md). The slider starts at 50.
+- Home, About and the first-run screen drew a generic box on an accent tile, left over from before the Layers icon; they show `Tokens.app-image` now.
+- **To check on the Mac:** the mini view's lights on its header's centre line, with and without Glass; dragging the header moves the window; the slider from Clear (desktop recognisable behind) to Frosted (blurred, not white), in light and dark.
+
 ## Prompt for Claude Code
 > Read CLAUDE.md and docs/milestones/M8-macos.md. Keep macOS-only code behind `#[cfg(target_os = "macos")]`.

@@ -7,19 +7,42 @@ use super::{Defaults, MimeBackend};
 /// macOS keeps the native window frame; Home and the full view put its
 /// traffic lights in their header ([`overlay_titlebar`]).
 pub const CUSTOM_FRAME: bool = false;
-/// Glass gets real blur from the OS here ([`blur`]): it starts as clear
-/// glass on the slider in Preferences.
+/// Glass gets real blur from the OS here ([`blur`]), and the slider sets
+/// its strength: it starts halfway.
 pub fn glass_frost() -> u8 {
-    0
+    50
 }
 
-/// The system's blur behind the window, through winit.
+/// The window server's blur behind the window. winit's `set_blur` always
+/// uses a radius of 80, a heavy frost whatever the slider says; this is the
+/// same private call with the radius from the slider: a light blur at Clear
+/// (what's behind stays recognisable) up to winit's 80 at Frosted.
 pub(super) fn blur(
     w: &slint::winit_030::winit::window::Window,
     on: bool,
     _material: super::Material,
+    frost: u8,
 ) {
-    w.set_blur(on);
+    #[link(name = "CoreGraphics", kind = "framework")]
+    unsafe extern "C" {
+        // Private, but widely used (Terminal.app, winit, Electron).
+        fn CGSMainConnectionID() -> *mut std::ffi::c_void;
+        fn CGSSetWindowBackgroundBlurRadius(
+            connection: *mut std::ffi::c_void,
+            window: isize,
+            radius: i64,
+        ) -> i32;
+    }
+    let Some(ns) = ns_window(w) else { return };
+    let radius = if on {
+        6 + i64::from(frost.min(100)) * 74 / 100
+    } else {
+        0
+    };
+    // SAFETY: plain values; the window number is this live window's.
+    unsafe {
+        CGSSetWindowBackgroundBlurRadius(CGSMainConnectionID(), ns.windowNumber(), radius);
+    }
 }
 
 /// Space between the zoom button and the header's first control.

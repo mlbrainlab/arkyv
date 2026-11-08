@@ -179,6 +179,11 @@ export component StreamBar inherits Rectangle {
 
 export component MiniBody inherits Rectangle {
     in property <bool> custom-frame;
+    // macOS: the traffic lights sit in the header (as in the full view):
+    // the room they take at the left, and the height of the bar they're
+    // centred in (0: the plain title bar).
+    in property <length> titlebar-inset;
+    in property <length> titlebar-height;
     // Gives keyboard focus back to the window (rows take it on click).
     callback focus-keys;
     property <bool> ready: ArchiveUi.status == "ready";
@@ -198,22 +203,27 @@ export component MiniBody inherits Rectangle {
         // Header bar; on Windows glass the caption strip shows the name
         // and Close instead (frame.slint).
         if !Frame.caption: Rectangle {
-            height: Tokens.glass ? 34px : 46px;
+            // With the lights: their centre line, less the glass padding above.
+            height: root.titlebar-height > 0 ? Math.max(24px, root.titlebar-height - (Tokens.glass ? 28px : 0)) : Tokens.glass ? 34px : 46px;
             background: Tokens.chrome;
             // Arkyv's own frame rounds the window's corners (frame.slint).
             border-top-left-radius: Frame.radius;
             border-top-right-radius: Frame.radius;
             WindowDragArea {
-                drag-enabled: root.custom-frame;
+                drag-enabled: root.custom-frame || root.titlebar-inset > 0;
                 start-drag => { ArchiveUi.start-drag(); }
             }
             GridLayout {
                 padding-left: 14px;
                 padding-right: 14px;
                 spacing: 6px;
-                Rectangle { col: Locale.rtl ? 2 : 0; row: 0; width: 24px; }
+                // The lights are always at the left (they follow the system's
+                // language); the same room on the right keeps the name centred.
+                Rectangle { col: Locale.rtl ? 2 : 0; row: 0; width: root.titlebar-inset > 0 ? root.titlebar-inset - 14px : 24px; }
                 ClipText { col: Locale.rtl ? 1 : 1; row: 0; text: ArchiveUi.archive-name; font-weight: 600; horizontal-alignment: center; horizontal-stretch: 1; }
-                VerticalLayout { col: Locale.rtl ? 0 : 2; row: 0;
+                if root.titlebar-inset > 0: Rectangle { col: Locale.rtl ? 0 : 2; row: 0; width: root.titlebar-inset - 14px; }
+                // The red light closes the window on macOS.
+                if root.titlebar-inset == 0: VerticalLayout { col: Locale.rtl ? 0 : 2; row: 0;
                     alignment: center;
                     Rectangle {
                         width: 24px;

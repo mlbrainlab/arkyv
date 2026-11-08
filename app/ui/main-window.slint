@@ -200,13 +200,8 @@ export component MainWindow inherits Window {
                     spacing: 20px;
                     HorizontalLayout {
                         alignment: center;
-                        Rectangle {
-                            width: 64px;
-                            height: 64px;
-                            border-radius: 18px;
-                            background: Tokens.accent;
-                            Icon { size: 32; stroke: white; commands: Icons.archive; }
-                        }
+                        // The app icon (Layers, or the Pro alternate picked in Preferences).
+                        Image { width: 64px; height: 64px; source: Tokens.app-image; image-rendering: smooth; }
                     }
                     Text { text: @tr("Compress files, or open an archive"); color: Tokens.ink; font-size: 20px; font-weight: 700; horizontal-alignment: center; }
                     Text {

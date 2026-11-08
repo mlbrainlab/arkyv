@@ -63,7 +63,18 @@ pub enum Material {
     Clear = 2,
 }
 
-pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool, material: Material) {
+/// The Glass slider sets how strongly the system blurs what's behind the
+/// window (macOS), rather than how solid Arkyv's tint is: the tint stays
+/// light, and the far end is frosted, not white.
+pub const FROST_IS_BLUR: bool = cfg!(target_os = "macos");
+
+/// `frost` is the Glass slider, 0–100 ([`FROST_IS_BLUR`]).
+pub fn set_blur<C: slint::ComponentHandle + 'static>(
+    ui: &C,
+    on: bool,
+    material: Material,
+    frost: u8,
+) {
     use slint::winit_030::WinitWindowAccessor;
 
     // The winit window may not exist yet (a window shown before the event
@@ -71,7 +82,7 @@ pub fn set_blur<C: slint::ComponentHandle + 'static>(ui: &C, on: bool, material:
     let ui = ui.clone_strong();
     let _ = slint::spawn_local(async move {
         if let Ok(w) = ui.window().winit_window().await {
-            blur(&w, on, material);
+            blur(&w, on, material, frost);
         }
     });
 }

@@ -337,7 +337,7 @@ dependencies = [
 
 [[package]]
 name = "arkyv-app"
-version = "0.2.41"
+version = "0.2.42"
 dependencies = [
  "base64 0.22.1",
  "block2 0.6.2",
@@ -377,7 +377,7 @@ dependencies = [
 
 [[package]]
 name = "arkyv-cli"
-version = "0.2.41"
+version = "0.2.42"
 dependencies = [
  "bzip2",
  "crate-core",
@@ -1235,7 +1235,7 @@ dependencies = [
 
 [[package]]
 name = "crate-core"
-version = "0.2.41"
+version = "0.2.42"
 dependencies = [
  "age",
  "blake3",

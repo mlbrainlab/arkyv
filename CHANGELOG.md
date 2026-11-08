@@ -2,6 +2,11 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.42 — 2026-11-08
+- Home, About and the first-run screen show Arkyv's app icon (or the Pro icon you picked) instead of a generic box.
+- macOS: the mini view puts the traffic lights in its own header, like Home and the full view, so the top of the window is no longer see-through with Glass on. The red light closes it, so its own Close button is gone there.
+- macOS Glass: the slider now goes from a light blur (Clear) to a heavy one (Frosted), and the glass stays light at every setting; before, the blur was always heavy and Frosted ended in solid white.
+
 ## 0.2.41 — 2026-11-08
 - Snap Store listing artwork in `assets/store/`: a dark version of the icon and a 1920×640 banner.
 - Releases: a "Snap release" workflow moves an uploaded version to a Snap Store channel (back to edge, or on to stable) for every architecture.

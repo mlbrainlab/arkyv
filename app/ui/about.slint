@@ -90,13 +90,8 @@ export component AboutSheet inherits Scrim {
                 spacing: 10px;
                 HorizontalLayout {
                     alignment: center;
-                    Rectangle {
-                        width: 80px;
-                        height: 80px;
-                        border-radius: 22px;
-                        background: Tokens.accent;
-                        Icon { size: 40; stroke: white; commands: Icons.archive; }
-                    }
+                    // The app icon (Layers, or the Pro alternate picked in Preferences).
+                        Image { width: 80px; height: 80px; source: Tokens.app-image; image-rendering: smooth; }
                 }
                 Text { text: @tr("Arkyv"); color: Tokens.ink; font-size: 24px; font-weight: 700; horizontal-alignment: center; }
                 Text { text: AboutUi.version; color: Tokens.ink-2; font-size: 13px; horizontal-alignment: center; }

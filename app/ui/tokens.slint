@@ -17,6 +17,10 @@ export global Tokens {
     // what's behind as it is, so the window adds no tint at frost 0 and panes
     // are lighter. Acrylic takes Arkyv's tint, as on macOS.
     in property <bool> material;
+    // macOS: the slider sets the system's blur strength instead
+    // (platform::FROST_IS_BLUR), so the tint stays light at every setting and
+    // Frosted is frosted, not solid white.
+    in property <bool> blur-frost;
     // The app icon (Pro; Preferences → Appearance): 0 is Layers, the
     // others are the alternates in `assets/icons/alt/`, in the picker's order.
     in property <int> app-icon;
@@ -35,8 +39,8 @@ export global Tokens {
     out property <bool> dark: Palette.color-scheme == ColorScheme.dark;
 
     // Glass: panes.
-    out property <color> bg: glass ? (dark ? #1c2029.with-alpha(material ? 0.35 + 0.65 * frost : 0.65 + 0.35 * frost) : #ffffff.with-alpha(mica ? 0.75 + 0.25 * frost : material ? 0.3 + 0.7 * frost : 0.55 + 0.45 * frost)) : dark ? #0f1115 : #ffffff;
-    out property <color> surface-2: glass ? (dark ? #ffffff14 : #ffffff.with-alpha(material ? 0.25 + 0.6 * frost : 0.45 + 0.4 * frost)) : dark ? #12151b : #f7f8fa; // sidebar, details
+    out property <color> bg: glass ? (dark ? #1c2029.with-alpha(blur-frost ? 0.5 + 0.2 * frost : material ? 0.35 + 0.65 * frost : 0.65 + 0.35 * frost) : #ffffff.with-alpha(blur-frost ? 0.42 + 0.2 * frost : mica ? 0.75 + 0.25 * frost : material ? 0.3 + 0.7 * frost : 0.55 + 0.45 * frost)) : dark ? #0f1115 : #ffffff;
+    out property <color> surface-2: glass ? (dark ? #ffffff14 : #ffffff.with-alpha(blur-frost ? 0.32 + 0.2 * frost : material ? 0.25 + 0.6 * frost : 0.45 + 0.4 * frost)) : dark ? #12151b : #f7f8fa; // sidebar, details
     out property <color> chrome: glass ? transparent : dark ? #14171d : #fbfbfc; // header, footer
     out property <color> line: glass ? (dark ? #ffffff26 : #ffffffb3) : dark ? #232832 : #e6e8ec;
     out property <color> ink: glass && dark ? #f1f4f9 : dark ? #e7eaf0 : #0f172a;
@@ -54,7 +58,7 @@ export global Tokens {
     // Glass: the window itself, under the panes; and dialogs over it, which
     // stay solid so nothing shows through their text. Light glass dialogs
     // are a soft grey-blue, so the white glass controls in them still show.
-    out property <color> window: glass ? (dark ? #0f1115.with-alpha(material ? frost : 0.45 + 0.55 * frost) : #ffffff.with-alpha(material ? frost : 0.4 + 0.6 * frost)) : bg;
+    out property <color> window: glass ? (dark ? #0f1115.with-alpha(blur-frost ? 0.3 + 0.2 * frost : material ? frost : 0.45 + 0.55 * frost) : #ffffff.with-alpha(blur-frost ? 0.18 + 0.2 * frost : material ? frost : 0.4 + 0.6 * frost)) : bg;
     out property <color> sheet: glass ? (dark ? #161a21 : #eef1f6) : dark ? chrome : bg;
     // A group or card on a page (Preferences): solid normally, a pane on glass.
     out property <color> card: glass ? bg : dark ? chrome : bg;

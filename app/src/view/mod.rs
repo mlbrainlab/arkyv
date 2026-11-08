@@ -229,6 +229,16 @@ impl View {
         prefs.apply_window(ui);
         connect(ui);
         crate::shortcuts::connect(ui, crate::shortcuts::Window::Archive);
+        // macOS: both views put the traffic lights in their header. A plain
+        // title bar over the mini view showed the desktop through it with
+        // Glass on.
+        let weak = ui.as_weak();
+        crate::platform::overlay_titlebar(ui, true, move |inset, height| {
+            if let Some(ui) = weak.upgrade() {
+                ui.set_titlebar_inset(inset);
+                ui.set_titlebar_height(height);
+            }
+        });
         if prefs.open_with == OpenWith::Full {
             view.toggle_full();
         }
@@ -389,15 +399,6 @@ impl View {
             s.selection.rows_changed();
         }
         self.g(|g| g.set_full(full));
-        // macOS: the full view's header holds the traffic lights; the mini
-        // view keeps the plain title bar.
-        let weak = self.ui().as_weak();
-        crate::platform::overlay_titlebar(&self.ui(), full, move |inset, height| {
-            if let Some(ui) = weak.upgrade() {
-                ui.set_titlebar_inset(inset);
-                ui.set_titlebar_height(height);
-            }
-        });
         self.ui().window().set_size(slint::LogicalSize::new(w, h));
         self.refresh_rows();
     }

@@ -30,6 +30,7 @@ pub(super) fn blur(
     w: &slint::winit_030::winit::window::Window,
     on: bool,
     material: super::Material,
+    _frost: u8,
 ) {
     use super::Material;
     let Some(hwnd) = hwnd(w) else { return };

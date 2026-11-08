@@ -196,6 +196,7 @@ impl Prefs {
         });
         tokens.set_glass(self.theme == Theme::Glass);
         tokens.set_frost(f32::from(self.glass_frost) / 100.0);
+        tokens.set_blur_frost(crate::platform::FROST_IS_BLUR);
         // Mica brings its own tint, and Clear wants as little as can be read:
         // both start the window's tint at none and keep panes light.
         let m = crate::platform::GLASS_MATERIALS.then_some(self.glass_material);
@@ -215,7 +216,7 @@ impl Prefs {
         for<'a> crate::Frame<'a>: slint::Global<'a, C>,
     {
         let glass = self.theme == Theme::Glass;
-        crate::platform::set_blur(ui, glass, self.glass_material);
+        crate::platform::set_blur(ui, glass, self.glass_material, self.glass_frost);
         let caption = glass && crate::platform::GLASS_CAPTION;
         let frame = ui.global::<crate::Frame>();
         if frame.get_caption() != caption {

@@ -15,6 +15,7 @@ pub(super) fn blur(
     w: &slint::winit_030::winit::window::Window,
     on: bool,
     _material: super::Material,
+    _frost: u8,
 ) {
     w.set_blur(on);
 }
