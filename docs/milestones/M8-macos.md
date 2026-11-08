@@ -2,11 +2,12 @@
 
 **Goal:** Arkyv on macOS 12+ (Apple Silicon + Intel), signed and notarized.
 **Done when:** the universal .dmg installs with no Gatekeeper warning and the Homebrew cask is submitted.
+**Done:** 2026-11-08, 0.3.0: every task and acceptance check confirmed on the Mac mini.
 
 ## Tasks
 - [x] Build and CI on `macos-latest` (universal binary)
-- [ ] Window: native traffic lights placed inside Arkyv's own header (overlay title bar through winit's macOS window attributes in `platform::select_backend`); a native menu bar (File / Edit / Archive / View / Window / Help), using Slint's `MenuBar` if it maps to the native macOS menu
-- [ ] Document types in the app bundle's Info.plist (file associations) so Arkyv appears in "Open With"
+- [x] Window: native traffic lights placed inside Arkyv's own header (overlay title bar through winit's macOS window attributes in `platform::select_backend`); a native menu bar (File / Edit / Archive / View / Window / Help), using Slint's `MenuBar` if it maps to the native macOS menu
+- [x] Document types in the app bundle's Info.plist (file associations) so Arkyv appears in "Open With"
 - [x] Default app: first run calls the macOS API for setting the default app per file type (small native code); the system may show its own confirmation. Verify on the current macOS version
 - [x] Ask for folder access when needed (`FileIssues.dc.html`, permission card)
 - [x] Code signing + notarization in CI (Apple Developer account ✔); store the secrets in GitHub
@@ -14,8 +15,8 @@
 - [x] Homebrew cask
 
 ## Acceptance (macOS)
-- [ ] Download the .dmg → open → no "unidentified developer" warning
-- [ ] First run → make default → double-clicking a .zip opens the mini view
+- [x] Download the .dmg → open → no "unidentified developer" warning
+- [x] First run → make default → double-clicking a .zip opens the mini view
 
 ## Notes
 

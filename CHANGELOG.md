@@ -2,6 +2,15 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.3.0 — 2026-11-08
+Arkyv for macOS.
+
+- **Install:** `Arkyv-0.3.0-universal.dmg` below, for macOS 12 and later on Apple Silicon and Intel. It's signed with Arkyv's Developer ID and notarized by Apple, so it opens without the "unidentified developer" warning. A Homebrew cask is ready (`scripts/homebrew-cask.py`).
+- **At home on the Mac:** the traffic lights sit in Arkyv's own header, the menus are in the menu bar with their ⌘ shortcuts (and a Window menu), Finder's keys work in archives (⌘↑, ⌘↓, ⌘⌫, Return to rename), and the UI uses San Francisco (SF Arabic in Arabic).
+- **Open With and default app:** Arkyv shows in Finder's Open With for ZIP, 7z, RAR, tar and the compressed tars, zst, xz and split sets; first run and Preferences make it the default for the types you pick. Double-clicking an archive opens the mini view.
+- **Progress and folder access:** extraction progress on the Dock icon; when macOS keeps Arkyv out of a folder, the card says where to allow it and opens the right settings page.
+- **Glass (Pro):** the window server's blur behind the window, from a light blur at Clear to a heavy one at Frosted.
+
 ## 0.2.42 — 2026-11-08
 - Home, About and the first-run screen show Arkyv's app icon (or the Pro icon you picked) instead of a generic box.
 - macOS: the mini view puts the traffic lights in its own header, like Home and the full view, so the top of the window is no longer see-through with Glass on. The red light closes it, so its own Close button is gone there.
