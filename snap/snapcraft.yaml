@@ -13,8 +13,8 @@ adopt-info: arkyv
 grade: stable
 confinement: strict
 # Arkyv is MIT; RAR extraction uses the UnRAR library (freeware licence,
-# extraction only).
-license: MIT AND LicenseRef-UnRAR
+# extraction only). snapd takes "Proprietary" here, not a LicenseRef-.
+license: MIT AND Proprietary
 icon: assets/icons/png/arkyv-512.png
 website: https://github.com/mlbrainlab/arkyv
 source-code: https://github.com/mlbrainlab/arkyv
