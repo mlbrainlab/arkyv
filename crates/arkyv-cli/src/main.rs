@@ -177,7 +177,7 @@ fn main() -> ExitCode {
             return ExitCode::SUCCESS;
         }
         Some("-V" | "--version") => {
-            println!("crate {}", crate_core::version());
+            println!("arkyv {}", crate_core::version());
             return ExitCode::SUCCESS;
         }
         _ => {}
