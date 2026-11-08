@@ -223,6 +223,7 @@ jobs:
   snap:
     name: Snap (${{ matrix.arch }})
     strategy:
+      fail-fast: false
       matrix:
         include:
           - arch: amd64

@@ -48,12 +48,12 @@ apps:
 
 parts:
   arkyv:
-    plugin: rust
+    # Rust from rustup (the archive's is too old), built with cargo directly.
+    plugin: nil
     source: .
-    rust-path: [app, crates/arkyv-cli]
-    rust-channel: stable
-    build-snaps: [rustup]
     build-packages:
+      - curl
+      - ca-certificates
       - g++
       - pkg-config
       - libfontconfig1-dev
@@ -67,7 +67,11 @@ parts:
       - ARKYV_BUY_URL: ""
     parse-info: [usr/share/metainfo/io.github.mlbrainlab.arkyv.metainfo.xml]
     override-build: |
-      craftctl default
+      export RUSTUP_HOME="$CRAFT_PART_BUILD/.rustup" CARGO_HOME="$CRAFT_PART_BUILD/.cargo"
+      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain stable --no-modify-path
+      export PATH="$CARGO_HOME/bin:$PATH"
+      cargo build --release --locked -p arkyv-app -p arkyv-cli
+      install -Dm755 target/release/arkyv-app target/release/arkyv -t "$CRAFT_PART_INSTALL/bin/"
       craftctl set version="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
       sed 's|@EXEC@|arkyv-app|' packaging/linux/io.github.mlbrainlab.arkyv.desktop \
         > io.github.mlbrainlab.arkyv.desktop
