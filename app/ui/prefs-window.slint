@@ -574,6 +574,7 @@ export component PrefsWindow inherits Window {
                                 note: PrefsUi.defaults-error != "" ? PrefsUi.defaults-error
                                     : PrefsUi.defaults == 0 ? @tr("Click a type to make Arkyv its default app. To use another app, pick it in Files → Open With.")
                                     : PrefsUi.defaults == 1 ? @tr("Flatpak: in Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
+                                    : PrefsUi.defaults == 6 ? @tr("Snap: in Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
                                     : PrefsUi.defaults == 2 ? @tr("Arkyv isn’t installed as an app yet, so it can’t be the default.")
                                     : PrefsUi.defaults == 4 ? @tr("Click a type to open Settings → Default apps, where you choose Arkyv for it.")
                                     : PrefsUi.defaults == 5 ? @tr("Click a type to make Arkyv its default app. To use another app, pick it in Finder → Get Info → Open with.")

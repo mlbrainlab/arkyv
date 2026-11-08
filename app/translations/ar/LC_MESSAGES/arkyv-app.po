@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arkyv\n"
-"POT-Creation-Date: 2026-11-07 21:28+0000\n"
+"POT-Creation-Date: 2026-11-08 09:08+0000\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -588,71 +588,75 @@ msgstr "تطبيق ذلك على كل التعارضات المتبقية"
 msgid "Replace"
 msgstr "استبدال"
 
-#: ui/first-run.slint:98
+#: ui/first-run.slint:99
 msgid "Welcome to Arkyv"
 msgstr "مرحبًا بك في Arkyv"
 
-#: ui/first-run.slint:99
+#: ui/first-run.slint:100
 msgid "Two choices, then you’re done. Change them anytime in Preferences."
 msgstr "خياران وتنتهي. يمكنك تغييرهما في أي وقت من التفضيلات."
 
-#: ui/first-run.slint:104 ui/first-run.slint:108 ui/prefs-window.slint:420
+#: ui/first-run.slint:105 ui/first-run.slint:109 ui/prefs-window.slint:420
 msgid "Language"
 msgstr "اللغة"
 
-#: ui/first-run.slint:109 ui/prefs-window.slint:424
+#: ui/first-run.slint:110 ui/prefs-window.slint:424
 msgid "System ({})"
 msgstr "النظام (⁨{}⁩)"
 
-#: ui/first-run.slint:125
+#: ui/first-run.slint:126
 msgid "1 · When I double-click an archive"
 msgstr "١ · عند النقر المزدوج على أرشيف"
 
-#: ui/first-run.slint:129
+#: ui/first-run.slint:130
 msgid "Show mini view"
 msgstr "عرض مصغّر"
 
-#: ui/first-run.slint:129
+#: ui/first-run.slint:130
 msgid "Open full view"
 msgstr "عرض كامل"
 
-#: ui/first-run.slint:129 ui/prefs-window.slint:390
+#: ui/first-run.slint:130 ui/prefs-window.slint:390
 msgid "Extract right away"
 msgstr "استخراج فوري"
 
-#: ui/first-run.slint:137
+#: ui/first-run.slint:138
 msgid "2 · Open these with Arkyv"
 msgstr "٢ · فتح هذه الأنواع بـ Arkyv"
 
-#: ui/first-run.slint:167
+#: ui/first-run.slint:168
 msgid "Arkyv sets this for you when you click Get started."
 msgstr "يضبط Arkyv ذلك عند النقر على «لنبدأ»."
 
-#: ui/first-run.slint:168
+#: ui/first-run.slint:169
 msgid "Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default."
 msgstr "لا تستطيع تطبيقات Flatpak تغيير التطبيقات الافتراضية بنفسها. في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
 
-#: ui/first-run.slint:169
-msgid "Arkyv isn’t installed as an app yet, so it can’t be the default. Installing a Arkyv package sets this up."
+#: ui/first-run.slint:170
+msgid "Snap apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default."
+msgstr "لا تستطيع تطبيقات Snap تغيير التطبيقات الافتراضية بنفسها. في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
+
+#: ui/first-run.slint:171
+msgid "Arkyv isn’t installed as an app yet, so it can’t be the default. Installing an Arkyv package sets this up."
 msgstr "لم يُثبَّت Arkyv كتطبيق بعد، لذا لا يمكن جعله افتراضيًا. تثبيت حزمة Arkyv يضبط ذلك."
 
-#: ui/first-run.slint:170
+#: ui/first-run.slint:172
 msgid "Windows lets only you choose default apps. Get started opens Settings → Default apps on Arkyv’s page; set the types you want there."
 msgstr "لا يسمح Windows إلا لك باختيار التطبيقات الافتراضية. يفتح «لنبدأ» الإعدادات ← التطبيقات الافتراضية على صفحة Arkyv؛ اختر الأنواع التي تريدها هناك."
 
-#: ui/first-run.slint:171
+#: ui/first-run.slint:173
 msgid "Arkyv sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with."
 msgstr "يضبط Arkyv ذلك عند النقر على «لنبدأ». لاستخدام تطبيق آخر لاحقًا، اختره من Finder ← معلومات ← الفتح باستخدام."
 
-#: ui/first-run.slint:172
+#: ui/first-run.slint:174
 msgid "Setting the default app isn’t supported here yet."
 msgstr "تعيين التطبيق الافتراضي غير مدعوم هنا بعد."
 
-#: ui/first-run.slint:192
+#: ui/first-run.slint:194
 msgid "No account, no tracking."
 msgstr "بلا حساب، وبلا تتبّع."
 
-#: ui/first-run.slint:194
+#: ui/first-run.slint:196
 msgid "Get started"
 msgstr "لنبدأ"
 
@@ -1360,18 +1364,22 @@ msgid "Flatpak: in Files, right-click an archive → Properties → Open With �
 msgstr "Flatpak: في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
 
 #: ui/prefs-window.slint:577
+msgid "Snap: in Files, right-click an archive → Properties → Open With → Arkyv → Set as default."
+msgstr "Snap: في «الملفات»، انقر بالزر الأيمن على أرشيف ← خصائص ← الفتح باستخدام ← Arkyv ← تعيين كافتراضي."
+
+#: ui/prefs-window.slint:578
 msgid "Arkyv isn’t installed as an app yet, so it can’t be the default."
 msgstr "لم يُثبَّت Arkyv كتطبيق بعد، لذا لا يمكن جعله افتراضيًا."
 
-#: ui/prefs-window.slint:578
+#: ui/prefs-window.slint:579
 msgid "Click a type to open Settings → Default apps, where you choose Arkyv for it."
 msgstr "انقر نوعًا لفتح الإعدادات ← التطبيقات الافتراضية، حيث تختار Arkyv له."
 
-#: ui/prefs-window.slint:579
+#: ui/prefs-window.slint:580
 msgid "Click a type to make Arkyv its default app. To use another app, pick it in Finder → Get Info → Open with."
 msgstr "انقر على نوع لجعل Arkyv تطبيقه الافتراضي. لاستخدام تطبيق آخر، اختره من Finder ← معلومات ← الفتح باستخدام."
 
-#: ui/prefs-window.slint:580
+#: ui/prefs-window.slint:581
 msgid "Not supported on this system yet."
 msgstr "غير مدعوم على هذا النظام بعد."
 
@@ -2936,6 +2944,9 @@ msgstr "تعذّر حفظ النسخة"
 #: src/view/watch.rs:322
 msgid "If you close now, changes to {names} are lost. Temp copies are deleted when Arkyv quits."
 msgstr "إذا أغلقت الآن فستضيع التغييرات على ⁨{names}⁩. تُحذف النسخ المؤقتة عند إنهاء Arkyv."
+
+#~ msgid "Arkyv isn’t installed as an app yet, so it can’t be the default. Installing a Arkyv package sets this up."
+#~ msgstr "لم يُثبَّت Arkyv كتطبيق بعد، لذا لا يمكن جعله افتراضيًا. تثبيت حزمة Arkyv يضبط ذلك."
 
 #~ msgid "Acrylic blurs what’s behind the window. Mica takes its tint from the wallpaper and needs Windows 11."
 #~ msgstr "يطمس الأكريليك ما خلف النافذة. أما الميكا فتأخذ لونها من خلفية الشاشة وتتطلب Windows 11."

@@ -3,6 +3,7 @@ name: Release
 # Pushing a version tag (v0.1.0) builds the Linux packages, the Windows
 # installer and the signed, notarized macOS .dmg, and publishes a GitHub
 # Release with all of them, SHA256SUMS, and the CHANGELOG section as notes.
+# It also builds the snap and uploads it to the Snap Store's edge channel.
 # Run it by hand (Actions → Release → Run workflow) for a dry run: the
 # packages come out as workflow artifacts and nothing is published.
 on:
@@ -217,6 +218,45 @@ jobs:
           name: macos-dmg
           path: target/dist/
 
+  # The Snap Store package (snap/snapcraft.yaml), on each architecture's own
+  # runner. Uploaded to the edge channel after the GitHub release is out.
+  snap:
+    name: Snap (${{ matrix.arch }})
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # The same build-time settings as the other packages.
+      - name: Store and license addresses
+        run: |
+          sed -i \
+            -e "s|ARKYV_LICENSE_URL: \"\"|ARKYV_LICENSE_URL: \"$ARKYV_LICENSE_URL\"|" \
+            -e "s|ARKYV_BUY_URL: \"\"|ARKYV_BUY_URL: \"$ARKYV_BUY_URL\"|" \
+            snap/snapcraft.yaml
+
+      - uses: snapcore/action-build@v1
+        id: build
+
+      # Install it confined, as users get it, and run both commands.
+      - name: Install and check
+        run: |
+          sudo snap install --dangerous ${{ steps.build.outputs.snap }}
+          arkyv --version
+          arkyv.app --version
+          snap connections arkyv
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snap-${{ matrix.arch }}
+          path: ${{ steps.build.outputs.snap }}
+
   publish:
     name: Publish the release
     if: github.event_name == 'push'
@@ -255,3 +295,29 @@ jobs:
             dist/*.exe
             dist/*.dmg
             dist/SHA256SUMS
+
+  # Edge only: moving a revision to stable is done by hand (snapcraft
+  # release arkyv <revision> stable, or the store's Releases page).
+  snap-store:
+    name: Upload to the Snap Store (edge)
+    if: github.event_name == 'push'
+    needs: [publish, snap]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: snap-${{ matrix.arch }}
+          path: snap
+
+      - id: file
+        run: echo "snap=$(ls snap/*.snap)" >> "$GITHUB_OUTPUT"
+
+      - uses: snapcore/action-publish@v1
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        with:
+          snap: ${{ steps.file.outputs.snap }}
+          release: edge

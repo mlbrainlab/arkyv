@@ -56,6 +56,13 @@
 - `v0.1.0` tagged on `6f32092` and published by the workflow: https://github.com/mlbrainlab/arkyv/releases/tag/v0.1.0 with the .deb, .rpm, AppImage, `SHA256SUMS` and the CHANGELOG notes. Downloaded from the public URLs, the checksums match, and the .deb installs on a fresh Ubuntu 24.04 and opens an archive in a real window.
 - Left: the user's hand checks on real desktops (Acceptance below, and "Test on a clean Ubuntu VM + Fedora"), and the Flathub submission (optional for the release; `docs/flathub.md`).
 
+### Snap Store (2026-11-08, 0.2.39)
+- `snap/snapcraft.yaml`: core24, strict confinement, the `rust` plugin, the `gnome` extension (Wayland/X11, GL, fonts, portals, notifications). Plugs: `home`, `removable-media` (not auto-connected: users run `snap connect arkyv:removable-media`, or ask the store for auto-connection on the forum), `network` for Pro activation. Name, summary and description come from the metainfo; the version from Cargo.toml.
+- Apps: `arkyv` is the CLI (as in the .deb), `arkyv.app` the app that the .desktop entry runs. `common-id` ties it to the AppStream ID.
+- Inside a snap (`SNAP_NAME` set) default apps can't be changed by the app: `Defaults::Snap` shows the steps in Files, as for Flatpak.
+- Release workflow: a `snap` job per architecture (ubuntu-24.04, ubuntu-24.04-arm) builds with `snapcore/action-build`, installs it confined and runs both commands; after the GitHub release is published, `snap-store` uploads both to **edge** with `SNAPCRAFT_STORE_CREDENTIALS` (a restricted login the user exported). Promoting to stable is by hand.
+- Store screenshots: `scripts/store-screenshots.sh` runs the real app on the desktop (X11 via XWayland) with a stand-in home folder, captures each window and frames it on 1920×1080 (the store takes PNG up to 2 MB, 480×480 to 3840×2160). Five in `docs/store-screenshots/`: mini view, full view, dark, Arabic, New archive. The store page's screenshots are uploaded by hand on snapcraft.io.
+
 ## Acceptance
 - [ ] Fresh Ubuntu: download the .deb from Releases → install → double-click a zip → works
 - [ ] AppImage runs on Fedora without installing anything else

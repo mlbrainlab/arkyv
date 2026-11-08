@@ -108,6 +108,8 @@ pub const SYSTEM_MIME: MimeBackend = MimeBackend {
     support: || {
         if std::env::var_os("FLATPAK_ID").is_some() {
             Defaults::Flatpak
+        } else if std::env::var_os("SNAP_NAME").is_some() {
+            Defaults::Snap
         } else if installed_desktop_file().is_none() {
             Defaults::NotInstalled
         } else {

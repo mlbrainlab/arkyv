@@ -20,7 +20,8 @@ export global FirstRunUi {
     in property <[TypeChoice]> types;
     // 0: Arkyv sets the defaults; 1: Flatpak, the user does it in Files;
     // 2: no installed .desktop file; 3: not supported on this system yet;
-    // 4: Windows, the user picks Arkyv in Settings → Default apps.
+    // 4: Windows, the user picks Arkyv in Settings → Default apps;
+    // 5: macOS, Arkyv asks and the system confirms; 6: snap, as Flatpak.
     in property <int> defaults;
     in property <string> error;
     callback set-language(int);
@@ -166,7 +167,8 @@ export component FirstRun inherits Scrim {
                                 color: FirstRunUi.defaults == 0 ? Tokens.ink-2 : Tokens.ink;
                                 text: FirstRunUi.defaults == 0 ? @tr("Arkyv sets this for you when you click Get started.")
                                     : FirstRunUi.defaults == 1 ? @tr("Flatpak apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
-                                    : FirstRunUi.defaults == 2 ? @tr("Arkyv isn’t installed as an app yet, so it can’t be the default. Installing a Arkyv package sets this up.")
+                                    : FirstRunUi.defaults == 6 ? @tr("Snap apps can’t change default apps themselves. In Files, right-click an archive → Properties → Open With → Arkyv → Set as default.")
+                                    : FirstRunUi.defaults == 2 ? @tr("Arkyv isn’t installed as an app yet, so it can’t be the default. Installing an Arkyv package sets this up.")
                                     : FirstRunUi.defaults == 4 ? @tr("Windows lets only you choose default apps. Get started opens Settings → Default apps on Arkyv’s page; set the types you want there.")
                                     : FirstRunUi.defaults == 5 ? @tr("Arkyv sets this for you when you click Get started. To use another app later, pick it in Finder → Get Info → Open with.")
                                     : @tr("Setting the default app isn’t supported here yet.");

@@ -2,6 +2,11 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.2.39 — 2026-11-08
+- Linux: Arkyv is on the Snap Store (`sudo snap install arkyv --edge` for now). Each release uploads it for amd64 and arm64; `arkyv` is the command-line tool and `arkyv.app` the app.
+- In the snap, "Open these with Arkyv" explains how to make Arkyv the default in Files, as in the Flatpak: confinement keeps snaps from changing default apps themselves.
+- Store screenshots taken from the app on Ubuntu, in `docs/store-screenshots/` (`scripts/store-screenshots.sh` makes them again).
+
 ## 0.2.38 — 2026-11-08
 - Windows, Glass with Clear: Home and archive windows are see-through too. Before, only Preferences was; the others showed solid white.
 
@@ -70,7 +75,7 @@ Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the
 - Pro (M9): the Glass theme, first part. Preferences → Theme has Glass, with a PRO label; without a key it opens the upgrade sheet. With Glass, archive windows are translucent white glass: the mini view's panes float in the window, with a pill search field and a pill Extract button. The full view picks up the glass colors; its floating panes, Arkyv's own window frame and the real blur behind the window come next.
 
 ## 0.2.19 — 2026-10-31
-- Pro (M9): Preferences has a Arkyv Pro group. Upgrade… opens a sheet that says what Pro adds ($9 once), with Buy (once the store exists) and "I have a license key". Entering a key activates Pro, and Remove license takes it off. Nothing in Arkyv is locked yet: the Glass theme and the extra icons, the only Pro features, are still to come.
+- Pro (M9): Preferences has an Arkyv Pro group. Upgrade… opens a sheet that says what Pro adds ($9 once), with Buy (once the store exists) and "I have a license key". Entering a key activates Pro, and Remove license takes it off. Nothing in Arkyv is locked yet: the Glass theme and the extra icons, the only Pro features, are still to come.
 
 ## 0.2.18 — 2026-10-31
 - Pro (M9), groundwork: the license check. A Arkyv Pro key is signed with Arkyv's private key and checked offline with the public key in the app. A Lemon Squeezy key is exchanged once for a signed key through a small signer (`signer/`); nothing is sent after that. Nothing in the app uses it yet.

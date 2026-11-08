@@ -1,0 +1,80 @@
+# Snap Store package (https://snapcraft.io/arkyv). Built and uploaded to the
+# edge channel by .github/workflows/release.yml on each version tag; moving a
+# revision to stable is done by hand. Local build (needs LXD or Multipass):
+#
+#   snapcraft pack
+#   sudo snap install --dangerous ./arkyv_*.snap
+#
+# The name, summary, description and links come from the AppStream metainfo,
+# the version from Cargo.toml.
+name: arkyv
+base: core24
+adopt-info: arkyv
+grade: stable
+confinement: strict
+# Arkyv is MIT; RAR extraction uses the UnRAR library (freeware licence,
+# extraction only).
+license: MIT AND Proprietary
+icon: assets/icons/png/arkyv-512.png
+website: https://github.com/mlbrainlab/arkyv
+source-code: https://github.com/mlbrainlab/arkyv
+issues: https://github.com/mlbrainlab/arkyv/issues
+contact: https://github.com/mlbrainlab/arkyv/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  # `arkyv.app` is the app (the .desktop entry runs it); `arkyv` is the
+  # command-line tool, as in the .deb.
+  app:
+    command: bin/arkyv-app
+    common-id: io.github.mlbrainlab.arkyv
+    desktop: usr/share/applications/io.github.mlbrainlab.arkyv.desktop
+    extensions: [gnome]
+    plugs:
+      # An archive manager extracts next to the archive and saves where
+      # people choose: home, and USB drives and other mounts under /media.
+      - home
+      - removable-media
+      # Activating a Pro key.
+      - network
+  arkyv:
+    command: bin/arkyv
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  arkyv:
+    plugin: rust
+    source: .
+    rust-path: [app, crates/arkyv-cli]
+    build-packages:
+      - g++
+      - pkg-config
+      - libfontconfig1-dev
+      - libxkbcommon-dev
+      - libwayland-dev
+      - liblzma-dev
+    build-environment:
+      # Filled in by the release workflow from the repository variables, as
+      # for the other packages (empty: no store activation, no Buy button).
+      - ARKYV_LICENSE_URL: ""
+      - ARKYV_BUY_URL: ""
+    parse-info: [usr/share/metainfo/io.github.mlbrainlab.arkyv.metainfo.xml]
+    override-build: |
+      craftctl default
+      craftctl set version="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+      sed 's|@EXEC@|arkyv-app|' packaging/linux/io.github.mlbrainlab.arkyv.desktop \
+        > io.github.mlbrainlab.arkyv.desktop
+      install -Dm644 io.github.mlbrainlab.arkyv.desktop -t "$CRAFT_PART_INSTALL/usr/share/applications/"
+      install -Dm644 packaging/linux/io.github.mlbrainlab.arkyv.metainfo.xml \
+        -t "$CRAFT_PART_INSTALL/usr/share/metainfo/"
+      for s in 16 24 32 48 64 128 256 512; do
+        install -Dm644 "assets/icons/png/arkyv-$s.png" \
+          "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/${s}x${s}/apps/io.github.mlbrainlab.arkyv.png"
+      done
+      install -Dm644 assets/icons/arkyv-icon.svg \
+        "$CRAFT_PART_INSTALL/usr/share/icons/hicolor/scalable/apps/io.github.mlbrainlab.arkyv.svg"

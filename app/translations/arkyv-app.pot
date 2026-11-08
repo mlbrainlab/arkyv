@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arkyv VERSION\n"
-"POT-Creation-Date: 2026-11-07 21:28+0000\n"
+"POT-Creation-Date: 2026-11-08 09:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -595,80 +595,86 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: ui/first-run.slint:98
+#: ui/first-run.slint:99
 msgid "Welcome to Arkyv"
 msgstr ""
 
-#: ui/first-run.slint:99
+#: ui/first-run.slint:100
 msgid "Two choices, then you’re done. Change them anytime in Preferences."
 msgstr ""
 
-#: ui/first-run.slint:104 ui/first-run.slint:108 ui/prefs-window.slint:420
-#: ui/first-run.slint:104 ui/first-run.slint:108 ui/prefs-window.slint:420
+#: ui/first-run.slint:105 ui/first-run.slint:109 ui/prefs-window.slint:420
+#: ui/first-run.slint:105 ui/first-run.slint:109 ui/prefs-window.slint:420
 msgid "Language"
 msgstr ""
 
-#: ui/first-run.slint:109 ui/prefs-window.slint:424
+#: ui/first-run.slint:110 ui/prefs-window.slint:424
 msgid "System ({})"
 msgstr ""
 
-#: ui/first-run.slint:125
+#: ui/first-run.slint:126
 msgid "1 · When I double-click an archive"
 msgstr ""
 
-#: ui/first-run.slint:129
+#: ui/first-run.slint:130
 msgid "Show mini view"
 msgstr ""
 
-#: ui/first-run.slint:129
+#: ui/first-run.slint:130
 msgid "Open full view"
 msgstr ""
 
-#: ui/first-run.slint:129 ui/prefs-window.slint:390
+#: ui/first-run.slint:130 ui/prefs-window.slint:390
 msgid "Extract right away"
 msgstr ""
 
-#: ui/first-run.slint:137
+#: ui/first-run.slint:138
 msgid "2 · Open these with Arkyv"
 msgstr ""
 
-#: ui/first-run.slint:167
+#: ui/first-run.slint:168
 msgid "Arkyv sets this for you when you click Get started."
 msgstr ""
 
-#: ui/first-run.slint:168
+#: ui/first-run.slint:169
 msgid ""
 "Flatpak apps can’t change default apps themselves. In Files, right-click "
 "an archive → Properties → Open With → Arkyv → Set as default."
 msgstr ""
 
-#: ui/first-run.slint:169
+#: ui/first-run.slint:170
 msgid ""
-"Arkyv isn’t installed as an app yet, so it can’t be the default. "
-"Installing a Arkyv package sets this up."
+"Snap apps can’t change default apps themselves. In Files, right-click an "
+"archive → Properties → Open With → Arkyv → Set as default."
 msgstr ""
 
-#: ui/first-run.slint:170
+#: ui/first-run.slint:171
+msgid ""
+"Arkyv isn’t installed as an app yet, so it can’t be the default. "
+"Installing an Arkyv package sets this up."
+msgstr ""
+
+#: ui/first-run.slint:172
 msgid ""
 "Windows lets only you choose default apps. Get started opens Settings → "
 "Default apps on Arkyv’s page; set the types you want there."
 msgstr ""
 
-#: ui/first-run.slint:171
+#: ui/first-run.slint:173
 msgid ""
 "Arkyv sets this for you when you click Get started. To use another app "
 "later, pick it in Finder → Get Info → Open with."
 msgstr ""
 
-#: ui/first-run.slint:172
+#: ui/first-run.slint:174
 msgid "Setting the default app isn’t supported here yet."
 msgstr ""
 
-#: ui/first-run.slint:192
+#: ui/first-run.slint:194
 msgid "No account, no tracking."
 msgstr ""
 
-#: ui/first-run.slint:194
+#: ui/first-run.slint:196
 msgid "Get started"
 msgstr ""
 
@@ -1370,22 +1376,28 @@ msgid ""
 msgstr ""
 
 #: ui/prefs-window.slint:577
-msgid "Arkyv isn’t installed as an app yet, so it can’t be the default."
+msgid ""
+"Snap: in Files, right-click an archive → Properties → Open With → Arkyv "
+"→ Set as default."
 msgstr ""
 
 #: ui/prefs-window.slint:578
+msgid "Arkyv isn’t installed as an app yet, so it can’t be the default."
+msgstr ""
+
+#: ui/prefs-window.slint:579
 msgid ""
 "Click a type to open Settings → Default apps, where you choose Arkyv for "
 "it."
 msgstr ""
 
-#: ui/prefs-window.slint:579
+#: ui/prefs-window.slint:580
 msgid ""
 "Click a type to make Arkyv its default app. To use another app, pick it in "
 "Finder → Get Info → Open with."
 msgstr ""
 
-#: ui/prefs-window.slint:580
+#: ui/prefs-window.slint:581
 msgid "Not supported on this system yet."
 msgstr ""
 

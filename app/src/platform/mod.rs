@@ -183,6 +183,9 @@ pub enum Defaults {
     SettingsPage = 4,
     /// macOS: Arkyv asks, and the system asks the user to confirm each type.
     Confirm = 5,
+    /// Inside a snap: like Flatpak, confinement keeps Arkyv away from the
+    /// user's `mimeapps.list`, so the user does it in Files.
+    Snap = 6,
 }
 
 /// How default apps are read and written: the system's tools, or a stand-in
