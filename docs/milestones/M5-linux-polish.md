@@ -2,6 +2,7 @@
 
 **Goal:** everything around the core that makes Arkyv feel finished on Ubuntu.
 **Done when:** a fresh Ubuntu user can install the dev build, go through first run, and use Arkyv in English or Arabic, in light or dark mode.
+**Done:** 2026-11-08, 0.3.1: the last checks (default app from first run, the Arabic UI, keyboard only, a RAR set with a missing part, Orca) confirmed on Ubuntu.
 
 ## Tasks
 - [x] Operations panel: queue, pause/resume, cancel, history, desktop notifications (`Progress.dc.html`)
@@ -132,11 +133,11 @@ What was built, and where it differs from the proposal below:
 - Add a `Locale` global (`rtl: bool`, set from Rust from the chosen or system language). Every mirrored layout, alignment and icon reads it, as described above.
 
 ## Acceptance (on Ubuntu)
-- [ ] First run → "Make Arkyv the default" → double-clicking any .zip opens Arkyv
-- [ ] Switching the language to Arabic mirrors the whole UI, with no clipped text
-- [ ] The whole mini view → extract flow works with the keyboard only
-- [ ] A RAR set (`name.part1.rar`…) with a part missing shows "Part 2 of 3 is missing"; Locate part 2… or moving the part into the folder opens it (no RAR fixtures in the tests: Arkyv can't write RAR)
-- [ ] Orca spot check: start Orca (Super+Alt+S), open an archive; Tab through the mini view and the full view toolbar. Orca reads each button's name (including icon buttons such as "Toggle sidebar", "Properties"), says "checked" / "not checked" for checkboxes and switches, reads the file rows with their size, and announces toasts such as "Copied the path"
+- [x] First run → "Make Arkyv the default" → double-clicking any .zip opens Arkyv
+- [x] Switching the language to Arabic mirrors the whole UI, with no clipped text
+- [x] The whole mini view → extract flow works with the keyboard only
+- [x] A RAR set (`name.part1.rar`…) with a part missing shows "Part 2 of 3 is missing"; Locate part 2… or moving the part into the folder opens it (no RAR fixtures in the tests: Arkyv can't write RAR)
+- [x] Orca spot check: start Orca (Super+Alt+S), open an archive; Tab through the mini view and the full view toolbar. Orca reads each button's name (including icon buttons such as "Toggle sidebar", "Properties"), says "checked" / "not checked" for checkboxes and switches, reads the file rows with their size, and announces toasts such as "Copied the path"
 
 ## Prompt for Claude Code
 > Read CLAUDE.md and docs/milestones/M5-linux-polish.md. One task per session; open the referenced design board for each. Detect Flatpak via the `FLATPAK_ID` env var to choose the default-app flow.

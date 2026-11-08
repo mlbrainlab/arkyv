@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.3.1 — 2026-11-08
+- M5 (Linux polish) is done: the last checks passed on Ubuntu (making Arkyv the default from first run, the Arabic UI, keyboard-only use, a RAR set with a missing part, and Orca).
+
 ## 0.3.0 — 2026-11-08
 Arkyv for macOS.
 
