@@ -6,7 +6,7 @@ Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the
 - Linux: Arkyv is on the Snap Store (`sudo snap install arkyv --edge` for now). Each release uploads it for amd64 and arm64; `arkyv` is the command-line tool and `arkyv.app` the app.
 - In the snap, "Open these with Arkyv" explains how to make Arkyv the default in Files, as in the Flatpak: confinement keeps snaps from changing default apps themselves.
 - Store screenshots taken from the app on Ubuntu, in `docs/store-screenshots/` (`scripts/store-screenshots.sh` makes them again).
-- Releases: the release workflow retries downloads when GitHub answers 503/504, and the Snap Store upload no longer waits for the GitHub release. (0.2.39 was tagged but never published.)
+- Releases: the release workflow retries downloads when GitHub answers 503/504, and the Snap Store upload no longer waits for the GitHub release.
 - `arkyv --version` says arkyv, not crate.
 
 ## 0.2.38 — 2026-11-08
