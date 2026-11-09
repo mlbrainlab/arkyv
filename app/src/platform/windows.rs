@@ -615,15 +615,18 @@ pub fn known_folder(key: &str) -> Option<std::path::PathBuf> {
     }
 }
 
-/// The app icon is files on the system ([`crate::app_icon`]).
+/// The app icon is files on the system ([`crate::app_icon`]). The shortcuts
+/// are checked on every start: an update recreates the Start menu entry
+/// without the icon, and a pin made later has none either.
 pub const APP_ICON_FILES: bool = true;
+pub const APP_ICON_STAMP: bool = false;
 
 /// Points Arkyv's shortcuts at the icon: the Start menu entry (the
 /// installer's, per user or for everyone) and any taskbar pin. The icon is
 /// an .ico written to `%LOCALAPPDATA%\arkyv\icons`; Layers clears the
 /// shortcuts' icon, so they show the executable's own again. Explorer may
-/// keep the old one in its icon cache until it restarts. Returns whether
-/// any shortcut changed, or there was none to change.
+/// keep the old one in its icon cache until it restarts. A shortcut that
+/// already shows the icon isn't saved again. Returns whether any changed.
 pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
     use ::windows::Win32::System::Com::{
         CLSCTX_INPROC_SERVER, COINIT_APARTMENTTHREADED, CoCreateInstance, CoInitializeEx,
@@ -660,9 +663,6 @@ pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
                 .filter(|p| p.extension().is_some_and(|x| x.eq_ignore_ascii_case("lnk"))),
         );
     }
-    if links.is_empty() {
-        return true;
-    }
     let mut changed = false;
     // SAFETY: COM on this (worker) thread, set up and torn down here; each
     // shortcut is loaded, changed and saved through its own objects.
@@ -696,6 +696,14 @@ pub fn set_app_icon(icon: &crate::app_icon::AppIcon) -> bool {
             {
                 continue;
             }
+            let mut current = [0u16; 1024];
+            let mut slot = 0i32;
+            if link.GetIconLocation(&mut current, &mut slot).is_ok() {
+                let current = String::from_utf16_lossy(&current);
+                if current.trim_end_matches('\0').eq_ignore_ascii_case(&ico) {
+                    continue;
+                }
+            }
             if link
                 .SetIconLocation(&HSTRING::from(ico.as_str()), 0)
                 .is_ok()
@@ -726,8 +734,12 @@ fn write_ico(icon: &crate::app_icon::AppIcon) -> Option<std::path::PathBuf> {
         })
         .collect::<Option<Vec<_>>>()?;
     let dir = crate::dirs::app(crate::dirs::state()?).join("icons");
-    std::fs::create_dir_all(&dir).ok()?;
     let path = dir.join(format!("{}.ico", icon.name));
+    // Written once: the icons don't change between versions.
+    if path.is_file() {
+        return Some(path);
+    }
+    std::fs::create_dir_all(&dir).ok()?;
     let file = std::fs::File::create(&path).ok()?;
     IcoEncoder::new(file).encode_images(&frames).ok()?;
     Some(path)

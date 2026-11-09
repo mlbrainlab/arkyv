@@ -79,7 +79,10 @@ pub fn icon(index: usize) -> AppIcon {
 /// window applies the preferences ([`crate::prefs::Prefs::apply_theme`]),
 /// so a change in Preferences, a removed license (back to Layers) or a new
 /// install catches up. The file work runs on its own thread, once per
-/// change: the icon last put in place is kept in the state folder.
+/// process and icon. On Linux the icon last put in place is kept in the
+/// state folder, so it runs once per change; Windows checks its shortcuts
+/// every time instead, as an update or a new pin brings shortcuts without
+/// the icon ([`crate::platform::APP_ICON_STAMP`]).
 pub fn sync(index: u8) {
     let index = usize::from(index).min(COUNT - 1);
     if !crate::platform::APP_ICON_FILES {
@@ -96,6 +99,10 @@ pub fn sync(index: u8) {
     let _ = std::thread::Builder::new()
         .name("app-icon".into())
         .spawn(move || {
+            if !crate::platform::APP_ICON_STAMP {
+                crate::platform::set_app_icon(&icon(index));
+                return;
+            }
             let Some(stamp) = stamp() else { return };
             let applied = std::fs::read_to_string(&stamp)
                 .ok()

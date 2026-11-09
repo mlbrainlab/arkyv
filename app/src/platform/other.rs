@@ -54,6 +54,7 @@ pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
 
 /// No system app icon to change here.
 pub const APP_ICON_FILES: bool = false;
+pub const APP_ICON_STAMP: bool = false;
 pub fn set_app_icon(_icon: &crate::app_icon::AppIcon) -> bool {
     false
 }

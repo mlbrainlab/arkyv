@@ -2,6 +2,9 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.3.3 — 2026-11-10
+- Windows, Arkyv Pro: the app icon you picked comes back on the Start menu entry after an update (the installer recreates it), and reaches taskbar pins made later, the next time Arkyv starts.
+
 ## 0.3.2 — 2026-11-08
 - Arkyv Pro: the app icon you pick now shows outside Arkyv's windows too: in GNOME's dock and app grid on Linux (not in the Flatpak or snap), on the Start menu entry and taskbar pins on Windows, and in the Dock on macOS while Arkyv runs. Picking Layers again brings the original back. Some desktops show the change only after logging out and in.
 - Glass follows the system's "Reduce transparency" (macOS) or "Transparency effects" off (Windows): the panes go solid and nothing is blurred behind the window.

@@ -446,6 +446,7 @@ pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
 /// The app icon is the running app's Dock icon only ([`crate::app_icon`]):
 /// changing the bundle's own icon would break its signature.
 pub const APP_ICON_FILES: bool = false;
+pub const APP_ICON_STAMP: bool = false;
 
 /// Sets the Dock icon of this process (each Arkyv window is one), or gives
 /// the bundle's back for Layers. The 256 px tile is shrunk onto macOS's

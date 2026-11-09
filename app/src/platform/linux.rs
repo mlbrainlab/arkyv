@@ -189,8 +189,10 @@ pub fn known_folder(_key: &str) -> Option<std::path::PathBuf> {
     None
 }
 
-/// The app icon is files on the system ([`crate::app_icon`]).
+/// The app icon is files on the system ([`crate::app_icon`]), written once
+/// per change: nothing else touches the user's icon theme.
 pub const APP_ICON_FILES: bool = true;
+pub const APP_ICON_STAMP: bool = true;
 
 /// Every size of the icon, and the SVG, in the user's icon theme
 /// (`~/.local/share/icons/hicolor`) under Arkyv's app id: the theme lookup
