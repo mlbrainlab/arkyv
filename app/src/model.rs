@@ -49,6 +49,33 @@ pub fn file_kind(name: &str) -> (String, Tile) {
     (ext, tile)
 }
 
+/// The full view's Type column: "PNG image", "Folder", "File".
+pub fn type_text(name: &str, is_dir: bool) -> String {
+    if is_dir {
+        return tr("Folder");
+    }
+    let (ext, tile) = file_kind(name);
+    if ext == "FILE" {
+        return tr("File");
+    }
+    let e = ext.as_str();
+    let a = &[("ext", e)];
+    match tile {
+        Tile::Folder => tr("Folder"),
+        Tile::Pdf | Tile::Document => trf("{ext} document", a),
+        Tile::Sheet => trf("{ext} spreadsheet", a),
+        Tile::Image => trf("{ext} image", a),
+        Tile::Media if matches!(e, "MP3" | "WAV" | "FLAC" | "OGG" | "M4A" | "OPUS") => {
+            trf("{ext} audio", a)
+        }
+        Tile::Media => trf("{ext} video", a),
+        Tile::Archive => trf("{ext} archive", a),
+        Tile::Code => trf("{ext} source", a),
+        Tile::Plain if matches!(e, "TXT" | "MD" | "LOG") => trf("{ext} text", a),
+        Tile::Plain => trf("{ext} file", a),
+    }
+}
+
 /// One row in the list.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Row {
@@ -355,6 +382,17 @@ pub fn display_path(path: &Path) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn type_column_text() {
+        assert_eq!(type_text("photos", true), "Folder");
+        assert_eq!(type_text("a.png", false), "PNG image");
+        assert_eq!(type_text("song.mp3", false), "MP3 audio");
+        assert_eq!(type_text("clip.mkv", false), "MKV video");
+        assert_eq!(type_text("main.rs", false), "RS source");
+        assert_eq!(type_text("notes.txt", false), "TXT text");
+        assert_eq!(type_text("Makefile", false), "File");
+    }
 
     fn entry(path: &str, size: u64) -> Entry {
         Entry {

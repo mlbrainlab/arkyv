@@ -325,8 +325,9 @@ impl View {
                 s.descending = !s.descending;
             } else {
                 s.sort = key;
-                // Big things first is what people look for.
-                s.descending = key != SortKey::Name;
+                // Big (and new) things first is what people look for;
+                // names and types go A to Z.
+                s.descending = !matches!(key, SortKey::Name | SortKey::Type);
             }
         }
         self.refresh_full();
@@ -400,6 +401,7 @@ fn file_row(tree: &Tree, n: NodeId, searching: bool, selected: bool) -> FileRow 
         folder: folder.into(),
         ext: ext.into(),
         kind: tile as i32,
+        kind_name: model::type_text(&node.name, node.is_dir).into(),
         is_dir: node.is_dir,
         encrypted: node.encrypted,
         size: model::size_text(node.size).into(),

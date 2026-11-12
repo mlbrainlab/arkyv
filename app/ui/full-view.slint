@@ -17,6 +17,7 @@ import { GridPane } from "grid-view.slint";
 global Columns {
     out property <length> check: 32px;
     out property <length> name-min: 180px;
+    out property <length> kind: 96px;
     out property <length> size: 84px;
     out property <length> packed: 84px;
     out property <length> ratio: 100px;
@@ -54,6 +55,11 @@ component HeaderCell inherits Rectangle {
 component FileRowItem inherits Rectangle {
     in property <FileRow> item;
     in property <bool> current;
+    in property <bool> show-type;
+    in property <bool> show-ratio;
+    property <int> t: show-type ? 1 : 0;
+    property <int> r: show-ratio ? 1 : 0;
+    property <int> n: 5 + t + r;
     callback pressed(/* ctrl */ bool, /* shift */ bool);
     callback toggled; // the checkbox
     callback activated;
@@ -91,7 +97,7 @@ component FileRowItem inherits Rectangle {
     GridLayout {
         padding-left: 12px;
         padding-right: 12px;
-        Rectangle { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (0) : 0; row: 0;
+        Rectangle { col: Locale.rtl ? root.n - 1 : 0; row: 0;
             width: Columns.check;
             Checkbox {
                 tab-stop: false;
@@ -100,7 +106,7 @@ component FileRowItem inherits Rectangle {
                 toggled => { root.toggled(); }
             }
         }
-        GridLayout { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (1) : 1; row: 0;
+        GridLayout { col: Locale.rtl ? root.n - 2 : 1; row: 0;
             padding-left: Locale.rtl ? 0px : 8px;
             padding-right: Locale.rtl ? 8px : 0px;
             horizontal-stretch: 1;
@@ -121,9 +127,10 @@ component FileRowItem inherits Rectangle {
                 Icon { size: 14; stroke: Tokens.crypto; commands: Icons.lock; }
             }
         }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (2) : 2; row: 0; width: Columns.size; text: item.size; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (3) : 3; row: 0; width: Columns.packed; text: item.packed; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
-        if ArchiveUi.ratio-column: GridLayout { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (4) : 4; row: 0;
+        if root.show-type: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 3 : 2; row: 0; width: Columns.kind; text: item.kind-name; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 3 - root.t : 2 + root.t; row: 0; width: Columns.size; text: item.size; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 4 - root.t : 3 + root.t; row: 0; width: Columns.packed; text: item.packed; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        if root.show-ratio: GridLayout { col: Locale.rtl ? root.n - 5 - root.t : 4 + root.t; row: 0;
             width: Columns.ratio;
             spacing: 8px;
             if item.ratio >= 0: VerticalLayout { col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - (0) : 0; row: 0;
@@ -144,7 +151,7 @@ component FileRowItem inherits Rectangle {
             if item.ratio >= 0: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - ((item.ratio >= 0 ? 1 : 0)) : (item.ratio >= 0 ? 1 : 0); row: 0; text: @tr("{}%", Math.round(item.ratio * 100)); color: Tokens.ink-2; font-size: 13px; vertical-alignment: center; }
             if item.ratio < 0: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0)) : (item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0); row: 0; text: "—"; color: Tokens.ink-3; vertical-alignment: center; }
         }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - ((ArchiveUi.ratio-column ? 1 : 0) + 4) : (ArchiveUi.ratio-column ? 1 : 0) + 4; row: 0; width: Columns.modified; text: item.modified; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? 0 : 4 + root.t + root.r; row: 0; width: Columns.modified; text: item.modified; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
     }
 }
 
@@ -320,6 +327,20 @@ export component FullBody inherits Rectangle {
     // The toolbar's labels need about 930px beside the sidebar (240px);
     // in a narrower window its buttons show their icons only.
     property <bool> compact-tools: root.width < (ArchiveUi.sidebar && root.width > 820px ? 1180px : 940px);
+    // The list's columns: Type before the optional Ratio, which gives
+    // way first when the list is narrow (the sidebar and details pane
+    // beside it); below that, Type goes too. Fixed by the window's width,
+    // not the details pane coming and going, so columns don't jump.
+    property <length> list-width: root.width
+        - (ArchiveUi.sidebar && root.width > 820px ? 248px : 0)
+        - (root.width > 1100px ? 292px : 0)
+        - (Tokens.glass ? 24px : 0);
+    property <length> cols-min: Columns.check + Columns.name-min + Columns.size + Columns.packed + Columns.modified + 24px;
+    property <bool> show-type: root.list-width >= root.cols-min + Columns.kind;
+    property <bool> show-ratio: ArchiveUi.ratio-column && root.list-width >= root.cols-min + Columns.kind + Columns.ratio;
+    property <int> tcol: root.show-type ? 1 : 0;
+    property <int> rcol: root.show-ratio ? 1 : 0;
+    property <int> ncols: 5 + root.tcol + root.rcol;
     background: Tokens.glass ? transparent : Tokens.bg;
     border-radius: Frame.radius;
 
@@ -388,12 +409,22 @@ export component FullBody inherits Rectangle {
                 VerticalLayout { col: Locale.rtl ? ((ArchiveUi.streaming ? 1 : 0) + (root.custom-frame ? 1 : 0) + 6) - 1 - ((ArchiveUi.streaming ? 1 : 0) + 5) : (ArchiveUi.streaming ? 1 : 0) + 5; row: 0;
                     alignment: center;
                     horizontal-stretch: 0;
-                    Button {
-                        text: ArchiveUi.busy ? (ArchiveUi.busy-text != "" ? ArchiveUi.busy-text : ArchiveUi.opening != "" ? @tr("Opening…") : @tr("Extracting… {}%", Math.floor(ArchiveUi.progress * 100))) : @tr("Extract all");
-                        icon: Icons.download;
-                        primary: true;
-                        enabled: root.ready && !ArchiveUi.busy;
-                        clicked => { ArchiveUi.clear-selection(); ArchiveUi.extract(); }
+                    // "Extract 3 selected" only while something is selected,
+                    // beside Extract all (which ignores the selection).
+                    GridLayout {
+                        spacing: 8px;
+                        if root.ready && !ArchiveUi.busy && ArchiveUi.selected-count > 0: Button { col: Locale.rtl ? 1 : 0; row: 0;
+                            text: @tr("Extract {n} selected" | "Extract {n} selected" % ArchiveUi.selected-count);
+                            icon: Icons.download;
+                            clicked => { ArchiveUi.extract(); }
+                        }
+                        Button { col: Locale.rtl ? 0 : 1; row: 0;
+                            text: ArchiveUi.busy ? (ArchiveUi.busy-text != "" ? ArchiveUi.busy-text : ArchiveUi.opening != "" ? @tr("Opening…") : @tr("Extracting… {}%", Math.floor(ArchiveUi.progress * 100))) : @tr("Extract all");
+                            icon: Icons.download;
+                            primary: true;
+                            enabled: root.ready && !ArchiveUi.busy;
+                            clicked => { ArchiveUi.extract-all(); }
+                        }
                     }
                 }
                 // Window controls, at the far right.
@@ -562,7 +593,7 @@ export component FullBody inherits Rectangle {
                             GridLayout {
                                 padding-left: 12px;
                                 padding-right: 12px;
-                                Rectangle { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (0) : 0; row: 0;
+                                Rectangle { col: Locale.rtl ? root.ncols - 1 : 0; row: 0;
                                     width: Columns.check;
                                     Checkbox {
                                         label: @tr("Select all");
@@ -573,11 +604,12 @@ export component FullBody inherits Rectangle {
                                         }
                                     }
                                 }
-                                HeaderCell { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (1) : 1; row: 0; text: @tr("Name"); column: 0; horizontal-stretch: 1; min-width: Columns.name-min; }
-                                HeaderCell { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (2) : 2; row: 0; text: @tr("Size"); column: 1; width: Columns.size; }
-                                HeaderCell { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (3) : 3; row: 0; text: @tr("Packed"); column: 2; width: Columns.packed; }
-                                if ArchiveUi.ratio-column: HeaderCell { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - (4) : 4; row: 0; text: @tr("Ratio"); column: 3; width: Columns.ratio; }
-                                HeaderCell { col: Locale.rtl ? ((ArchiveUi.ratio-column ? 1 : 0) + 5) - 1 - ((ArchiveUi.ratio-column ? 1 : 0) + 4) : (ArchiveUi.ratio-column ? 1 : 0) + 4; row: 0; text: @tr("Modified"); column: 4; width: Columns.modified; }
+                                HeaderCell { col: Locale.rtl ? root.ncols - 2 : 1; row: 0; text: @tr("Name"); column: 0; horizontal-stretch: 1; min-width: Columns.name-min; }
+                                if root.show-type: HeaderCell { col: Locale.rtl ? root.ncols - 3 : 2; row: 0; text: @tr("Type"); column: 5; width: Columns.kind; }
+                                HeaderCell { col: Locale.rtl ? root.ncols - 3 - root.tcol : 2 + root.tcol; row: 0; text: @tr("Size"); column: 1; width: Columns.size; }
+                                HeaderCell { col: Locale.rtl ? root.ncols - 4 - root.tcol : 3 + root.tcol; row: 0; text: @tr("Packed"); column: 2; width: Columns.packed; }
+                                if root.show-ratio: HeaderCell { col: Locale.rtl ? root.ncols - 5 - root.tcol : 4 + root.tcol; row: 0; text: @tr("Ratio"); column: 3; width: Columns.ratio; }
+                                HeaderCell { col: Locale.rtl ? 0 : 4 + root.tcol + root.rcol; row: 0; text: @tr("Modified"); column: 4; width: Columns.modified; }
                             }
                         }
                         Rectangle {
@@ -600,6 +632,8 @@ export component FullBody inherits Rectangle {
                                     visible: root.ready;
                                     for row[i] in ArchiveUi.files: FileRowItem {
                                         item: row;
+                                        show-type: root.show-type;
+                                        show-ratio: root.show-ratio;
                                         current: i == ArchiveUi.cursor;
                                         pressed(ctrl, shift) => {
                                             root.focus-keys();

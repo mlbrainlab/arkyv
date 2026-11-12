@@ -201,6 +201,7 @@ impl Tree {
                 .unwrap_or(Ordering::Equal)
                 .then_with(by_name),
             SortKey::Modified => na.modified.cmp(&nb.modified).then_with(by_name),
+            SortKey::Type => kind_key(na).cmp(&kind_key(nb)).then_with(by_name),
         };
         folders_first.then(if descending { order.reverse() } else { order })
     }
@@ -215,6 +216,8 @@ pub enum SortKey {
     Packed,
     Ratio,
     Modified,
+    /// What kind of file: the Type column.
+    Type,
 }
 
 impl SortKey {
@@ -224,9 +227,19 @@ impl SortKey {
             2 => SortKey::Packed,
             3 => SortKey::Ratio,
             4 => SortKey::Modified,
+            5 => SortKey::Type,
             _ => SortKey::Name,
         }
     }
+}
+
+/// How the Type column sorts: by kind, then extension.
+fn kind_key(n: &Node) -> (u8, String) {
+    if n.is_dir {
+        return (0, String::new());
+    }
+    let (ext, tile) = crate::model::file_kind(&n.name);
+    (tile as u8, ext)
 }
 
 /// Space saved, 0..1 (`None` when the format doesn't store packed sizes).

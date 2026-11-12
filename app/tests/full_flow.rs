@@ -75,6 +75,22 @@ fn full_view_flows() {
     );
     g(&ui).invoke_sort_by(0);
 
+    // The Type column, and sorting by it (folders still first).
+    let kinds: Vec<String> = (0..3)
+        .map(|i| {
+            g(&ui)
+                .get_files()
+                .row_data(i)
+                .unwrap()
+                .kind_name
+                .to_string()
+        })
+        .collect();
+    assert_eq!(kinds, ["Folder", "MD text", "SH source"]);
+    g(&ui).invoke_sort_by(5);
+    assert_eq!(files(&ui), ["docs", "README.md", "run.sh"]);
+    g(&ui).invoke_sort_by(0);
+
     // Search from the folder down; results show their folder.
     g(&ui).set_query("guide".into());
     g(&ui).invoke_search("guide".into());

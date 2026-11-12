@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Arkyv VERSION\n"
-"POT-Creation-Date: 2026-11-08 09:08+0000\n"
+"POT-Creation-Date: 2026-11-12 21:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,52 +12,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ui/about.slint:101 ui/archive-window.slint:24 ui/archive-window.slint:55
-#: ui/about.slint:101 ui/archive-window.slint:24 ui/archive-window.slint:55 ui/main-window.slint:73 ui/main-window.slint:98
+#: ui/about.slint:96 ui/archive-window.slint:24 ui/archive-window.slint:55
+#: ui/about.slint:96 ui/archive-window.slint:24 ui/archive-window.slint:55 ui/main-window.slint:73 ui/main-window.slint:98
 msgid "Arkyv"
 msgstr ""
 
-#: ui/about.slint:125
+#: ui/about.slint:120
 msgid "Support Arkyv"
 msgstr ""
 
-#: ui/about.slint:127
+#: ui/about.slint:122
 msgid ""
 "Arkyv is free and open source, with no ads or tracking. If it saves you "
 "time, you can help fund development."
 msgstr ""
 
-#: ui/about.slint:130
+#: ui/about.slint:125
 msgid "Sponsor on GitHub"
 msgstr ""
 
-#: ui/about.slint:145
+#: ui/about.slint:140
 msgid "Source code on GitHub"
 msgstr ""
 
-#: ui/about.slint:146
+#: ui/about.slint:141
 msgid "Report an issue"
 msgstr ""
 
-#: ui/about.slint:157
+#: ui/about.slint:152
 msgid "MIT License · Made with Rust and Slint"
 msgstr ""
 
-#: ui/about.slint:193
+#: ui/about.slint:188
 msgid ""
 "It’s built by one developer in spare time. A small sponsorship keeps "
 "updates coming."
 msgstr ""
 
-#: ui/about.slint:199
+#: ui/about.slint:194
 msgid "Support"
 msgstr ""
 
-#: ui/about.slint:200
+#: ui/about.slint:195
 msgid "Maybe later"
 msgstr ""
 
-#: ui/about.slint:201
+#: ui/about.slint:196
 msgid "Don’t show again"
 msgstr ""
 
@@ -65,8 +65,8 @@ msgstr ""
 msgid "{} — Arkyv"
 msgstr ""
 
-#: ui/archive-window.slint:56 ui/full-view.slint:386 ui/header.slint:148
-#: ui/archive-window.slint:56 ui/full-view.slint:386 ui/header.slint:148 ui/prefs-window.slint:268 ui/prefs-window.slint:318
+#: ui/archive-window.slint:56 ui/full-view.slint:407 ui/header.slint:148
+#: ui/archive-window.slint:56 ui/full-view.slint:407 ui/header.slint:148 ui/prefs-window.slint:268 ui/prefs-window.slint:318
 msgid "Preferences"
 msgstr ""
 
@@ -86,7 +86,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ui/archive-window.slint:66 ui/full-view.slint:568
+#: ui/archive-window.slint:66 ui/full-view.slint:599
 msgid "Select all"
 msgstr ""
 
@@ -99,15 +99,15 @@ msgstr ""
 msgid "Add files"
 msgstr ""
 
-#: ui/archive-window.slint:70 ui/full-view.slint:462
+#: ui/archive-window.slint:70 ui/full-view.slint:493
 msgid "New folder"
 msgstr ""
 
-#: ui/archive-window.slint:71 ui/full-view.slint:467
+#: ui/archive-window.slint:71 ui/full-view.slint:498
 msgid "Rename"
 msgstr ""
 
-#: ui/archive-window.slint:72 ui/full-view.slint:596
+#: ui/archive-window.slint:72 ui/full-view.slint:628
 msgid "Delete from archive"
 msgstr ""
 
@@ -115,11 +115,11 @@ msgstr ""
 msgid "Archive"
 msgstr ""
 
-#: ui/archive-window.slint:76 ui/full-view.slint:392 ui/mini-view.slint:189
+#: ui/archive-window.slint:76 ui/full-view.slint:422 ui/mini-view.slint:194
 msgid "Extract all"
 msgstr ""
 
-#: ui/archive-window.slint:77 ui/full-view.slint:446
+#: ui/archive-window.slint:77 ui/full-view.slint:477
 msgid "Extract selected"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Test integrity"
 msgstr ""
 
-#: ui/archive-window.slint:88 ui/full-view.slint:381
+#: ui/archive-window.slint:88 ui/full-view.slint:402
 msgid "Properties"
 msgstr ""
 
@@ -143,11 +143,11 @@ msgstr ""
 msgid "List / grid view"
 msgstr ""
 
-#: ui/archive-window.slint:94 ui/full-view.slint:353
+#: ui/archive-window.slint:94 ui/full-view.slint:374
 msgid "Toggle sidebar"
 msgstr ""
 
-#: ui/archive-window.slint:95 ui/full-view.slint:588
+#: ui/archive-window.slint:95 ui/full-view.slint:620
 msgid "Quick preview"
 msgstr ""
 
@@ -155,8 +155,8 @@ msgstr ""
 msgid "Window"
 msgstr ""
 
-#: ui/archive-window.slint:99 ui/frame.slint:181 ui/full-view.slint:407
-#: ui/archive-window.slint:99 ui/frame.slint:181 ui/full-view.slint:407 ui/main-window.slint:114
+#: ui/archive-window.slint:99 ui/frame.slint:181 ui/full-view.slint:438
+#: ui/archive-window.slint:99 ui/frame.slint:181 ui/full-view.slint:438 ui/main-window.slint:114
 msgid "Minimize"
 msgstr ""
 
@@ -173,8 +173,8 @@ msgstr ""
 msgid "Keyboard shortcuts"
 msgstr ""
 
-#: ui/batch.slint:116 ui/full-view.slint:301 ui/full-view.slint:587
-#: ui/batch.slint:116 ui/full-view.slint:301 ui/full-view.slint:587 ui/preview.slint:127
+#: ui/batch.slint:116 ui/full-view.slint:308 ui/full-view.slint:619
+#: ui/batch.slint:116 ui/full-view.slint:308 ui/full-view.slint:619 ui/preview.slint:127
 msgid "Open"
 msgstr ""
 
@@ -207,11 +207,11 @@ msgid "Password"
 msgstr ""
 
 #: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556
-#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:658 ui/mini-view.slint:378
-#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:658 ui/mini-view.slint:378 ui/overlays.slint:125 ui/overlays.slint:137
-#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:658 ui/mini-view.slint:378 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380
-#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:658 ui/mini-view.slint:378 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380 ui/overlays.slint:504 ui/overlays.slint:534
-#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:658 ui/mini-view.slint:378 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380 ui/overlays.slint:504 ui/overlays.slint:534 ui/properties.slint:368 ui/pro.slint:183
+#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:692 ui/mini-view.slint:388
+#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:692 ui/mini-view.slint:388 ui/overlays.slint:125 ui/overlays.slint:137
+#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:692 ui/mini-view.slint:388 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380
+#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:692 ui/mini-view.slint:388 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380 ui/overlays.slint:504 ui/overlays.slint:534
+#: ui/batch.slint:184 ui/batch.slint:322 ui/create-dialog.slint:556 ui/full-view.slint:692 ui/mini-view.slint:388 ui/overlays.slint:125 ui/overlays.slint:137 ui/overlays.slint:301 ui/overlays.slint:380 ui/overlays.slint:504 ui/overlays.slint:534 ui/properties.slint:368 ui/pro.slint:183
 msgid "Cancel"
 msgstr ""
 
@@ -227,7 +227,7 @@ msgstr ""
 msgid "All into one folder"
 msgstr ""
 
-#: ui/batch.slint:271 ui/full-view.slint:285 ui/full-view.slint:577
+#: ui/batch.slint:271 ui/full-view.slint:292 ui/full-view.slint:609
 msgid "Size"
 msgstr ""
 
@@ -260,8 +260,8 @@ msgid "Open folder"
 msgstr ""
 
 #: ui/batch.slint:328 ui/extract-dialog.slint:161 ui/frame.slint:195
-#: ui/batch.slint:328 ui/extract-dialog.slint:161 ui/frame.slint:195 ui/header.slint:187 ui/mini-view.slint:228
-#: ui/batch.slint:328 ui/extract-dialog.slint:161 ui/frame.slint:195 ui/header.slint:187 ui/mini-view.slint:228 ui/properties.slint:119 ui/shortcuts.slint:144
+#: ui/batch.slint:328 ui/extract-dialog.slint:161 ui/frame.slint:195 ui/header.slint:187 ui/mini-view.slint:238
+#: ui/batch.slint:328 ui/extract-dialog.slint:161 ui/frame.slint:195 ui/header.slint:187 ui/mini-view.slint:238 ui/properties.slint:119 ui/shortcuts.slint:144
 msgid "Close"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: ui/create-dialog.slint:278 ui/full-view.slint:210
+#: ui/create-dialog.slint:278 ui/full-view.slint:217
 msgid "CONTENTS"
 msgstr ""
 
@@ -595,223 +595,233 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: ui/first-run.slint:99
+#: ui/first-run.slint:93
 msgid "Welcome to Arkyv"
 msgstr ""
 
-#: ui/first-run.slint:100
+#: ui/first-run.slint:94
 msgid "Two choices, then you’re done. Change them anytime in Preferences."
 msgstr ""
 
-#: ui/first-run.slint:105 ui/first-run.slint:109 ui/prefs-window.slint:420
-#: ui/first-run.slint:105 ui/first-run.slint:109 ui/prefs-window.slint:420
+#: ui/first-run.slint:99 ui/first-run.slint:103 ui/prefs-window.slint:420
+#: ui/first-run.slint:99 ui/first-run.slint:103 ui/prefs-window.slint:420
 msgid "Language"
 msgstr ""
 
-#: ui/first-run.slint:110 ui/prefs-window.slint:424
+#: ui/first-run.slint:104 ui/prefs-window.slint:424
 msgid "System ({})"
 msgstr ""
 
-#: ui/first-run.slint:126
+#: ui/first-run.slint:120
 msgid "1 · When I double-click an archive"
 msgstr ""
 
-#: ui/first-run.slint:130
+#: ui/first-run.slint:124
 msgid "Show mini view"
 msgstr ""
 
-#: ui/first-run.slint:130
+#: ui/first-run.slint:124
 msgid "Open full view"
 msgstr ""
 
-#: ui/first-run.slint:130 ui/prefs-window.slint:390
+#: ui/first-run.slint:124 ui/prefs-window.slint:390
 msgid "Extract right away"
 msgstr ""
 
-#: ui/first-run.slint:138
+#: ui/first-run.slint:132
 msgid "2 · Open these with Arkyv"
 msgstr ""
 
-#: ui/first-run.slint:168
+#: ui/first-run.slint:162
 msgid "Arkyv sets this for you when you click Get started."
 msgstr ""
 
-#: ui/first-run.slint:169
+#: ui/first-run.slint:163
 msgid ""
 "Flatpak apps can’t change default apps themselves. In Files, right-click "
 "an archive → Properties → Open With → Arkyv → Set as default."
 msgstr ""
 
-#: ui/first-run.slint:170
+#: ui/first-run.slint:164
 msgid ""
 "Snap apps can’t change default apps themselves. In Files, right-click an "
 "archive → Properties → Open With → Arkyv → Set as default."
 msgstr ""
 
-#: ui/first-run.slint:171
+#: ui/first-run.slint:165
 msgid ""
 "Arkyv isn’t installed as an app yet, so it can’t be the default. "
 "Installing an Arkyv package sets this up."
 msgstr ""
 
-#: ui/first-run.slint:172
+#: ui/first-run.slint:166
 msgid ""
 "Windows lets only you choose default apps. Get started opens Settings → "
 "Default apps on Arkyv’s page; set the types you want there."
 msgstr ""
 
-#: ui/first-run.slint:173
+#: ui/first-run.slint:167
 msgid ""
 "Arkyv sets this for you when you click Get started. To use another app "
 "later, pick it in Finder → Get Info → Open with."
 msgstr ""
 
-#: ui/first-run.slint:174
+#: ui/first-run.slint:168
 msgid "Setting the default app isn’t supported here yet."
 msgstr ""
 
-#: ui/first-run.slint:194
+#: ui/first-run.slint:188
 msgid "No account, no tracking."
 msgstr ""
 
-#: ui/first-run.slint:196
+#: ui/first-run.slint:190
 msgid "Get started"
 msgstr ""
 
-#: ui/frame.slint:187 ui/full-view.slint:411 ui/header.slint:182
+#: ui/frame.slint:187 ui/full-view.slint:442 ui/header.slint:182
 msgid "Maximize"
 msgstr ""
 
-#: ui/full-view.slint:144 ui/full-view.slint:230
+#: ui/full-view.slint:151 ui/full-view.slint:237
 msgid "{}%"
 msgstr ""
 
-#: ui/full-view.slint:229
+#: ui/full-view.slint:236
 msgid "Space saved"
 msgstr ""
 
-#: ui/full-view.slint:249 ui/full-view.slint:297
+#: ui/full-view.slint:256 ui/full-view.slint:304
 msgid "Encrypted"
 msgstr ""
 
-#: ui/full-view.slint:286 ui/full-view.slint:578
+#: ui/full-view.slint:293 ui/full-view.slint:610
 msgid "Packed"
 msgstr ""
 
-#: ui/full-view.slint:290 ui/properties.slint:148
+#: ui/full-view.slint:297 ui/properties.slint:148
 msgid "Items"
 msgstr ""
 
-#: ui/full-view.slint:290 ui/properties.slint:180
+#: ui/full-view.slint:297 ui/properties.slint:180
 msgid "Method"
 msgstr ""
 
-#: ui/full-view.slint:291 ui/full-view.slint:580
+#: ui/full-view.slint:298 ui/full-view.slint:612
 msgid "Modified"
 msgstr ""
 
-#: ui/full-view.slint:293
+#: ui/full-view.slint:300
 msgid "CRC32"
 msgstr ""
 
-#: ui/full-view.slint:302 ui/preview.slint:132
+#: ui/full-view.slint:309 ui/preview.slint:132
 msgid "Extract"
 msgstr ""
 
-#: ui/full-view.slint:305
+#: ui/full-view.slint:312
 msgid "Copy path inside archive"
 msgstr ""
 
-#: ui/full-view.slint:358 ui/prefs-window.slint:390
+#: ui/full-view.slint:379 ui/prefs-window.slint:390
 msgid "Mini view"
 msgstr ""
 
-#: ui/full-view.slint:376 ui/mini-view.slint:279
+#: ui/full-view.slint:397 ui/mini-view.slint:289
 msgid "Stop reading"
 msgstr ""
 
-#: ui/full-view.slint:392
+#: ui/full-view.slint:417 ui/mini-view.slint:193
+msgid "Extract {n} selected"
+msgid_plural "Extract {n} selected"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ui/full-view.slint:422
 msgid "Opening…"
 msgstr ""
 
-#: ui/full-view.slint:392 ui/mini-view.slint:187
+#: ui/full-view.slint:422 ui/mini-view.slint:192
 msgid "Extracting… {}%"
 msgstr ""
 
-#: ui/full-view.slint:451 ui/overlays.slint:265
+#: ui/full-view.slint:482 ui/overlays.slint:265
 msgid "Preview"
 msgstr ""
 
-#: ui/full-view.slint:472 ui/overlays.slint:505
+#: ui/full-view.slint:503 ui/overlays.slint:505
 msgid "Delete"
 msgstr ""
 
-#: ui/full-view.slint:477
+#: ui/full-view.slint:508
 msgid "Save a copy…"
 msgstr ""
 
-#: ui/full-view.slint:483
+#: ui/full-view.slint:514
 msgid "Test"
 msgstr ""
 
-#: ui/full-view.slint:498 ui/prefs-window.slint:511
+#: ui/full-view.slint:529 ui/prefs-window.slint:511
 msgid "List"
 msgstr ""
 
-#: ui/full-view.slint:499 ui/prefs-window.slint:511
+#: ui/full-view.slint:530 ui/prefs-window.slint:511
 msgid "Grid"
 msgstr ""
 
-#: ui/full-view.slint:551
+#: ui/full-view.slint:582
 msgid "Search the archive…"
 msgstr ""
 
-#: ui/full-view.slint:551
+#: ui/full-view.slint:582
 msgid "Search in {}…"
 msgstr ""
 
-#: ui/full-view.slint:576
+#: ui/full-view.slint:607
 msgid "Name"
 msgstr ""
 
-#: ui/full-view.slint:579
+#: ui/full-view.slint:608
+msgid "Type"
+msgstr ""
+
+#: ui/full-view.slint:611
 msgid "Ratio"
 msgstr ""
 
-#: ui/full-view.slint:590 ui/mini-view.slint:379
+#: ui/full-view.slint:622 ui/mini-view.slint:389
 msgid "Extract to…"
 msgstr ""
 
-#: ui/full-view.slint:591
+#: ui/full-view.slint:623
 msgid "Extract to Downloads"
 msgstr ""
 
-#: ui/full-view.slint:593
+#: ui/full-view.slint:625
 msgid "Copy path"
 msgstr ""
 
-#: ui/full-view.slint:595
+#: ui/full-view.slint:627
 msgid "Rename…"
 msgstr ""
 
-#: ui/full-view.slint:597
+#: ui/full-view.slint:629
 msgid "Copy checksum (CRC32)"
 msgstr ""
 
-#: ui/full-view.slint:620 ui/mini-view.slint:344
+#: ui/full-view.slint:654 ui/mini-view.slint:354
 msgid "Nothing matches “{}”"
 msgstr ""
 
-#: ui/full-view.slint:620 ui/mini-view.slint:260 ui/mini-view.slint:344
-#: ui/full-view.slint:620 ui/mini-view.slint:260 ui/mini-view.slint:344
+#: ui/full-view.slint:654 ui/mini-view.slint:270 ui/mini-view.slint:354
+#: ui/full-view.slint:654 ui/mini-view.slint:270 ui/mini-view.slint:354
 msgid "Reading archive…"
 msgstr ""
 
-#: ui/full-view.slint:620 ui/mini-view.slint:344
+#: ui/full-view.slint:654 ui/mini-view.slint:354
 msgid "This folder is empty"
 msgstr ""
 
-#: ui/full-view.slint:650
+#: ui/full-view.slint:684
 msgid "{} selected · {}"
 msgstr ""
 
@@ -835,42 +845,42 @@ msgstr ""
 msgid "Open archive"
 msgstr ""
 
-#: ui/main-window.slint:211
+#: ui/main-window.slint:206
 msgid "Compress files, or open an archive"
 msgstr ""
 
-#: ui/main-window.slint:213
+#: ui/main-window.slint:208
 msgid ""
 "Arkyv opens ZIP, 7z, RAR and TAR (gz, xz, zst, bz2), and makes ZIP, 7z and "
 "tar archives."
 msgstr ""
 
-#: ui/main-window.slint:225
+#: ui/main-window.slint:220
 msgid "Compress files"
 msgstr ""
 
-#: ui/main-window.slint:226
+#: ui/main-window.slint:221
 msgid "Pick files and folders, choose a format and level."
 msgstr ""
 
 #. ⌘ on macOS, where the menus are in the menu bar.
-#: ui/main-window.slint:228
+#: ui/main-window.slint:223
 msgid "Ctrl N"
 msgstr ""
 
-#: ui/main-window.slint:234
+#: ui/main-window.slint:229
 msgid "Open an archive"
 msgstr ""
 
-#: ui/main-window.slint:235
+#: ui/main-window.slint:230
 msgid "Browse, extract, edit, convert or test it."
 msgstr ""
 
-#: ui/main-window.slint:236
+#: ui/main-window.slint:231
 msgid "Ctrl O"
 msgstr ""
 
-#: ui/main-window.slint:259 ui/properties.slint:108
+#: ui/main-window.slint:254 ui/properties.slint:108
 msgid "Show in folder"
 msgstr ""
 
@@ -878,45 +888,39 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: ui/mini-view.slint:186
+#: ui/mini-view.slint:191
 msgid "Opening “{}”…"
 msgstr ""
 
-#: ui/mini-view.slint:187
+#: ui/mini-view.slint:192
 msgid "Finishing…"
 msgstr ""
 
-#: ui/mini-view.slint:188
-msgid "Extract {n} selected"
-msgid_plural "Extract {n} selected"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ui/mini-view.slint:190
+#: ui/mini-view.slint:195
 msgid "Extract all to “{}/”"
 msgstr ""
 
-#: ui/mini-view.slint:272
+#: ui/mini-view.slint:282
 msgid "{n} encrypted"
 msgid_plural "{n} encrypted"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/mini-view.slint:286 ui/prefs-window.slint:390
+#: ui/mini-view.slint:296 ui/prefs-window.slint:390
 msgid "Full view"
 msgstr ""
 
-#: ui/mini-view.slint:307
+#: ui/mini-view.slint:317
 msgid "Search…"
 msgstr ""
 
-#: ui/mini-view.slint:307
+#: ui/mini-view.slint:317
 msgid "Search {n} item…"
 msgid_plural "Search {n} items…"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ui/mini-view.slint:344
+#: ui/mini-view.slint:354
 msgid "This archive is empty"
 msgstr ""
 
@@ -1895,115 +1899,155 @@ msgstr[1] ""
 msgid "Opened {name}"
 msgstr ""
 
-#: src/model.rs:225
+#: src/model.rs:252
 msgid "{n} file"
 msgid_plural "{n} files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/model.rs:226
+#: src/model.rs:253
 msgid "{n} byte"
 msgid_plural "{n} bytes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/model.rs:227
+#: src/model.rs:254
 msgid "{n} line"
 msgid_plural "{n} lines"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/model.rs:228
+#: src/model.rs:255
 msgid "{n} selected item"
 msgid_plural "{n} selected items"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/model.rs:158
+#: src/model.rs:55
+msgid "Folder"
+msgstr ""
+
+#: src/model.rs:65
+msgid "{ext} document"
+msgstr ""
+
+#: src/model.rs:66
+msgid "{ext} spreadsheet"
+msgstr ""
+
+#: src/model.rs:67
+msgid "{ext} image"
+msgstr ""
+
+#: src/model.rs:69
+msgid "{ext} audio"
+msgstr ""
+
+#: src/model.rs:71
+msgid "{ext} video"
+msgstr ""
+
+#: src/model.rs:72
+msgid "{ext} archive"
+msgstr ""
+
+#: src/model.rs:73
+msgid "{ext} source"
+msgstr ""
+
+#: src/model.rs:74
+msgid "{ext} text"
+msgstr ""
+
+#: src/model.rs:75
+msgid "{ext} file"
+msgstr ""
+
+#: src/model.rs:185
 msgid "{items} · {unpacked} → {packed}"
 msgstr ""
 
-#: src/model.rs:238
+#: src/model.rs:265
 msgid "KB"
 msgstr ""
 
-#: src/model.rs:238
+#: src/model.rs:265
 msgid "MB"
 msgstr ""
 
-#: src/model.rs:238
+#: src/model.rs:265
 msgid "GB"
 msgstr ""
 
-#: src/model.rs:238
+#: src/model.rs:265
 msgid "TB"
 msgstr ""
 
-#: src/model.rs:238
+#: src/model.rs:265
 msgid "PB"
 msgstr ""
 
-#: src/model.rs:256
+#: src/model.rs:283
 msgid "{value} {unit}"
 msgstr ""
 
-#: src/model.rs:268
+#: src/model.rs:295
 msgid "{s} s"
 msgstr ""
 
-#: src/model.rs:273
+#: src/model.rs:300
 msgid "{m} min {s} s"
 msgstr ""
 
-#: src/model.rs:299
+#: src/model.rs:326
 msgid "Jan"
 msgstr ""
 
-#: src/model.rs:300
+#: src/model.rs:327
 msgid "Feb"
 msgstr ""
 
-#: src/model.rs:301
+#: src/model.rs:328
 msgid "Mar"
 msgstr ""
 
-#: src/model.rs:302
+#: src/model.rs:329
 msgid "Apr"
 msgstr ""
 
-#: src/model.rs:303
+#: src/model.rs:330
 msgid "May"
 msgstr ""
 
-#: src/model.rs:304
+#: src/model.rs:331
 msgid "Jun"
 msgstr ""
 
-#: src/model.rs:305
+#: src/model.rs:332
 msgid "Jul"
 msgstr ""
 
-#: src/model.rs:306
+#: src/model.rs:333
 msgid "Aug"
 msgstr ""
 
-#: src/model.rs:307
+#: src/model.rs:334
 msgid "Sep"
 msgstr ""
 
-#: src/model.rs:308
+#: src/model.rs:335
 msgid "Oct"
 msgstr ""
 
-#: src/model.rs:309
+#: src/model.rs:336
 msgid "Nov"
 msgstr ""
 
-#: src/model.rs:310
+#: src/model.rs:337
 msgid "Dec"
 msgstr ""
 
-#: src/model.rs:312
+#: src/model.rs:339
 msgid "{month} {day}, {year}"
 msgstr ""
 
@@ -2037,7 +2081,7 @@ msgstr ""
 msgid "Yesterday"
 msgstr ""
 
-#: src/prefs.rs:311
+#: src/prefs.rs:324
 msgid "Auto-detect"
 msgstr ""
 
