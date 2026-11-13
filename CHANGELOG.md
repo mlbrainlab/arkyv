@@ -3,7 +3,7 @@
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
 ## 0.3.4 — 2026-11-13
-- Full view: a Type column ("PNG image", "Folder", "SH source"), which sorts by kind. When the list is narrow the optional Ratio column gives way to it first.
+- Full view: a Type column ("PNG image", "Folder", "SH source"), always shown and sortable by kind. When the list is narrow, Ratio and then Packed give way.
 - Full view: "Extract N selected" appears beside Extract all whenever something is selected. Extract all now extracts everything without clearing the selection.
 
 ## 0.3.3 — 2026-11-10

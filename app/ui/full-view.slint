@@ -55,11 +55,11 @@ component HeaderCell inherits Rectangle {
 component FileRowItem inherits Rectangle {
     in property <FileRow> item;
     in property <bool> current;
-    in property <bool> show-type;
+    in property <bool> show-packed;
     in property <bool> show-ratio;
-    property <int> t: show-type ? 1 : 0;
+    property <int> p: show-packed ? 1 : 0;
     property <int> r: show-ratio ? 1 : 0;
-    property <int> n: 5 + t + r;
+    property <int> n: 5 + p + r;
     callback pressed(/* ctrl */ bool, /* shift */ bool);
     callback toggled; // the checkbox
     callback activated;
@@ -127,10 +127,10 @@ component FileRowItem inherits Rectangle {
                 Icon { size: 14; stroke: Tokens.crypto; commands: Icons.lock; }
             }
         }
-        if root.show-type: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 3 : 2; row: 0; width: Columns.kind; text: item.kind-name; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 3 - root.t : 2 + root.t; row: 0; width: Columns.size; text: item.size; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 4 - root.t : 3 + root.t; row: 0; width: Columns.packed; text: item.packed; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
-        if root.show-ratio: GridLayout { col: Locale.rtl ? root.n - 5 - root.t : 4 + root.t; row: 0;
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 3 : 2; row: 0; width: Columns.kind; text: item.kind-name; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 4 : 3; row: 0; width: Columns.size; text: item.size; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        if root.show-packed: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? root.n - 5 : 4; row: 0; width: Columns.packed; text: item.packed; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        if root.show-ratio: GridLayout { col: Locale.rtl ? root.n - 5 - root.p : 4 + root.p; row: 0;
             width: Columns.ratio;
             spacing: 8px;
             if item.ratio >= 0: VerticalLayout { col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - (0) : 0; row: 0;
@@ -151,7 +151,7 @@ component FileRowItem inherits Rectangle {
             if item.ratio >= 0: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - ((item.ratio >= 0 ? 1 : 0)) : (item.ratio >= 0 ? 1 : 0); row: 0; text: @tr("{}%", Math.round(item.ratio * 100)); color: Tokens.ink-2; font-size: 13px; vertical-alignment: center; }
             if item.ratio < 0: Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0) + (item.ratio < 0 ? 1 : 0)) - 1 - ((item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0)) : (item.ratio >= 0 ? 1 : 0) + (item.ratio >= 0 ? 1 : 0); row: 0; text: "—"; color: Tokens.ink-3; vertical-alignment: center; }
         }
-        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? 0 : 4 + root.t + root.r; row: 0; width: Columns.modified; text: item.modified; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
+        Text { horizontal-alignment: Locale.start; col: Locale.rtl ? 0 : 4 + root.p + root.r; row: 0; width: Columns.modified; text: item.modified; color: Tokens.ink-2; vertical-alignment: center; overflow: elide; }
     }
 }
 
@@ -327,20 +327,19 @@ export component FullBody inherits Rectangle {
     // The toolbar's labels need about 930px beside the sidebar (240px);
     // in a narrower window its buttons show their icons only.
     property <bool> compact-tools: root.width < (ArchiveUi.sidebar && root.width > 820px ? 1180px : 940px);
-    // The list's columns: Type before the optional Ratio, which gives
-    // way first when the list is narrow (the sidebar and details pane
-    // beside it); below that, Type goes too. Fixed by the window's width,
-    // not the details pane coming and going, so columns don't jump.
+    // The list's columns. Type always shows; when the list is narrow
+    // (the sidebar and details pane beside it) the optional Ratio column
+    // gives way first, then Packed.
     property <length> list-width: root.width
         - (ArchiveUi.sidebar && root.width > 820px ? 248px : 0)
-        - (root.width > 1100px ? 292px : 0)
+        - (ArchiveUi.has-details && root.width > 1100px ? 292px : 0)
         - (Tokens.glass ? 24px : 0);
-    property <length> cols-min: Columns.check + Columns.name-min + Columns.size + Columns.packed + Columns.modified + 24px;
-    property <bool> show-type: root.list-width >= root.cols-min + Columns.kind;
-    property <bool> show-ratio: ArchiveUi.ratio-column && root.list-width >= root.cols-min + Columns.kind + Columns.ratio;
-    property <int> tcol: root.show-type ? 1 : 0;
+    property <length> cols-min: Columns.check + Columns.name-min + Columns.kind + Columns.size + Columns.modified + 24px;
+    property <bool> show-packed: root.list-width >= root.cols-min + Columns.packed;
+    property <bool> show-ratio: ArchiveUi.ratio-column && root.list-width >= root.cols-min + Columns.packed + Columns.ratio;
+    property <int> pcol: root.show-packed ? 1 : 0;
     property <int> rcol: root.show-ratio ? 1 : 0;
-    property <int> ncols: 5 + root.tcol + root.rcol;
+    property <int> ncols: 5 + root.pcol + root.rcol;
     background: Tokens.glass ? transparent : Tokens.bg;
     border-radius: Frame.radius;
 
@@ -605,11 +604,11 @@ export component FullBody inherits Rectangle {
                                     }
                                 }
                                 HeaderCell { col: Locale.rtl ? root.ncols - 2 : 1; row: 0; text: @tr("Name"); column: 0; horizontal-stretch: 1; min-width: Columns.name-min; }
-                                if root.show-type: HeaderCell { col: Locale.rtl ? root.ncols - 3 : 2; row: 0; text: @tr("Type"); column: 5; width: Columns.kind; }
-                                HeaderCell { col: Locale.rtl ? root.ncols - 3 - root.tcol : 2 + root.tcol; row: 0; text: @tr("Size"); column: 1; width: Columns.size; }
-                                HeaderCell { col: Locale.rtl ? root.ncols - 4 - root.tcol : 3 + root.tcol; row: 0; text: @tr("Packed"); column: 2; width: Columns.packed; }
-                                if root.show-ratio: HeaderCell { col: Locale.rtl ? root.ncols - 5 - root.tcol : 4 + root.tcol; row: 0; text: @tr("Ratio"); column: 3; width: Columns.ratio; }
-                                HeaderCell { col: Locale.rtl ? 0 : 4 + root.tcol + root.rcol; row: 0; text: @tr("Modified"); column: 4; width: Columns.modified; }
+                                HeaderCell { col: Locale.rtl ? root.ncols - 3 : 2; row: 0; text: @tr("Type"); column: 5; width: Columns.kind; }
+                                HeaderCell { col: Locale.rtl ? root.ncols - 4 : 3; row: 0; text: @tr("Size"); column: 1; width: Columns.size; }
+                                if root.show-packed: HeaderCell { col: Locale.rtl ? root.ncols - 5 : 4; row: 0; text: @tr("Packed"); column: 2; width: Columns.packed; }
+                                if root.show-ratio: HeaderCell { col: Locale.rtl ? root.ncols - 5 - root.pcol : 4 + root.pcol; row: 0; text: @tr("Ratio"); column: 3; width: Columns.ratio; }
+                                HeaderCell { col: Locale.rtl ? 0 : 4 + root.pcol + root.rcol; row: 0; text: @tr("Modified"); column: 4; width: Columns.modified; }
                             }
                         }
                         Rectangle {
@@ -632,7 +631,7 @@ export component FullBody inherits Rectangle {
                                     visible: root.ready;
                                     for row[i] in ArchiveUi.files: FileRowItem {
                                         item: row;
-                                        show-type: root.show-type;
+                                        show-packed: root.show-packed;
                                         show-ratio: root.show-ratio;
                                         current: i == ArchiveUi.cursor;
                                         pressed(ctrl, shift) => {
