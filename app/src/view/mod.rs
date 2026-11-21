@@ -446,6 +446,7 @@ fn connect(ui: &ArchiveWindow) {
     g.on_toggle_cursor(with(|v| v.select(|p, rows| p.toggle_cursor(rows))));
     g.on_select_all(with(|v| v.select(|p, rows| p.select_all(rows))));
     g.on_clear_selection(with(|v| v.select(|p, _| p.clear())));
+    g.on_dismiss_selection(with(|v| v.select(|p, _| p.dismiss())));
     // Full view
     g.on_open_folder_row(|i| now(move |v| v.open_tree_row(i as usize)));
     g.on_toggle_folder_row(|i| now(move |v| v.toggle_tree_row(i as usize)));

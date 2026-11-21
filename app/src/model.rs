@@ -607,6 +607,13 @@ impl Picker {
         self.anchor = None;
     }
 
+    /// Escape: nothing selected and no row under the keyboard, so the
+    /// full view's details pane closes too.
+    pub fn dismiss(&mut self) {
+        self.clear();
+        self.cursor = None;
+    }
+
     /// The list changed (search, new names): positions mean something else now.
     pub fn rows_changed(&mut self) {
         self.anchor = None;

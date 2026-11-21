@@ -147,6 +147,7 @@ export global ArchiveUi {
     callback toggle-cursor;
     callback select-all;
     callback clear-selection;
+    callback dismiss-selection; // Escape: also closes the details pane
 
     // ---- Full view
     in property <[FileRow]> files;

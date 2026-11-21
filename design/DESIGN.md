@@ -43,6 +43,7 @@ In the app the tokens are properties of the Slint global `Tokens` (`app/ui/token
 | `--ink-2` | `#475467` | `#A9B0BD` |
 | `--ink-3` | `#667085` | `#8A93A3` |
 | `--accent` (button background) | `#3352E0` | `#4A65F0` |
+| `--accent-2` (Extract N selected; dark: dark text on it; glass: `.9` alpha) | `#0F766E` | `#2DD4BF` |
 | `--accent-soft` / text on soft | `#EEF1FD` / `#2A44C2` | `#1E2747` / `#AFC0FF` |
 | `--selection` | `#EEF1FD` | `#1A2240` |
 | `--success` | `#0E7A4F` | `#3DD68C` |

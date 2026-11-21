@@ -121,21 +121,24 @@ export component Button inherits Rectangle {
     in property <string> icon;
     in property <bool> primary;
     in property <bool> danger;
+    // Filled with the second accent: an action beside the primary one.
+    in property <bool> secondary;
     in property <bool> quiet; // no border, muted text ("Close window")
     in property <bool> enabled: true;
     callback clicked;
     min-height: 36px;
     border-radius: Tokens.glass ? self.height / 2 : 9px; // glass: pills
     // Glass: every button is a pill of glass with a white rim.
-    border-width: Tokens.glass ? 1px : primary || quiet || danger ? 0 : 1px;
+    border-width: Tokens.glass ? 1px : primary || quiet || danger || secondary ? 0 : 1px;
     border-color: Tokens.glass ? Tokens.glass-rim : Tokens.line;
     drop-shadow-blur: Tokens.glass ? 6px : 0;
     drop-shadow-offset-y: Tokens.glass ? 2px : 0;
-    drop-shadow-color: primary ? Tokens.accent.with-alpha(0.3) : black.with-alpha(0.1);
-    property <color> fill: danger ? Tokens.danger : Tokens.accent;
-    // Dark mode's danger red is light: dark text on it reads better than white.
-    property <color> on-fill: danger && Tokens.dark ? Tokens.bg : white;
-    background: primary || danger ? (area.has-hover ? fill.mix(black, 0.88) : fill)
+    drop-shadow-color: primary ? Tokens.accent.with-alpha(0.3) : secondary ? Tokens.accent-2.with-alpha(0.3) : black.with-alpha(0.1);
+    property <color> fill: danger ? Tokens.danger : secondary ? Tokens.accent-2 : Tokens.accent;
+    // Dark mode's danger red and teal are light: dark text reads better on them.
+    property <color> on-fill: (danger || secondary) && Tokens.dark ? Tokens.on-light : white;
+    property <bool> filled: primary || danger || secondary;
+    background: filled ? (area.has-hover ? fill.mix(black, 0.88) : fill)
         : Tokens.glass ? (area.has-hover ? Tokens.glass-fill-hover : Tokens.glass-fill)
         : quiet ? (area.has-hover ? Tokens.surface-2 : transparent)
         : area.has-hover ? Tokens.surface-2 : Tokens.bg;
@@ -159,12 +162,12 @@ export component Button inherits Rectangle {
         spacing: 8px;
             if root.icon != "": Rectangle { col: Locale.rtl ? ((root.icon != "" ? 1 : 0) + 1) - 1 - (0) : 0; row: 0;
                 width: 16px;
-                Icon { size: 16; stroke: root.primary || root.danger ? root.on-fill : Tokens.ink; commands: root.icon; }
+                Icon { size: 16; stroke: root.filled ? root.on-fill : Tokens.ink; commands: root.icon; }
             }
             Text { horizontal-alignment: Locale.start; col: Locale.rtl ? ((root.icon != "" ? 1 : 0) + 1) - 1 - ((root.icon != "" ? 1 : 0)) : (root.icon != "" ? 1 : 0); row: 0;
                 text: root.text;
-                color: root.primary || root.danger ? root.on-fill : root.quiet ? Tokens.ink-2 : Tokens.ink;
-                font-weight: root.primary ? 600 : 500;
+                color: root.filled ? root.on-fill : root.quiet ? Tokens.ink-2 : Tokens.ink;
+                font-weight: root.primary || root.secondary ? 600 : 500;
                 vertical-alignment: center;
             }
         }

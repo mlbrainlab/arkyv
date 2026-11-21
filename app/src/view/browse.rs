@@ -264,6 +264,12 @@ impl View {
     pub(super) fn go_to(&self, folder: NodeId) {
         {
             let mut s = self.state.borrow_mut();
+            // A new folder starts with nothing selected, as in a file
+            // manager: the folder just opened mustn't stay picked along
+            // with what's chosen inside it. Not while extracting.
+            if s.folder != folder && s.cancel.is_none() {
+                s.selection.clear();
+            }
             s.folder = folder;
             s.query.clear();
             if let Some(tree) = &s.tree {

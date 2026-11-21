@@ -105,8 +105,21 @@ fn full_view_flows() {
     assert!(!g(&ui).get_searching(), "navigating clears the search");
     assert_eq!(files(&ui), ["project"]);
 
-    // Selecting a folder and extracting it.
+    // Opening a folder drops the selection: the folder clicked on the way
+    // in isn't picked along with what's chosen inside it.
+    g(&ui).invoke_row_pressed(0, false, false); // project
+    assert_eq!(g(&ui).get_selected_count(), 1);
     g(&ui).invoke_row_activated(0);
+    assert_eq!(g(&ui).get_selected_count(), 0);
+    g(&ui).invoke_row_pressed(1, false, false); // README.md
+    assert_eq!(g(&ui).get_selected_count(), 1);
+    assert!(g(&ui).get_has_details());
+    // Escape: nothing selected, and the details pane closes.
+    g(&ui).invoke_dismiss_selection();
+    assert_eq!(g(&ui).get_selected_count(), 0);
+    assert!(!g(&ui).get_has_details());
+
+    // Selecting a folder and extracting it.
     g(&ui).invoke_row_pressed(0, false, false); // docs
     assert_eq!(g(&ui).get_selected_count(), 1);
     g(&ui).invoke_extract();

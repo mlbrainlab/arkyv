@@ -155,7 +155,7 @@ export component ArchiveWindow inherits Window {
                 if ArchiveUi.show-password { ArchiveUi.cancel-password(); return accept; }
                 if ArchiveUi.show-error { ArchiveUi.dismiss-error(); return accept; }
                 if ArchiveUi.show-done { ArchiveUi.back-to-archive(); return accept; }
-                if ArchiveUi.selected-count > 0 { ArchiveUi.clear-selection(); return accept; }
+                if ArchiveUi.selected-count > 0 || ArchiveUi.has-details { ArchiveUi.dismiss-selection(); return accept; }
                 return reject;
             }
             // Work with or without an archive on screen.

@@ -48,6 +48,11 @@ export global Tokens {
     out property <color> ink-2: glass ? (dark ? #cfd5df : #1d2939) : dark ? #a9b0bd : #475467;
     out property <color> ink-3: glass ? (dark ? #b4bcc8 : #334155) : dark ? #8a93a3 : #667085;
     out property <color> accent: glass ? (dark ? #4a65f0e6 : #3352e0e6) : dark ? #4a65f0 : #3352e0; // button background
+    // The second action beside the primary: Extract N selected. Dark mode's
+    // teal is light, so text on it is dark (Button.secondary).
+    out property <color> accent-2: glass ? (dark ? #2dd4bfe6 : #0f766ee6) : dark ? #2dd4bf : #0f766e;
+    // Text on a light fill (dark mode's danger and accent-2).
+    out property <color> on-light: #0f1115;
     out property <color> accent-soft: glass ? (dark ? #4a65f038 : #3352e029) : dark ? #1e2747 : #eef1fd;
     out property <color> accent-soft-ink: glass ? (dark ? #c9d4ff : #1e3399) : dark ? #afc0ff : #2a44c2; // text on accent-soft
     out property <color> selection: glass ? (dark ? #4a65f047 : #3352e02e) : dark ? #1a2240 : #eef1fd;

@@ -2,6 +2,11 @@
 
 Every finished task bumps the version (see "Versions" in `docs/ROADMAP.md`): the patch number per task, 0.1.0 for the first Linux release (M6), 0.2.0 Windows (M7), 0.3.0 macOS (M8), and 1.0.0 with the final milestone (M9).
 
+## 0.3.5 — 2026-11-22
+- Full view: opening a folder clears the selection, so the folder you double-clicked is no longer counted with what you pick inside it.
+- Full view: Escape clears the selection and closes the details pane.
+- "Extract N selected" is filled in teal, set apart from the blue Extract all.
+
 ## 0.3.4 — 2026-11-13
 - Full view: a Type column ("PNG image", "Folder", "SH source"), always shown and sortable by kind. When the list is narrow, Ratio and then Packed give way.
 - Full view: "Extract N selected" appears beside Extract all whenever something is selected. Extract all now extracts everything without clearing the selection.
